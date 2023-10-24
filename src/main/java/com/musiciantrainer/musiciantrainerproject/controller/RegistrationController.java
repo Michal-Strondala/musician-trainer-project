@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.logging.Logger;
 
@@ -47,7 +48,7 @@ public class RegistrationController {
     public String processRegistrationForm(
             @Valid @ModelAttribute("webUser") WebUser theWebUser,
             BindingResult theBindingResult,
-            HttpSession session, Model theModel) {
+            HttpSession session, Model theModel, RedirectAttributes redirectAttributes) {
 
         String email = theWebUser.getEmail();
         logger.info("Processing registration form for: " + email);
@@ -75,6 +76,9 @@ public class RegistrationController {
         // place user in the web http session for later use
         session.setAttribute("user", theWebUser);
 
-        return "register/registration-confirmation";
+        // saving successful registration message into the model for redirecting
+        redirectAttributes.addFlashAttribute("successMessage", "You have successfully registered to our awesome app!");
+
+        return "redirect:/showLoginPage?success";
     }
 }
