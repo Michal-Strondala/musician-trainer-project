@@ -40,7 +40,7 @@
                                     <div th:if="${param.error}">
 
                                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                            Invalid username and password.
+                                            Invalid email and password.
                                         </div>
 
                                     </div>
@@ -59,9 +59,9 @@
                             </div>
                         </div>
 
-                        <!-- User name -->
+                        <!-- Email (name of the input MUST be "username") -->
                         <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" name="username" placeholder="username" class="form-control">
+                            <input type="email" name="username" placeholder="email" class="form-control">
                         </div>
 
                         <!-- Password -->

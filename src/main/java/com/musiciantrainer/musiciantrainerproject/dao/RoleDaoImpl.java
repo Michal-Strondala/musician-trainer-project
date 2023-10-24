@@ -3,12 +3,14 @@ package com.musiciantrainer.musiciantrainerproject.dao;
 import com.musiciantrainer.musiciantrainerproject.entity.Role;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class RoleDaoImpl implements RoleDao{
-    private EntityManager entityManager;
 
+    private EntityManager entityManager;
+    @Autowired
     public RoleDaoImpl(EntityManager theEntityManager) {
         entityManager = theEntityManager;
     }

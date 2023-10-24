@@ -49,8 +49,8 @@ public class RegistrationController {
             BindingResult theBindingResult,
             HttpSession session, Model theModel) {
 
-        String userName = theWebUser.getUserName();
-        logger.info("Processing registration form for: " + userName);
+        String email = theWebUser.getEmail();
+        logger.info("Processing registration form for: " + email);
 
         // form validation
         if (theBindingResult.hasErrors()){
@@ -58,19 +58,19 @@ public class RegistrationController {
         }
 
         // check the database if user already exists
-        User existing = userService.findByUserName(userName);
+        User existing = userService.findUserByEmail(email);
         if (existing != null){
             theModel.addAttribute("webUser", new WebUser());
-            theModel.addAttribute("registrationError", "User name already exists.");
+            theModel.addAttribute("registrationError", "Email already exists.");
 
-            logger.warning("User name already exists.");
+            logger.warning("Email already exists.");
             return "register/registration-form";
         }
 
         // create user account and store in the database
         userService.save(theWebUser);
 
-        logger.info("Successfully created user: " + userName);
+        logger.info("Successfully created user: " + email);
 
         // place user in the web http session for later use
         session.setAttribute("user", theWebUser);

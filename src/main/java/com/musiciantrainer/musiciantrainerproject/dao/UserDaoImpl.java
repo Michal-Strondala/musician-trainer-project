@@ -11,16 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDaoImpl implements UserDao{
 
     private EntityManager entityManager;
+
     @Autowired
     public UserDaoImpl(EntityManager theEntityManager) {
         this.entityManager = theEntityManager;
     }
 
+
     @Override
-    public User findByUserName(String theUserName) {
-        // retrieve/read from database using username
-        TypedQuery<User> theQuery = entityManager.createQuery("from User where userName=:uName", User.class);
-        theQuery.setParameter("uName", theUserName);
+    public User findUserByEmail(String theEmail) {
+        // retrieve/read from database using email - that User in query is the actual name of the entity, that means it is case sensitive
+        TypedQuery<User> theQuery = entityManager.createQuery("FROM User WHERE email=:uEmail", User.class);
+        theQuery.setParameter("uEmail", theEmail);
 
         User theUser = null;
         try {
@@ -35,7 +37,8 @@ public class UserDaoImpl implements UserDao{
     @Override
     @Transactional
     public void save(User theUser) {
-        // create the user ... finally LOL
+        // create the user
         entityManager.merge(theUser);
     }
+
 }

@@ -29,10 +29,10 @@ CREATE TABLE `user` (
 -- Default passwords here are: fun123
 --
 
-INSERT INTO `user` (`username`,`password`)
+INSERT INTO `user` (`email`,`password`)
 VALUES 
-('john','$2a$10$fRNcX.apvdC1Q8rLY9yPIuYKHVPrWRfXSA4q9wz7estGBaT7B5JVy'),
-('mary','$2a$10$fRNcX.apvdC1Q8rLY9yPIuYKHVPrWRfXSA4q9wz7estGBaT7B5JVy');
+('john@gmail.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi'),
+('mary@gmail.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi');
 
 --
 -- Table structure for table `role`
@@ -41,7 +41,7 @@ VALUES
 DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -64,7 +64,7 @@ DROP TABLE IF EXISTS `users_roles`;
 
 CREATE TABLE `users_roles` (
   `user_id` int NOT NULL,
-  `role_id` int NOT NULL,
+  `role_id` bigint NOT NULL,
   
   PRIMARY KEY (`user_id`,`role_id`),
   

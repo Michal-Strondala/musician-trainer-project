@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -35,9 +34,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByUserName(String userName) {
+    public User findUserByEmail(String email) {
         // check the database if the user already exists
-        return userDao.findByUserName(userName);
+        return userDao.findUserByEmail(email);
     }
 
     @Override
@@ -49,26 +48,31 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(webUser.getPassword()));
         user.setEmail(webUser.getEmail());
 
-        // give user default role of "employee"
+        // give user default role of "USER"
         user.setRoles(Arrays.asList(roleDao.findRoleByName("ROLE_USER")));
 
         // save user in the database
         userDao.save(user);
     }
 
+
+    // This is inherited method from UserDetails interface, which
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userDao.findByUserName(userName);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        User user = userDao.findUserByEmail(email);
 
         if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
+            throw new UsernameNotFoundException("Invalid email or password.");
         }
 
         Collection<SimpleGrantedAuthority> authorities = mapRolesToAuthorities(user.getRoles());
 
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 authorities);
     }
+
+
 
     private Collection<SimpleGrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
