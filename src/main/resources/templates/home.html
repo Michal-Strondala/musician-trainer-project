@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Musician Trainer Home Page</title>
+</head>
+
+<body>
+<h2>Musician Trainer Home Page</h2>
+<hr>
+
+<p>
+    Welcome to the Musician Trainer dashboard!
+</p>
+
+<hr>
+
+<!-- display user name and role(s) -->
+
+<p>
+    User: <span sec:authentication="principal.username"></span>
+    <br><br>
+    Role(s): <span sec:authentication="principal.authorities"></span>
+
+    <!-- display username and email -->
+<div th:if="${session.user}" >
+    <p th:text="'Username: ' + ${session.user.userName} + ', Email: ' + ${session.user.email}"></p>
+</div>
+
+</p>
+
+<div sec:authorize="hasRole('ADMIN')">
+
+    <!-- Add a link to point to /admin ... this is for the admins -->
+
+    <p>
+        <a th:href="@{/admin}">Admin page</a>
+        (Only for Admins)
+    </p>
+
+</div>
+
+<hr>
+
+<!-- Add a logout button -->
+<form action="#" th:action="@{/logout}"
+      method="POST">
+
+    <input type="submit" value="Logout" class="btn btn-outline-primary mt-2" />
+
+</form>
+
+
+</body>
+
+</html>
