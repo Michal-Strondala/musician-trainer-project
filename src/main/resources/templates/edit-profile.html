@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Musician Trainer profile settings</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+<h2>Musician Trainer profile settings</h2>
+
+<!-- create navigation bar ( header) -->
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" th:href="@{/}">Home</a>
+        </li>
+        <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
+          <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">Logout</a>
+          <form id="logout-form" th:action="@{/logout}" method="POST" style="display: none;"></form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br>
+<br>
+<hr>
+
+<p>
+  Musician Trainer profile settings
+</p>
+
+<hr>
+
+<!-- display user name and role(s) -->
+
+<p>
+  User: <span sec:authentication="principal.username"></span>
+  <br><br>
+  Role(s): <span sec:authentication="principal.authorities"></span>
+
+  <!-- display username and email -->
+<div th:if="${session.user}" >
+  <p th:text="'Name: ' + ${session.user.username} + ', Email: ' + ${session.user.email}"></p>
+</div>
+
+</p>
+
+<!-- display edit profile form -->
+<div class="container">
+
+  <h3>User Profile Settings</h3>
+  <hr>
+
+  <p class="h4 mb-4">Save User</p>
+
+  <form action="#" th:action="@{/user/save}"
+        th:object="${user}" method="POST">
+
+    <!-- Add hidden form field to handle the update -->
+    <input type="hidden" th:field="*{id}"> <!-- This binds to the model attribute and tells your app which user to update -->
+
+    <input type="text" th:field="*{name}"
+           class="form-control mb-4 w-25" placeholder="Name">
+    <input type="email" th:field="*{email}"
+           class="form-control mb-4 w-25" placeholder="Email">
+    <input type="password" th:field="*{password}"
+           class="form-control mb-4 w-25" placeholder="Password">
+
+    <button type="submit" class="btn btn-info col-2">Save</button>
+
+  </form>
+
+  <hr>
+  <a th:href="@{/}">Back to Home Page</a>
+
+</div>
+
+</body>
+
+</html>

@@ -13,9 +13,9 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
-    @Column(name="username")
-    private String userName;
+    private Long id;
+    @Column(name="name")
+    private String name;
     @Column(name="email")
     private String email;
     @Column(name = "password")
@@ -40,28 +40,34 @@ public class User {
         this.password = password;
     }
 
-    public User(String userName, String email, String password, Collection<Role> roles) {
-        this.userName = userName;
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String name, String email, String password, Collection<Role> roles) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
 
     // define getters/setter
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -111,7 +117,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + userName + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", created=" + created +

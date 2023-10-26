@@ -8,8 +8,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 
 CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
   `created` DATETIME,
   `logged` DATETIME,
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) DEFAULT NULL,
+  `role_name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
@@ -50,7 +50,7 @@ CREATE TABLE `role` (
 -- Dumping data for table `roles`
 --
 
-INSERT INTO `role` (name)
+INSERT INTO `role` (role_name)
 VALUES 
 ('ROLE_USER'),('ROLE_ADMIN');
 

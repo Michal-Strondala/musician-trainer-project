@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 public class WebUser {
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
-    private String userName;
+    private String name;
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
@@ -23,12 +23,12 @@ public class WebUser {
     }
 
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {

@@ -6,7 +6,6 @@ import com.musiciantrainer.musiciantrainerproject.entity.Role;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.user.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -40,11 +40,29 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User findById(Long theId) {
+        Optional<User> result = userDao.findById(theId);
+
+        User theUser = null;
+
+        if (result.isPresent()) {
+            theUser = result.get();
+        }
+        else {
+            // we didn't find the user
+            throw new RuntimeException("Did not find user id - " + theId);
+        }
+
+        return theUser;
+    }
+
+
+    @Override
     public void save(WebUser webUser) {
         User user = new User();
 
         // assign user details to the user object
-        user.setUserName(webUser.getUserName());
+        user.setName(webUser.getName());
         user.setPassword(passwordEncoder.encode(webUser.getPassword()));
         user.setEmail(webUser.getEmail());
 
@@ -78,7 +96,7 @@ public class UserServiceImpl implements UserService{
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         for (Role tempRole : roles) {
-            SimpleGrantedAuthority tempAuthority = new SimpleGrantedAuthority(tempRole.getName());
+            SimpleGrantedAuthority tempAuthority = new SimpleGrantedAuthority(tempRole.getRoleName());
             authorities.add(tempAuthority);
         }
 

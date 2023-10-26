@@ -8,5 +8,5 @@ public interface UserService extends UserDetailsService {
 
     void save(WebUser webUser);
     public User findUserByEmail(String email);
-
+    User findById(Long theId);
 }

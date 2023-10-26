@@ -57,13 +57,13 @@
 
                         <!-- User name -->
                         <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" th:field="*{userName}" placeholder="Name and surname (*)" class="form-control" />
+                            <input type="text" th:field="*{username}" placeholder="Name and surname (*)" class="form-control" />
                         </div>
 
-                        <div th:if="${#fields.hasErrors('userName')}"
+                        <div th:if="${#fields.hasErrors('username')}"
                              style="margin-bottom: 25px" class="text-danger">
                             <ul>
-                                <li th:each="err : ${#fields.errors('userName')}" th:text="'Name and surname ' + ${err}" />
+                                <li th:each="err : ${#fields.errors('username')}" th:text="'Name and surname ' + ${err}" />
                             </ul>
                         </div>
 
