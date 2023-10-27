@@ -53,8 +53,8 @@
     Role(s): <span sec:authentication="principal.authorities"></span>
 
     <!-- display username and email -->
-<div th:if="${session.user}" >
-    <p th:text="'Username: ' + ${session.user.username} + ', Email: ' + ${session.user.email}"></p>
+<div th:if="${user}">
+    <p th:text="'Name: ' + ${user.name} + ', Email: ' + ${user.email}"></p>
 </div>
 
 </p>

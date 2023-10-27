@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,8 +57,33 @@ public class UserServiceImpl implements UserService{
         return theUser;
     }
 
+    @Override
+    @Transactional
+    public void updateUser(User updatedUser) {
+        // Retrieve the existing user from the database
+        User existingUser = userDao.findById(updatedUser.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Check if a new password has been provided
+        if (!updatedUser.getPassword().startsWith("$2a$")) {
+            // If the password does not start with the bcrypt identifier, it's a plain text password
+            // Hash the password before saving it to the database
+            updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        } else {
+            // If password is already hashed, use the existing password
+            updatedUser.setPassword(existingUser.getPassword());
+        }
+
+        // Set the roles from the existing user to the updated user
+        updatedUser.setRoles(existingUser.getRoles());
+
+        // Update user details using Hibernate
+        userDao.save(updatedUser);
+    }
+
 
     @Override
+    @Transactional
     public void save(WebUser webUser) {
         User user = new User();
 
@@ -72,6 +98,8 @@ public class UserServiceImpl implements UserService{
         // save user in the database
         userDao.save(user);
     }
+
+
 
 
     // This is inherited method from UserDetails interface, which
@@ -96,7 +124,7 @@ public class UserServiceImpl implements UserService{
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         for (Role tempRole : roles) {
-            SimpleGrantedAuthority tempAuthority = new SimpleGrantedAuthority(tempRole.getRoleName());
+            SimpleGrantedAuthority tempAuthority = new SimpleGrantedAuthority(tempRole.getName());
             authorities.add(tempAuthority);
         }
 
