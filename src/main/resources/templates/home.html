@@ -72,6 +72,67 @@
 
 <hr>
 
+<div class = "container">
+    <div class = "row">
+        <div class = "col-md-6 col-md-offset-3">
+            <div th:if="${success}">
+                <div class="alert alert-info">You have successfully added a new piece!</div>
+            </div>
+            <h1>My Pieces Dashboard</h1>
+            Welcome <span sec:authentication="principal.username"> to the My Pieces Dashboard!</span>
+            <div class="form-group">
+                <button type="link" class="btn btn-link">
+                    <a href="/" th:href="@{/pieces/showAddPieceForm}" class="btn btn-primary" role="button">Add New Piece</a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Composer</th>
+                <th>Priority</th>
+                <!-- <th>Trained</th>
+                <th>Last training</th>
+                <th>Number of days since the last training</th> -->
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="tempPiece : ${homePageViewModel.pieces}">
+
+                <td th:text="${tempPiece.name}" />
+                <td th:text="${tempPiece.composer}" />
+                <td th:text="${tempPiece.priority}" />
+
+                <!-- Add edit button link -->
+                <td>
+                    <a th:href="@{/pieces/showFormForEdit(pieceId=${tempPiece.id})}"
+                       class="btn btn-info btn-sm">
+                        Edit
+                    </a>
+                </td>
+
+                <!-- Add delete button link -->
+                <td>
+                    <a th:href="@{/pieces/deletePiece(pieceId=${tempPiece.id})}"
+                       class="btn btn-danger btn-sm"
+                       onclick="if (!(confirm('Are you sure you want to delete this piece?'))) return false"> <!-- This is Javascript prompt -->
+                        Delete
+                    </a>
+                </td>
+
+            </tr>
+            </tbody>
+    </table>
+    <div th:if="${#lists.isEmpty(homePageViewModel.pieces)}">
+        <p>No pieces added yet.</p>
+    </div>
+</div>
+
 
 
 

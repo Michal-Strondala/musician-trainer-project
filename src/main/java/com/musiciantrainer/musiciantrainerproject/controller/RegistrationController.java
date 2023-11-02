@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,28 +49,22 @@ public class RegistrationController {
     public String processRegistrationForm(
             @Valid @ModelAttribute("webUser") WebUser theWebUser,
             BindingResult theBindingResult,
-            HttpSession session, Model theModel, RedirectAttributes redirectAttributes) {
+            HttpSession session, RedirectAttributes redirectAttributes) {
 
-        String email = theWebUser.getEmail();
-        logger.info("Processing registration form for: " + email);
+            String email = theWebUser.getEmail();
+        try {
+            logger.info("Processing registration form for: " + email);
 
-        // form validation
-        if (theBindingResult.hasErrors()){
-            return "register/registration-form";
-        }
+            // form validation
+            if (theBindingResult.hasErrors()){
+                return "register/registration-form";
+            }
 
-        // check the database if user already exists
-        User existing = userService.findUserByEmail(email);
-        if (existing != null){
-            theModel.addAttribute("webUser", new WebUser());
-            theModel.addAttribute("registrationError", "Email already exists.");
-
+            userService.save(theWebUser);;
+        } catch (DataIntegrityViolationException exception) {
             logger.warning("Email already exists.");
-            return "register/registration-form";
+            return "redirect:/registration-form?error=emailExists"; // Ošetření chyby pro duplicitní e-mail
         }
-
-        // create user account and store in the database
-        userService.save(theWebUser);
 
         logger.info("Successfully created user: " + email);
 
@@ -79,6 +74,6 @@ public class RegistrationController {
         // saving successful registration message into the model for redirecting
         redirectAttributes.addFlashAttribute("successMessage", "You have successfully registered to our awesome app!");
 
-        return "redirect:/showLoginPage?success";
+        return "redirect:/showLoginPage?success"; // When user registers successfully, it will show a success message
     }
 }

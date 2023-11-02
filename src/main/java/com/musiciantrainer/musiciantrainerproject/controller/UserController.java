@@ -75,7 +75,16 @@ public class UserController {
             return "edit-profile";
         }
 
-        // get the currently authenticated user's email (username in your case)
+        // check if the edited email already exists in the database
+        User existingUserWithEmail = userService.findUserByEmail(email);
+
+        if (existingUserWithEmail != null && !existingUserWithEmail.getEmail().equals(principal.getName())) {
+            theModel.addAttribute("editError", "Email already exists.");
+            logger.warning("Email already exists.");
+            return "edit-profile";
+        }
+
+        // get the currently authenticated user's email (username/name in your case)
         String currentUserEmail = principal.getName();
 
         // get the user from the service based on the email

@@ -31,8 +31,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`email`,`password`)
 VALUES 
-('john@gmail.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi'),
-('mary@gmail.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi');
+('john@john.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi'),
+('mary@mary.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi');
 
 --
 -- Table structure for table `role`
@@ -47,7 +47,7 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `roles`
+-- Dumping data for table `role`
 --
 
 INSERT INTO `role` (role_name)

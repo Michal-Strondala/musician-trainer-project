@@ -43,12 +43,9 @@
                                         </div>
                                     </div>
 
-                                    <!-- Check for login error -->
-
-                                    <div th:if="${param.registrationError}">
-                                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                            <span th:text="${param.registrationError}"></span>
-                                        </div>
+                                    <!-- error message -->
+                                    <div th:if="${param.error}">
+                                        <div class="alert alert-danger">Email already in use.</div>
                                     </div>
 
                                 </div>
