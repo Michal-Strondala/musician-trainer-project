@@ -17,7 +17,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -76,13 +76,18 @@
     <div class = "row">
         <div class = "col-md-6 col-md-offset-3">
             <div th:if="${success}">
-                <div class="alert alert-info">You have successfully added a new piece!</div>
+                <div class="alert alert-info">Successfully added!</div>
             </div>
             <h1>My Pieces Dashboard</h1>
             Welcome <span sec:authentication="principal.username"> to the My Pieces Dashboard!</span>
             <div class="form-group">
                 <button type="link" class="btn btn-link">
                     <a href="/" th:href="@{/pieces/showAddPieceForm}" class="btn btn-primary" role="button">Add New Piece</a>
+                </button>
+            </div>
+            <div class="form-group">
+                <button type="link" class="btn btn-link">
+                    <a href="/" th:href="@{/pieces/showAddRecordForm}" class="btn btn-primary" role="button">Add Record</a>
                 </button>
             </div>
         </div>
@@ -93,8 +98,8 @@
                 <th>Name</th>
                 <th>Composer</th>
                 <th>Priority</th>
-                <!-- <th>Trained</th>
                 <th>Last training</th>
+                <!-- <th>Trained</th>
                 <th>Number of days since the last training</th> -->
                 <th>Edit</th>
                 <th>Delete</th>
@@ -106,7 +111,14 @@
 
                 <td th:text="${tempPiece.name}" />
                 <td th:text="${tempPiece.composer}" />
-                <td th:text="${tempPiece.priority}" />
+                <td th:text="${tempPiece.priorityAsString}" />
+
+                <!-- Last training date column -->
+                <td th:text="${tempPiece.getLastTrainingDate()}" />
+
+                <!-- Number of days since the last training column -->
+
+                <!-- Number of times trained -->
 
                 <!-- Add edit button link -->
                 <td>

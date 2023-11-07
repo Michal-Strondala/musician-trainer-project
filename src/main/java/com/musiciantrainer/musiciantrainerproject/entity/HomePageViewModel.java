@@ -11,4 +11,5 @@ import java.util.List;
 public class HomePageViewModel {
 
     private List<Piece> pieces;
+
 }

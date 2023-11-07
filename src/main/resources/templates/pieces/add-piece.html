@@ -16,15 +16,12 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#" th:href="@{/}">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" th:href="@{/user/showFormForEdit}">Edit profile</a>
                 </li>
@@ -44,24 +41,19 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <!-- success message -->
-            <div th:if="${param.success}">
-                <div class="alert alert-info">You have successfully added a new piece!
-                </div>
-            </div>
-            <h1>
-                Add New Piece
-            </h1>
-            <form th:action="@{/pieces/processAddPieceForm}" method="post" th:object="${piece}">
+           <h1>
+               Add New Piece
+           </h1>
+           <form th:action="@{/pieces/processAddPieceForm}" method="post" th:object="${piece}">
 
 
-                <div class="form-group">
-                    <label class="control-label" for="name">
-                        Piece Name
-                    </label>
-                    <input id="name" class="form-control" th:field="*{name}" required autofocus="autofocus">
-                    <!-- Atribut autofocus v HTML elementu <input> indikuje, že když stránka načte,
-                    pole inputu s tímto atributem bude automaticky získávat focus (tj. bude označen jako aktivní pole, kam může uživatel hned začít psát). -->
+               <div class="form-group">
+                   <label class="control-label" for="name">
+                       Piece Name
+                   </label>
+                   <input id="name" class="form-control" th:field="*{name}" required autofocus="autofocus">
+                   <!-- Atribut autofocus v HTML elementu <input> indikuje, že když stránka načte,
+                   pole inputu s tímto atributem bude automaticky získávat focus (tj. bude označen jako aktivní pole, kam může uživatel hned začít psát). -->
                 </div>
 
                 <div class="form-group">
@@ -71,12 +63,33 @@
                     <input id="composer" class="form-control" th:field="*{composer}" required autofocus="autofocus">
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label" for="priority">
-                        Priority
+
+                Select priority:
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input"
+                               th:field="*{priority}" th:value="0">none
                     </label>
-                    <input id="priority" class="form-control" th:field="*{priority}" required autofocus="autofocus">
                 </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input"
+                               th:field="*{priority}" th:value="1">low
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input"
+                               th:field="*{priority}" th:value="2">medium
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input"
+                               th:field="*{priority}" th:value="3">high
+                    </label>
+                </div>
+
                 <!-- Add button -->
                 <div class="form-group" style="margin-top: 10px;">
                     <button type="submit" class="btn btn-success btn-lg">Add</button>

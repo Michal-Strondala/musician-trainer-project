@@ -5,10 +5,13 @@ import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
+import com.musiciantrainer.musiciantrainerproject.utilities.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.List;
 
@@ -18,6 +21,8 @@ public class MainController {
     private UserService userService;
     private PieceService pieceService;
 
+
+    @Autowired
     public MainController(UserService userService, PieceService pieceService) {
         this.userService = userService;
         this.pieceService = pieceService;

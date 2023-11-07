@@ -3,6 +3,7 @@ package com.musiciantrainer.musiciantrainerproject.service;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface PieceService  {

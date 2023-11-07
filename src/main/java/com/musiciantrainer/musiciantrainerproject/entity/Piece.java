@@ -1,5 +1,7 @@
 package com.musiciantrainer.musiciantrainerproject.entity;
 
+import com.musiciantrainer.musiciantrainerproject.utilities.DateUtil;
+import com.musiciantrainer.musiciantrainerproject.utilities.PriorityUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,4 +64,15 @@ public class Piece {
 
         tempPieceLog.setPiece(this);
     }
+
+    // utility methods
+    public String getPriorityAsString() {
+        return PriorityUtil.convertPriorityToString(this.priority);
+    }
+
+    public LocalDate getLastTrainingDate() {
+        return DateUtil.findLastTrainingDate(this);
+    }
+
+
 }

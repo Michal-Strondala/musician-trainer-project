@@ -2,10 +2,14 @@ package com.musiciantrainer.musiciantrainerproject.service;
 
 import com.musiciantrainer.musiciantrainerproject.dao.PieceDao;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
+import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Setter
@@ -20,9 +21,9 @@ public class PieceLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime dateTime;
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    private LocalDate date;
 
     private String note;
 
@@ -32,8 +33,8 @@ public class PieceLog {
     private Piece piece;
 
 
-    public PieceLog(LocalDateTime dateTime, String note) {
-        this.dateTime = dateTime;
+    public PieceLog(LocalDate date, String note) {
+        this.date = date;
         this.note = note;
     }
 }
