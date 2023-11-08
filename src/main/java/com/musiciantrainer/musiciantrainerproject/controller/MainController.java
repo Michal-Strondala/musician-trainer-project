@@ -5,7 +5,6 @@ import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
-import com.musiciantrainer.musiciantrainerproject.utilities.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,7 @@ public class MainController {
 
         User theUser = userService.findUserByEmail(userEmail);
 
-        List<Piece> pieces = pieceService.getPiecesByUser(theUser);
+        List<Piece> pieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
 
         HomePageViewModel theHomePageViewModel = new HomePageViewModel(pieces);
 

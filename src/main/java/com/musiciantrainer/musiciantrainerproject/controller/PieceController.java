@@ -142,7 +142,7 @@ public class PieceController {
         theModel.addAttribute("user", theUser);
 
         // Get the pieces from the service based on the user
-        List<Piece> thePieces = pieceService.getPiecesByUser(theUser);
+        List<Piece> thePieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
 
         // Add pieces to the model for the form
         theModel.addAttribute("pieces", thePieces);

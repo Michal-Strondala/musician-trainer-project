@@ -2,14 +2,14 @@ package com.musiciantrainer.musiciantrainerproject.service;
 
 import com.musiciantrainer.musiciantrainerproject.dao.PieceDao;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
-import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +53,12 @@ public class PieceServiceImpl implements PieceService{
     }
 
     @Override
-    public List<Piece> getPiecesByUser(User theUser) {
-        return pieceDao.findByUser(theUser);
+    public List<Piece> getPiecesByUserOrderedByPriorityAndDaysPassed(User theUser) {
+
+        List<Piece> pieces = pieceDao.findByUser(theUser);
+        pieces.sort(Comparator.comparing(Piece::getPriority).reversed()
+                .thenComparing(Piece::getNumberOfDaysPassed, Comparator.reverseOrder()));
+        return pieces;
     }
 
     @Override
@@ -73,5 +77,6 @@ public class PieceServiceImpl implements PieceService{
 
         return thePiece;
     }
+
 
 }

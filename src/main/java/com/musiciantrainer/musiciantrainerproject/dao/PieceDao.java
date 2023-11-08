@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface PieceDao extends JpaRepository<Piece, Long> {
     List<Piece> findByUser(User theUser);
+
 }

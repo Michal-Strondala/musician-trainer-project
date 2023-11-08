@@ -99,8 +99,8 @@
                 <th>Composer</th>
                 <th>Priority</th>
                 <th>Last training</th>
-                <!-- <th>Trained</th>
-                <th>Number of days since the last training</th> -->
+                <th>Number of days since the last training</th>
+                <th>Trained</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -113,12 +113,14 @@
                 <td th:text="${tempPiece.composer}" />
                 <td th:text="${tempPiece.priorityAsString}" />
 
-                <!-- Last training date column -->
-                <td th:text="${tempPiece.getLastTrainingDate()}" />
+                <!-- Last training date column / Format date as dd.MM.yyyy -->
+                <td th:text="${tempPiece.formattedLastTrainingDate}" />
 
                 <!-- Number of days since the last training column -->
+                <td th:text="${tempPiece.getNumberOfDaysPassed}" />
 
                 <!-- Number of times trained -->
+                <td th:text="${tempPiece.getNumberOfTimesTrained}" />
 
                 <!-- Add edit button link -->
                 <td>

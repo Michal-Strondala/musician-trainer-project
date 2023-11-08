@@ -3,7 +3,6 @@ package com.musiciantrainer.musiciantrainerproject.service;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface PieceService  {
@@ -11,7 +10,7 @@ public interface PieceService  {
     Piece addPiece(Piece thePiece, User theUser); // Vytvoření nové skladby
     void deletePiece(Long theId); // Smazání skladby
     void editPiece(Piece editedPiece, User theUser); // Aktualizace skladby
-    List<Piece> getPiecesByUser(User theUser);
+    List<Piece> getPiecesByUserOrderedByPriorityAndDaysPassed(User theUser);
     Piece getPieceById(Long theId);
 
 }
