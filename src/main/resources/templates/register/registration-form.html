@@ -44,7 +44,7 @@
                                     </div>
 
                                     <!-- error message -->
-                                    <div th:if="${param.error}">
+                                    <div th:if="${error == 'emailExists'}">
                                         <div class="alert alert-danger">Email already in use.</div>
                                     </div>
 

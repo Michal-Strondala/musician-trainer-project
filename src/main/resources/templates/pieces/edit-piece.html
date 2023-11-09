@@ -41,9 +41,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <!-- success message -->
-            <div th:if="${param.success}">
-                <div class="alert alert-info">You have successfully edited a piece!
+
+            <!-- Check for error flash attribute and display error message -->
+            <div th:if="${error}">
+                <div class="alert alert-danger" role="alert">
+                    <span th:text="${error}"></span>
                 </div>
             </div>
             <h1>

@@ -1,6 +1,5 @@
 package com.musiciantrainer.musiciantrainerproject.controller;
 
-import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
 import com.musiciantrainer.musiciantrainerproject.user.WebUser;
 import jakarta.servlet.http.HttpSession;
@@ -62,8 +61,9 @@ public class RegistrationController {
 
             userService.save(theWebUser);;
         } catch (DataIntegrityViolationException exception) {
-            logger.warning("Email already exists.");
-            return "redirect:/registration-form?error=emailExists"; // Ošetření chyby pro duplicitní e-mail
+            logger.warning("Email already in use.");
+            redirectAttributes.addFlashAttribute("error", "emailExists"); // Add error message as flash attribute
+            return "redirect:/register/showRegistrationForm"; // Redirect to registration form
         }
 
         logger.info("Successfully created user: " + email);

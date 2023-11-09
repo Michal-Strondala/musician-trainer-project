@@ -78,6 +78,10 @@
             <div th:if="${success}">
                 <div class="alert alert-info">Successfully added!</div>
             </div>
+            <div th:if="${successEdit}">
+                <div class="alert alert-info">Successfully edited!</div>
+            </div>
+
             <h1>My Pieces Dashboard</h1>
             Welcome <span sec:authentication="principal.username"> to the My Pieces Dashboard!</span>
             <div class="form-group">

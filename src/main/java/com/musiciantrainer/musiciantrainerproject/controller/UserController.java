@@ -68,6 +68,7 @@ public class UserController {
             HttpSession session, Model theModel, RedirectAttributes redirectAttributes, Principal principal) {
 
         String email = theWebUser.getEmail();
+
         logger.info("Processing edit form for: " + email);
 
         // form validation
@@ -79,9 +80,9 @@ public class UserController {
         User existingUserWithEmail = userService.findUserByEmail(email);
 
         if (existingUserWithEmail != null && !existingUserWithEmail.getEmail().equals(principal.getName())) {
-            theModel.addAttribute("editError", "Email already exists.");
-            logger.warning("Email already exists.");
-            return "edit-profile";
+            logger.warning("Email already in use.");
+            redirectAttributes.addFlashAttribute("error", "emailExists");
+            return "redirect:/user/showFormForEdit";
         }
 
         // get the currently authenticated user's email (username/name in your case)

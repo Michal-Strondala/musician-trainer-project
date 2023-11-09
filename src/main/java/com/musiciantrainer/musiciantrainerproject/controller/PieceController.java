@@ -6,9 +6,8 @@ import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
 import com.musiciantrainer.musiciantrainerproject.user.WebUser;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Logger;
@@ -39,7 +37,7 @@ public class PieceController {
 
     @GetMapping("/showAddPieceForm")
     public String showAddPieceForm(
-            Model theModel, Principal principal, HttpSession session) {
+            Model theModel, Principal principal) {
         // Get the currently authenticated user's email (username in your case)
         String email = principal.getName();
 
@@ -65,10 +63,17 @@ public class PieceController {
 
         User theUser = userService.findUserByEmail(authentication.getName());
 
-        pieceService.addPiece(thePiece, theUser);
+        try {
+            pieceService.addPiece(thePiece, theUser);
 
-        // Add a success message to be displayed on the redirected page
-        redirectAttributes.addFlashAttribute("success", true);
+            // Add a success message to be displayed on the redirected page
+            redirectAttributes.addFlashAttribute("success", true);
+
+        } catch (DataIntegrityViolationException exception) {
+            // Handle unique constraint violation (piece name already exists)
+            redirectAttributes.addFlashAttribute("error", "Piece with the same name already exists.");
+            return "redirect:/pieces/showAddPieceForm"; // Redirect to showAddPieceForm form
+        }
 
         return "redirect:/"; // When piece is added successfully, it will show a success message
     }
@@ -95,15 +100,31 @@ public class PieceController {
         return "pieces/edit-piece";
     }
 
-
     @PostMapping("/editPiece")
-    public String editPiece(@ModelAttribute("piece") Piece thePiece, Authentication authentication) {
+    public String editPiece(@ModelAttribute("piece") Piece thePiece, Authentication authentication,
+                            RedirectAttributes redirectAttributes) {
 
         // Fetch the user from the database based on the current user's authentication details
         User theUser = userService.findUserByEmail(authentication.getName());
 
-        // save the piece
-        pieceService.editPiece(thePiece, theUser);
+        try {
+            // save the piece
+            pieceService.editPiece(thePiece, theUser);
+
+            // Add a success message to be displayed on the redirected page
+            redirectAttributes.addFlashAttribute("successEdit", true);
+
+        } catch (DataIntegrityViolationException exception) {
+
+            // Handle unique constraint violation (piece name already exists)
+            redirectAttributes.addFlashAttribute("error", "Piece with the same name already exists.");
+
+            // Add the piece ID to the flash attributes to identify which piece was being edited
+            redirectAttributes.addFlashAttribute("pieceId", thePiece.getId());
+
+            return "redirect:/pieces/showFormForEdit?pieceId=" + thePiece.getId(); // Redirect to showFormForEdit form
+        }
+
 
         // use the redirect to prevent duplicate submissions
         return "redirect:/";
