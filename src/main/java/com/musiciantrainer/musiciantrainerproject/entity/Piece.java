@@ -1,5 +1,6 @@
 package com.musiciantrainer.musiciantrainerproject.entity;
 
+import com.musiciantrainer.musiciantrainerproject.utilities.DateUtil;
 import com.musiciantrainer.musiciantrainerproject.utilities.PriorityUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -47,8 +48,11 @@ public class Piece {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Transient
+    @Transient // Transient means this field won't be persisted in the database but can be used for sorting and display purposes.
     private long numberOfDaysPassed;
+
+    @Transient
+    private long numberOfTimesTrained;
 
 
 
@@ -78,41 +82,19 @@ public class Piece {
 
 
     public LocalDate getLastTrainingDate() {
-        if (pieceLogs != null && !pieceLogs.isEmpty()) {
-            // Sort the pieceLogs list by date in descending order
-            pieceLogs.sort(Comparator.comparing(PieceLog::getDate).reversed());
-            // Get the first element (most recent training log) from the sorted list
-            PieceLog mostRecentLog = pieceLogs.get(0);
-            return mostRecentLog.getDate();
-        }
-        return null; // No training date available
+        return DateUtil.calculateLastTrainingDate(this.pieceLogs);
     }
 
     public String getFormattedLastTrainingDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate lastTrainingDate = getLastTrainingDate();
-        if (lastTrainingDate != null) {
-            return lastTrainingDate.format(formatter);
-        } else {
-            return "No training date yet";
-        }
+        return DateUtil.calculateFormattedLastTrainingDate(this.pieceLogs);
     }
 
     public long getNumberOfDaysPassed() {
-        LocalDate today = LocalDate.now();
-        LocalDate lastTrainingDate = getLastTrainingDate();
-        if (lastTrainingDate != null) {
-            return lastTrainingDate.until(today, ChronoUnit.DAYS);
-        }
-        return 0;
+        return DateUtil.calculateNumberOfDaysPassed(this.pieceLogs);
     }
 
     public String getNumberOfTimesTrained() {
-        if (pieceLogs != null && !pieceLogs.isEmpty()) {
-            return pieceLogs.size() + "x";
-        } else {
-            return "Not recorded yet";
-        }
+        return DateUtil.calculateNumberOfTimesTrained(this.pieceLogs);
     }
 
 }

@@ -57,7 +57,8 @@ public class PieceServiceImpl implements PieceService{
 
         List<Piece> pieces = pieceDao.findByUser(theUser);
         pieces.sort(Comparator.comparing(Piece::getPriority).reversed()
-                .thenComparing(Piece::getNumberOfDaysPassed, Comparator.reverseOrder()));
+                .thenComparing(Piece::getNumberOfDaysPassed, Comparator.reverseOrder())
+                .thenComparing(Piece::getNumberOfTimesTrained));
         return pieces;
     }
 
