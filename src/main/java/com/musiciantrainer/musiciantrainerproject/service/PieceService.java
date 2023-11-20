@@ -13,4 +13,6 @@ public interface PieceService  {
     List<Piece> getPiecesByUserOrderedByPriorityAndDaysPassed(User theUser);
     Piece getPieceById(Long theId);
 
+    String getPiecesDtoAsJsonString(User theUser);
+
 }

@@ -37,20 +37,12 @@
 
 <br>
 <br>
-<hr>
-
-<p>
-    Welcome to the Musician Trainer dashboard!
-</p>
-
-<hr>
 
 <!-- display user name and role(s) -->
 
 <p>
     User: <span sec:authentication="principal.username"></span>
     <br><br>
-    Role(s): <span sec:authentication="principal.authorities"></span>
 
     <!-- display username and email -->
 <div th:if="${user}">
@@ -83,7 +75,7 @@
             </div>
 
             <h1>My Pieces Dashboard</h1>
-            Welcome <span sec:authentication="principal.username"> to the My Pieces Dashboard!</span>
+
             <div class="form-group">
                 <button type="link" class="btn btn-link">
                     <a href="/" th:href="@{/pieces/showAddPieceForm}" class="btn btn-primary" role="button">Add New Piece</a>
@@ -94,6 +86,16 @@
                     <a href="/" th:href="@{/pieces/showAddRecordForm}" class="btn btn-primary" role="button">Add Record</a>
                 </button>
             </div>
+            <form th:action="@{/myPlan}" method="GET">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="trainingTimeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select hours
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="trainingTimeDropdown">
+                        <a th:each="time : ${trainingTimes}" th:href="@{/myPlan(trainingTime=${time})}" class="dropdown-item" th:text="${time}"></a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <table class="table table-bordered table-striped">
@@ -149,10 +151,19 @@
     <div th:if="${#lists.isEmpty(homePageViewModel.pieces)}">
         <p>No pieces added yet.</p>
     </div>
+    <!-- A link to convert pieces to JSON -->
+    <div class="form-group">
+        <form th:action="@{/piecesToJson}" method="GET">
+            <button type="submit" class="btn btn-primary" role="button">Convert to JSON</button>
+        </form>
+    </div>
+    <!-- A link to show My Plan -->
+    <div class="form-group">
+        <form th:action="@{/myPlan}" method="GET">
+            <button type="submit" class="btn btn-primary" role="button">Show my plan</button>
+        </form>
+    </div>
 </div>
-
-
-
 
 </body>
 
