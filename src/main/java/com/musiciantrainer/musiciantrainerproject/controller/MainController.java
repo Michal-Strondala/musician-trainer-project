@@ -1,11 +1,13 @@
 package com.musiciantrainer.musiciantrainerproject.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.musiciantrainer.musiciantrainerproject.entity.HomePageViewModel;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
-import com.musiciantrainer.musiciantrainerproject.utilities.PriorityUtil;
 import com.musiciantrainer.musiciantrainerproject.utilities.TrainingTimeUtil;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
@@ -21,10 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -38,12 +37,14 @@ public class MainController {
 
     private UserService userService;
     private PieceService pieceService;
+    private ObjectMapper objectMapper;
 
 
     @Autowired
-    public MainController(UserService userService, PieceService pieceService) {
+    public MainController(UserService userService, PieceService pieceService, ObjectMapper objectMapper) {
         this.userService = userService;
         this.pieceService = pieceService;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping("/")
@@ -62,7 +63,7 @@ public class MainController {
         return "home"; // This is a Thymeleaf template name
     }
 
-    // Figure out the dropdown menu - it still does not work
+    // Figure out the dropdown menu - this is done
     // Then I have to figure out how to take the generated plan which is in JSON and deserealize it to custom schedule table.
     // Adjust HTML page - like navbar and so on and buttons and so on.
     @GetMapping("/myPlan")
@@ -98,21 +99,15 @@ public class MainController {
                 "{\n" +
                 "  \"schedule\": [\n" +
                 "    {\n" +
-                "      \"time\": \"30 mins\",\n" +
+                "      \"time\": \"30\",\n" +
                 "      \"piece\": {\n" +
-                "        \"id\": 5,\n" +
                 "        \"name\": \"piece2\",\n" +
-                "        \"composer\": \"composer1\",\n" +
-                "        \"priority\": \"3\"\n" +
                 "      }\n" +
                 "    },\n" +
                 "    {\n" +
-                "      \"time\": \"30 mins\",\n" +
+                "      \"time\": \"30\",\n" +
                 "      \"piece\": {\n" +
-                "        \"id\": 9,\n" +
                 "        \"name\": \"piece5\",\n" +
-                "        \"composer\": \"compose3\",\n" +
-                "        \"priority\": \"2\"\n" +
                 "      }\n" +
                 "    }\n" +
                 "  ]\n" +
@@ -123,8 +118,6 @@ public class MainController {
 
         //user prompt
         System.out.print("First Query: ");
-        //Scanner scanner = new Scanner(System.in);
-        //String time = String.valueOf(120);
         String convertedTime = getHoursAsMinutes(trainingTime);
         String userPrompt = pieceService.getPiecesDtoAsJsonString(theUser) + " My time for today is " + convertedTime + ".";
         ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), userPrompt);
@@ -144,10 +137,12 @@ public class MainController {
                 .doOnError(Throwable::printStackTrace)
                 .blockingForEach(System.out::println);
 
-        model.addAttribute("myplan", responseMessage);
+        Map<String, Object> aiResponseMap = parseJsonToMap(responseMessage);
+        List<String> aiResponse = (List<String>) aiResponseMap.get("schedule");
+
+        model.addAttribute("myplan", aiResponse);
 
         service.shutdownExecutor();
-
 
         return "myplan";
     }
@@ -182,5 +177,13 @@ public class MainController {
     }
 
 
+    public Map<String, Object> parseJsonToMap(ChatMessage theResponseMessage) {
+        try {
+            String jsonString = theResponseMessage.getContent().trim();
+            return objectMapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error converting JSON to Map", e);
+        }
+    }
 
 }

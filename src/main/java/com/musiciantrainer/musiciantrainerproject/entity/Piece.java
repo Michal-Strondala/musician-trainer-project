@@ -45,6 +45,7 @@ public class Piece {
     @JoinColumn(name = "user_id")
     private User user;
 
+
     @Transient // Transient means this field won't be persisted in the database but can be used for sorting and display purposes.
     private long numberOfDaysPassed;
 
