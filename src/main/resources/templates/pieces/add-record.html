@@ -56,17 +56,18 @@
         <div class="form-group">
           <label for="pieceId">Select Piece:</label>
           <select class="form-control" id="pieceId" name="pieceId">
-            <option th:each="piece : ${pieces}" th:value="${piece.id}" th:text="${piece.name}"></option>
+            <option th:each="piece : ${pieces}" th:value="${piece.id}" th:text="${piece.name}"
+                    th:selected="${selectedPieceId != null && piece.id == selectedPieceId}"></option>
           </select>
         </div>
         <!-- Select date and time -->
         <div class="form-group">
           <label for="date">Date:</label>
           <div class="input-group date" id="datepickerRecord">
-            <input type="text" class="form-control" id="date" name="date" th:value="${date}">
+            <input type="text" class="form-control" id="date" name="date" th:value="${#dates.format(#dates.createNow(), 'dd-MM-yyyy')}">
             <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
           </div>
         </div>
         <!-- Add a note -->

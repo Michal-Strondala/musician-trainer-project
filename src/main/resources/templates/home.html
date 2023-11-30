@@ -81,6 +81,7 @@
                     <a href="/" th:href="@{/pieces/showAddPieceForm}" class="btn btn-primary" role="button">Add New Piece</a>
                 </button>
             </div>
+            <!-- Add record button outside the table -->
             <div class="form-group">
                 <button type="link" class="btn btn-link">
                     <a href="/" th:href="@{/pieces/showAddRecordForm}" class="btn btn-primary" role="button">Add Record</a>
@@ -107,6 +108,7 @@
                 <th>Last training</th>
                 <th>Number of days since the last training</th>
                 <th>Trained</th>
+                <th>Add record</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
@@ -127,6 +129,12 @@
 
                 <!-- Number of times trained -->
                 <td th:text="${tempPiece.getNumberOfTimesTrained}" />
+
+                <!-- Add record button inside the table -->
+                <td>
+                    <a th:if="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
+                    <a th:unless="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
+                </td>
 
                 <!-- Add edit button link -->
                 <td>

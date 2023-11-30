@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService{
 
 
 
-    // This is inherited method from UserDetails interface, which
+    // This is inherited method from UserDetails interface
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 

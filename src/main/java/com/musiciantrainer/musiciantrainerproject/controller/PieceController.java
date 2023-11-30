@@ -151,8 +151,9 @@ public class PieceController {
 
     // Record part
     @GetMapping("/showAddRecordForm")
-    public String showAddRecordForm(
-            Model theModel, Principal principal) {
+    public String showAddRecordForm(@RequestParam(name = "pieceId", required = false) Long pieceId,
+                                    Model theModel, Principal principal) {
+
         // Get the currently authenticated user's email (username in your case)
         String email = principal.getName();
 
@@ -170,6 +171,11 @@ public class PieceController {
 
         // Add an empty WebUser object to the model for the form
         theModel.addAttribute("webUser", new WebUser());
+
+        if (pieceId != null) {
+            // Pre-select a specific piece
+            theModel.addAttribute("selectedPieceId", pieceId);
+        }
 
         // Send over to our form
         return "pieces/add-record";

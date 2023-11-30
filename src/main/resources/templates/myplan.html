@@ -43,6 +43,7 @@
             <tr>
                 <th>Piece Name</th>
                 <th>Time</th>
+                <th>Add record</th>
             </tr>
             </thead>
             <tbody>
@@ -53,6 +54,12 @@
                 <!-- Access piece information from the plan piece -->
                 <td th:text="${planPiece.piece.name}" />
                 <td th:text="${planPiece.minutes}" />
+
+                <!-- Add record button inside the table -->
+                <td>
+                    <a th:if="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${planPiece.piece.id})}" class="btn btn-primary btn-sm">Add</a>
+                    <a th:unless="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${planPiece.piece.id})}" class="btn btn-primary btn-sm">Add</a>
+                </td>
 
             </tr>
             </tbody>
