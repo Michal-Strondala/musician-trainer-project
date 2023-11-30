@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class User {
     @Temporal(TemporalType.DATE) // This will override and make column name created with specific DATE format
     private LocalDate created;
 
+    // Logged zatím nikde neřeším
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime logged;
@@ -52,6 +54,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Piece> pieces;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Plan> plans;
 
 
 
@@ -71,5 +76,18 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    // add a convenient methods for bi-directional relationship
+
+    public void add(Plan tempPlan) {
+
+        if (plans == null) {
+            plans = new ArrayList<>();
+        }
+
+        plans.add(tempPlan);
+
+        tempPlan.setUser(this);
     }
 }

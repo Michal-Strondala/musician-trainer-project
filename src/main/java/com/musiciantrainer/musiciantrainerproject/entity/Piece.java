@@ -45,6 +45,8 @@ public class Piece {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "piece", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlanPiece> planPieces;
 
     @Transient // Transient means this field won't be persisted in the database but can be used for sorting and display purposes.
     private long numberOfDaysPassed;
@@ -60,6 +62,10 @@ public class Piece {
         this.priority = priority;
     }
 
+    public Piece(String name) {
+        this.name = name;
+    }
+
     // add a convenient methods for bi-directional relationship
 
     public void add(PieceLog tempPieceLog) {
@@ -71,6 +77,15 @@ public class Piece {
         pieceLogs.add(tempPieceLog);
 
         tempPieceLog.setPiece(this);
+    }
+
+    // Convenience method to add PlanPiece
+    public void addPlanPiece(PlanPiece planPiece) {
+        if (planPieces == null) {
+            planPieces = new ArrayList<>();
+        }
+        planPieces.add(planPiece);
+        planPiece.setPiece(this);
     }
 
     // utility methods

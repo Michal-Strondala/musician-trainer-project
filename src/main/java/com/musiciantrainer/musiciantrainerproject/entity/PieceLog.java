@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -16,6 +15,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "piece_log")
 public class PieceLog {
+
+    // Vytvoření piecelogu bude nejspíš v tabulce, kterou vygeneruje AI v planu,
+    // u každé piece bude možnost zaevidovat piecelog, že se to splnilo.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

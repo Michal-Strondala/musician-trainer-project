@@ -2,17 +2,17 @@ package com.musiciantrainer.musiciantrainerproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.musiciantrainer.musiciantrainerproject.entity.HomePageViewModel;
-import com.musiciantrainer.musiciantrainerproject.entity.Piece;
-import com.musiciantrainer.musiciantrainerproject.entity.User;
+import com.musiciantrainer.musiciantrainerproject.entity.*;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
+import com.musiciantrainer.musiciantrainerproject.service.PlanPieceService;
+import com.musiciantrainer.musiciantrainerproject.service.PlanService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
 import com.musiciantrainer.musiciantrainerproject.utilities.TrainingTimeUtil;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.completion.chat.ChatMessageRole;
 import com.theokanning.openai.service.OpenAiService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -37,14 +38,18 @@ public class MainController {
 
     private UserService userService;
     private PieceService pieceService;
+    private PlanService planService;
     private ObjectMapper objectMapper;
+    private PlanPieceService planPieceService;
 
 
     @Autowired
-    public MainController(UserService userService, PieceService pieceService, ObjectMapper objectMapper) {
+    public MainController(UserService userService, PieceService pieceService, PlanService planService, ObjectMapper objectMapper, PlanPieceService planPieceService) {
         this.userService = userService;
         this.pieceService = pieceService;
+        this.planService = planService;
         this.objectMapper = objectMapper;
+        this.planPieceService = planPieceService;
     }
 
     @GetMapping("/")
@@ -72,80 +77,116 @@ public class MainController {
         String userEmail = authentication.getName();
         User theUser = userService.findUserByEmail(userEmail);
 
-        //zalozeni objektu openai
-        OpenAiService service = new OpenAiService(apiKey, Duration.ofSeconds(90));
-
-        //system prompt
-        List<ChatMessage> messages = new ArrayList<>();
-        ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), "I want you to act as my music learning planner. \n" +
-                "You will help user to organize his daily routine plan of training music. \n" +
-                "You will decide what is the most important to train today. \n" +
-                "I will give you a list of pieces in JSON format. You will do user's schedule for the particular time.\n" +
-                "The user will give you his time for that day in minutes and/or hours.\n" +
-                "You will have priority in the list. \n" +
-                "The bigger the value of priority, the bigger the priority, and a low value is a low priority. \n" +
-                "A 0 priority is a piece without priority.\n" +
-                "Important is also \"formattedLastTrainingDate\", it is the date when I practiced the exercise the last time. \n" +
-                "You can find the attribute \"numberOfDaysPassed\" which displays the number of days since the last training date. \n" +
-                "You can find there \"numberOfTimesTrained\" which shows the number of times I trained that piece.\n" +
-                "The goal is to not lose the memory of pieces. Each train session has to have at least 30 minutes (1 pomodoro). \n" +
-                "One hour is 2 pomodoros. \n" +
-                "\n" +
-                "Write in proper English.\n" +
-                "\n" +
-                "The output should be in JSON style with time schedule included.\n" +
-                "\n" +
-                "The pattern should be always like this:\n" +
-                "{\n" +
-                "  \"schedule\": [\n" +
-                "    {\n" +
-                "      \"time\": \"30\",\n" +
-                "      \"piece\": {\n" +
-                "        \"name\": \"piece2\",\n" +
-                "      }\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"time\": \"30\",\n" +
-                "      \"piece\": {\n" +
-                "        \"name\": \"piece5\",\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ]\n" +
-                "\n" +
-                "Do not include \"details.\" \n" +
-                "Do not write any extra text in the end.");
-        messages.add(systemMessage);
-
-        //user prompt
-        System.out.print("First Query: ");
+        // převedení času z hodin na minuty
         String convertedTime = getHoursAsMinutes(trainingTime);
-        String userPrompt = pieceService.getPiecesDtoAsJsonString(theUser) + " My time for today is " + convertedTime + ".";
-        ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), userPrompt);
-        messages.add(userMessage);
 
-        ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
-                .builder()
-                .model(aiModel)
-                .messages(messages)
-                .n(1)
-                .maxTokens(256)
-                .build();
+        Plan savedPlan = null;
+        OpenAiService service = null;
 
-        ChatMessage responseMessage = service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage();
+        // kontrola, jestli daný plán již nebyl dnes vygenerovaný na daný počet minut
+        if (doesPlanExist(convertedTime)) {
+            savedPlan = planService.getPlanByTotalMinutesAndDate(Integer.parseInt(convertedTime), LocalDate.now());
+        } else {
 
-        service.streamChatCompletion(chatCompletionRequest)
-                .doOnError(Throwable::printStackTrace)
-                .blockingForEach(System.out::println);
+            // zalozeni objektu openai
+            service = new OpenAiService(apiKey, Duration.ofSeconds(90));
 
-        Map<String, Object> aiResponseMap = parseJsonToMap(responseMessage);
-        List<String> aiResponse = (List<String>) aiResponseMap.get("schedule");
+            // system prompt
+            List<ChatMessage> messages = new ArrayList<>();
+            ChatMessage systemMessage = new ChatMessage(ChatMessageRole.SYSTEM.value(), "I want you to act as my music learning planner. \n" +
+                    "You will help user to organize his daily routine plan of training music. \n" +
+                    "You will decide what is the most important to train today. \n" +
+                    "I will give you a list of pieces in JSON format. You will do user's schedule for the particular time.\n" +
+                    "The user will give you his time for that day in minutes and/or hours.\n" +
+                    "You will have priority in the list. \n" +
+                    "The bigger the value of priority, the bigger the priority, and a low value is a low priority. \n" +
+                    "A 0 priority is a piece without priority.\n" +
+                    "Important is also \"formattedLastTrainingDate\", it is the date when I practiced the exercise the last time. \n" +
+                    "You can find the attribute \"numberOfDaysPassed\" which displays the number of days since the last training date. \n" +
+                    "You can find there \"numberOfTimesTrained\" which shows the number of times I trained that piece.\n" +
+                    "The goal is to not lose the memory of pieces. Each train session has to have at least 30 minutes (1 pomodoro). \n" +
+                    "One hour is 2 pomodoros. \n" +
+                    "\n" +
+                    "Write in proper English.\n" +
+                    "\n" +
+                    "The output must be in JSON with time schedule included.\n" +
+                    "\n" +
+                    "This is example of requested JSON output:\n" +
+                    "{" +
+                    " \"planItems\" : [{" +
+                    "\"time\": 30," +
+                    "\"id\": 1" +
+                    "}," +
+                    " {" +
+                    "\"time\": 30," +
+                    "\"id\": 2" +
+                    "}] " +
+                    "}" +
+                    "Do not include \"details\" and nothing else (like ```json etc.) \n" +
+                    "Do not write any extra text in the end.");
+            messages.add(systemMessage);
 
-        model.addAttribute("myplan", aiResponse);
+            //user prompt
+            System.out.print("First Query: ");
 
-        service.shutdownExecutor();
+            String userPrompt = pieceService.getPiecesDtoAsJsonString(theUser) + " My time for today is " + convertedTime + " minutes.";
+            ChatMessage userMessage = new ChatMessage(ChatMessageRole.USER.value(), userPrompt);
+            messages.add(userMessage);
+
+            ChatCompletionRequest chatCompletionRequest = ChatCompletionRequest
+                    .builder()
+                    .model(aiModel)
+                    .messages(messages)
+                    .n(1)
+                    .maxTokens(256)
+                    .build();
+
+            ChatMessage responseMessage = service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage();
+
+            service.streamChatCompletion(chatCompletionRequest)
+                    .doOnError(Throwable::printStackTrace)
+                    .blockingForEach(System.out::println);
+
+            // *** Process AI response ***
+            // Deserealize AI reponse in the form of JSON into Java objects
+
+            List<PlanItem> planItems = this.decodeJSON(responseMessage.getContent());
+
+            // 1. Create Plan instance
+            Plan newPlan = createPlanInstance(convertedTime, theUser);
+
+            // 2. Assign PlanItems to PlanPieces and Plan
+            List<PlanPiece> planPieces = assignPlanItemsToPiecesAndPlan(planItems, newPlan);
+
+            // Set the list of PlanPieces to the Plan
+            newPlan.setPlanPieces(planPieces);
+
+            // 3. Save the Plan to the database
+            savedPlan = planService.addPlan(newPlan); // Implement this method in PlanService
+
+            // 4. Save the PlanPieces to the database
+            for (PlanPiece planPiece : planPieces) {
+                planPieceService.addPlanPiece(planPiece); // Implement this method in PlanPieceService
+            }
+        }
+
+        MyPlanViewModel myPlanViewModel = new MyPlanViewModel(savedPlan);
+
+        // Add the plan to the model
+        model.addAttribute("myPlanViewModel", myPlanViewModel);
+
+        if (service != null) {
+            service.shutdownExecutor();
+        }
 
         return "myplan";
     }
+
+    private boolean doesPlanExist(String convertedTime) {
+
+        return planService.getPlanByTotalMinutesAndDate(Integer.parseInt(convertedTime), LocalDate.now()) != null;
+    }
+
 
     @GetMapping("/piecesToJson")
     public String piecesToJson(Model model, Authentication authentication) {
@@ -175,15 +216,55 @@ public class MainController {
     public String getHoursAsMinutes(String trainingTime) {
         return TrainingTimeUtil.convertHoursToMinutes(trainingTime);
     }
+    @NotNull
+    private List<PlanPiece> assignPlanItemsToPiecesAndPlan(List<PlanItem> planItems, Plan newPlan) {
+        List<PlanPiece> planPieces = new ArrayList<>();
 
+        for (PlanItem planItem : planItems) {
+            // Create a new PlanPiece for each PlanItem
+            PlanPiece planPiece = new PlanPiece();
+            planPiece.setMinutes(planItem.getTime());
+            planPiece.setDone(false); // Set isDone to false initially, adjust if needed
 
-    public Map<String, Object> parseJsonToMap(ChatMessage theResponseMessage) {
-        try {
-            String jsonString = theResponseMessage.getContent().trim();
-            return objectMapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {});
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error converting JSON to Map", e);
+            // Retrieve the Piece based on the PlanItem's ID
+            Piece existingPiece = pieceService.getPieceById(planItem.getId()); // Implement this method in PieceService
+
+            // Set the Plan, Piece, and add PlanPiece to the list
+            planPiece.setPlan(newPlan);
+            planPiece.setPiece(existingPiece);
+            planPieces.add(planPiece);
         }
+        return planPieces;
+    }
+
+    @NotNull
+    private static Plan createPlanInstance(String convertedTime, User theUser) {
+        Plan newPlan = new Plan();
+        newPlan.setDate(LocalDate.now()); // Set the date to the current date
+        newPlan.setTotalMinutes(Integer.parseInt(convertedTime));
+        newPlan.setUser(theUser);
+        return newPlan;
+    }
+
+    private List<PlanItem> decodeJSON(String jsonString) {
+
+        // print to check what AI generated
+        System.out.println("Here the jsonString enters the function: " + jsonString);
+
+        PlanItems thePlanItems;
+
+        try {
+            thePlanItems = objectMapper.readValue(jsonString, PlanItems.class);
+
+            // print to check what objectMapper read and deserealized
+            System.out.println("Here the objectMapper mapped the json to PlanItems class: " + thePlanItems.getPlanItems());
+
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return thePlanItems.getPlanItems();
     }
 
 }

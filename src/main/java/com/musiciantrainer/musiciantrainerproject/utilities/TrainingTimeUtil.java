@@ -5,29 +5,29 @@ public class TrainingTimeUtil {
     public static String convertHoursToMinutes(String trainingTimeInMinutes) {
         switch (trainingTimeInMinutes) {
             case "0.5 hour":
-                return "30 minutes";
+                return "30";
             case "1 hour":
-                return "60 minutes";
+                return "60";
             case "1.5 hours":
-                return "90 minutes";
+                return "90";
             case "2 hours":
-                return "120 minutes";
+                return "120";
             case "2.5 hours":
-                return "150 minutes";
+                return "150";
             case "3 hours":
-                return "180 minutes";
+                return "180";
             case "3.5 hours":
-                return "210 minutes";
+                return "210";
             case "4 hours":
-                return "240 minutes";
+                return "240";
             case "4.5 hours":
-                return "270 minutes";
+                return "270";
             case "5 hours":
-                return "300 minutes";
+                return "300";
             case "5.5 hours":
-                return "330 minutes";
+                return "330";
             case "6 hours":
-                return "360 minutes";
+                return "360";
             default:
                 return "unknown";
         }

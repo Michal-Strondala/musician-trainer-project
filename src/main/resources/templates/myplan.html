@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,33 +9,54 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
+<!-- create navigation bar ( header) -->
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Edit profile</a>
+                </li>
+                <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">Logout</a>
+                    <form id="logout-form" th:action="@{/logout}" method="POST" style="display: none;"></form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<br>
+<hr>
 <div class="container">
     <h1>My Plan</h1>
 
-    <!-- Check if myplan is not empty -->
-    <th:block th:if="${#lists.size(myplan) > 0}">
+    <th:block>
         <table class="table table-bordered table-striped mt-5">
             <thead class="thead-dark">
             <tr>
-                <th>Time</th>
                 <th>Piece Name</th>
+                <th>Time</th>
             </tr>
             </thead>
             <tbody>
-            <!-- Iterate over the schedule items in the myplan list -->
-            <th:each var="scheduleItem" th:each="schedule : ${myplan}" th:remove="tag">
-                <tr>
-                    <td th:text="${schedule['time']}"></td>
-                    <td th:text="${schedule['piece']['name']}"></td>
-                </tr>
-            </th:each>
+            <!-- Iterate over the plan items in the plan -->
+            <tbody>
+            <tr th:each="planPiece  : ${myPlanViewModel.savedPlan.planPieces}">
+
+                <!-- Access piece information from the plan piece -->
+                <td th:text="${planPiece.piece.name}" />
+                <td th:text="${planPiece.minutes}" />
+
+            </tr>
             </tbody>
         </table>
-    </th:block>
-
-    <!-- Add a message if myplan is empty -->
-    <th:block th:unless="${#lists.size(myplan) > 0}">
-        <p>No schedule available.</p>
     </th:block>
 </div>
 

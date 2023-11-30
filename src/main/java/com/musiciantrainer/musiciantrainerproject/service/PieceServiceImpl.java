@@ -70,7 +70,7 @@ public class PieceServiceImpl implements PieceService{
     public Piece getPieceById(Long theId) {
         Optional<Piece> result = pieceDao.findById(theId);
 
-        Piece thePiece = null;
+        Piece thePiece;
 
         if (result.isPresent()) {
             thePiece = result.get();
