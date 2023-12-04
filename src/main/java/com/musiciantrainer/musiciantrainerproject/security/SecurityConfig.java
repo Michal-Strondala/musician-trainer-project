@@ -40,6 +40,7 @@ public class SecurityConfig {
                                 .requestMatchers("/user/showFormForEdit").hasRole("USER")
                                 .requestMatchers("/pieces/**").hasRole("USER")
                                 .requestMatchers("/myplan/**").hasRole("USER")
+                                .requestMatchers("/sendEmail/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->

@@ -81,6 +81,12 @@
                     <a href="/" th:href="@{/pieces/showAddPieceForm}" class="btn btn-primary" role="button">Add New Piece</a>
                 </button>
             </div>
+            <!-- Add a link/button to send the email -->
+            <div class="form-group">
+                <form th:action="@{/sendEmail}" method="GET">
+                    <button type="submit" class="btn btn-primary" role="button">Send Test Email</button>
+                </form>
+            </div>
             <!-- Add record button outside the table -->
             <div class="form-group">
                 <button type="link" class="btn btn-link">

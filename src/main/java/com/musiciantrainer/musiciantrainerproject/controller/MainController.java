@@ -7,6 +7,7 @@ import com.musiciantrainer.musiciantrainerproject.service.PieceService;
 import com.musiciantrainer.musiciantrainerproject.service.PlanPieceService;
 import com.musiciantrainer.musiciantrainerproject.service.PlanService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
+import com.musiciantrainer.musiciantrainerproject.service.email.EmailService;
 import com.musiciantrainer.musiciantrainerproject.utilities.TrainingTimeUtil;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
@@ -41,15 +42,17 @@ public class MainController {
     private PlanService planService;
     private ObjectMapper objectMapper;
     private PlanPieceService planPieceService;
+    private EmailService emailService;
 
 
     @Autowired
-    public MainController(UserService userService, PieceService pieceService, PlanService planService, ObjectMapper objectMapper, PlanPieceService planPieceService) {
+    public MainController(UserService userService, PieceService pieceService, PlanService planService, ObjectMapper objectMapper, PlanPieceService planPieceService, EmailService emailService) {
         this.userService = userService;
         this.pieceService = pieceService;
         this.planService = planService;
         this.objectMapper = objectMapper;
         this.planPieceService = planPieceService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/")
@@ -216,6 +219,23 @@ public class MainController {
     public String getHoursAsMinutes(String trainingTime) {
         return TrainingTimeUtil.convertHoursToMinutes(trainingTime);
     }
+
+    @GetMapping("/sendEmail")
+    public String sendTestEmail(Authentication authentication) {
+        String userEmail = authentication.getName();
+        User theUser = userService.findUserByEmail(userEmail);
+
+        // Replace these with actual email details
+        String to = "astarin0998@gmail.com";
+        String subject = "Test Email";
+        String body = "This is a test email from Musician Trainer.";
+
+        // Send the email
+        emailService.sendNewMail(to, subject, body);
+
+        return "redirect:/"; // Redirect back to the home page after sending the email
+    }
+
     @NotNull
     private List<PlanPiece> assignPlanItemsToPiecesAndPlan(List<PlanItem> planItems, Plan newPlan) {
         List<PlanPiece> planPieces = new ArrayList<>();
@@ -266,5 +286,6 @@ public class MainController {
 
         return thePlanItems.getPlanItems();
     }
+
 
 }
