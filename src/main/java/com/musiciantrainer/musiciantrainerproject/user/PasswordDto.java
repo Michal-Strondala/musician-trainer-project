@@ -8,30 +8,28 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@ToString
 @PasswordMatches
-public class WebUser {
+@NoArgsConstructor
+public class PasswordDto {
+    private String oldPassword;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
-    private String name;
-
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
-    @ValidPassword
-    private String password;
-
-    @NotNull
-    @Size(min = 1)
-    private String matchingPassword;
+    private  String token;
 
     @ValidEmail
     @NotNull
     @Size(min = 1, message = "{Size.userDto.email}")
     private String email;
+
+    @ValidPassword
+    private String newPassword;
+
+    private String confirmPassword;
+
+    public PasswordDto(String token) {
+        this.token = token;
+        System.out.println("Token set in PasswordDto: " + token);
+    }
 }

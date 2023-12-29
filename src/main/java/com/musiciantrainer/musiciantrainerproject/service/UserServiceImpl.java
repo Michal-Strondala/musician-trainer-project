@@ -1,7 +1,9 @@
 package com.musiciantrainer.musiciantrainerproject.service;
 
+import com.musiciantrainer.musiciantrainerproject.dao.PasswordResetTokenDao;
 import com.musiciantrainer.musiciantrainerproject.dao.RoleDao;
 import com.musiciantrainer.musiciantrainerproject.dao.UserDao;
+import com.musiciantrainer.musiciantrainerproject.entity.PasswordResetToken;
 import com.musiciantrainer.musiciantrainerproject.entity.Role;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.user.WebUser;
@@ -22,15 +24,16 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private UserDao userDao;
-
     private RoleDao roleDao;
+    private PasswordResetTokenDao passwordResetTokenDao;
 
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao, PasswordResetTokenDao passwordResetTokenDao, BCryptPasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
+        this.passwordResetTokenDao = passwordResetTokenDao;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -80,6 +83,34 @@ public class UserServiceImpl implements UserService{
         // Update user details using Hibernate
         userDao.save(updatedUser);
     }
+
+    @Override
+    public void createPasswordResetTokenForUser(User theUser, String token) {
+        final PasswordResetToken myToken = new PasswordResetToken(token, theUser);
+        passwordResetTokenDao.save(myToken);
+    }
+
+    @Override
+    public Optional<User> getUserByPasswordResetToken(String token) {
+        return Optional.ofNullable(passwordResetTokenDao.findByToken(token) .getUser());
+    }
+
+    @Override
+    public void changeUserPassword(final User theUser, final String password) {
+        theUser.setPassword(passwordEncoder.encode(password));
+        userDao.save(theUser);
+    }
+
+    @Override
+    public PasswordResetToken getPasswordResetToken(String token) {
+        return passwordResetTokenDao.findByToken(token);
+    }
+
+    @Override
+    public void deletePasswordResetToken(PasswordResetToken passwordResetToken) {
+        passwordResetTokenDao.delete(passwordResetToken);
+    }
+
 
 
     @Override

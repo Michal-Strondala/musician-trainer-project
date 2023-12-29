@@ -91,6 +91,14 @@
 			<artifactId>service</artifactId>
 			<version>0.17.0</version>
 		</dependency>
+		<!-- Password Validation -->
+		<!-- https://mvnrepository.com/artifact/org.passay/passay -->
+		<dependency>
+			<groupId>org.passay</groupId>
+			<artifactId>passay</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 
 
 	</dependencies>

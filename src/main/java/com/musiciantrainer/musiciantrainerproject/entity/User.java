@@ -15,7 +15,6 @@ import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @ToString
 @Entity // Entity is declare to make this class an object for the database
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -58,7 +57,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Plan> plans;
 
+    private boolean enabled;
 
+
+    public User() {
+        super();
+        this.enabled = false;
+    }
 
     public User(String email, String password) {
         this.email = email;

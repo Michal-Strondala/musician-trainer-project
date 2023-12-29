@@ -36,12 +36,14 @@ public class SecurityConfig {
                                 .requestMatchers("/").hasRole("USER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/register/**").permitAll()
+                                .requestMatchers("/password/**").permitAll()
                                 .requestMatchers("/user/**").hasRole("USER")
                                 .requestMatchers("/user/showFormForEdit").hasRole("USER")
                                 .requestMatchers("/pieces/**").hasRole("USER")
                                 .requestMatchers("/myplan/**").hasRole("USER")
                                 .requestMatchers("/sendEmail/**").permitAll()
                                 .anyRequest().authenticated()
+                // musím přehodit všechny metody z usercontroller do asi jiného controlleru a pak přidat sem další povolení
                 )
                 .formLogin(form ->
                         form
