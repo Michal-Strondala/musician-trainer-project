@@ -51,12 +51,12 @@
                             <div class="col-xs-12">
                                 <!-- success message -->
                                 <div th:if="${param.success}">
-                                    <div class="alert alert-info bg-info text-white border-0" >
+                                    <div class="alert alert-success" role="alert">
                                         You have successfully registered to our awesome app!</div>
                                 </div>
                                 <!-- error message -->
                                 <div th:if="${error == 'emailExists'}">
-                                    <div class="alert alert-danger">Email already in use.</div>
+                                    <div class="alert alert-danger" role="alert">Email already in use.</div>
                                 </div>
                             </div>
                         </div>

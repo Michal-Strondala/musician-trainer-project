@@ -74,6 +74,6 @@ public class RegistrationController {
         // saving successful registration message into the model for redirecting
         redirectAttributes.addFlashAttribute("successMessage", "You have successfully registered to our awesome app!");
 
-        return "redirect:/showLoginPage?success"; // When user registers successfully, it will show a success message
+        return "redirect:/showLoginPage"; // When user registers successfully, it will show a success message
     }
 }

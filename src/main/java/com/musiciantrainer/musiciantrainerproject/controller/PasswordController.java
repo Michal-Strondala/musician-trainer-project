@@ -106,19 +106,6 @@ public class PasswordController {
             return "forward:/password/updatePassword/" + token;  // Use forward instead of redirect
         }
     }
-//    @GetMapping("/changePassword")
-//    public String showChangePasswordPage(Model model, @RequestParam("token") String token) {
-//        String result = securityUserService.validatePasswordResetToken(token);
-//
-//        if (result != null) {
-//            String messageKey = "auth.message." + result;
-//            model.addAttribute("messageKey", messageKey);
-//            return "redirect:/showLoginPage";
-//        } else {
-//            model.addAttribute("token", token);
-//            return "redirect:/password/updatePassword";
-//        }
-//    }
 
     @GetMapping("/updatePassword/{token}")
     public String updatePassword(HttpServletRequest request, Model model, @PathVariable String token) {
@@ -136,40 +123,6 @@ public class PasswordController {
 
         return "password/updatePassword";
     }
-
-//    @GetMapping("/updatePassword")
-//    public String updatePassword(HttpServletRequest request, Model model) {
-//        Locale locale = request.getLocale();
-//        model.addAttribute("lang", locale.getLanguage());
-//
-//        String messageKey = (String) model.getAttribute("messageKey");
-//        if (messageKey != null) {
-//            String message = messages.getMessage(messageKey, null, locale);
-//            model.addAttribute("message", message);
-//        }
-//
-//        // Add the PasswordDto to the model
-//        model.addAttribute("passwordDto", new PasswordDto());
-//
-//        return "password/updatePassword";
-//    }
-
-//    @GetMapping("/updatePassword")
-//    public String updatePassword(HttpServletRequest request, Model model,
-//                                 @RequestParam("messageKey") Optional<String> messageKey) {
-//        Locale locale = request.getLocale();
-//        model.addAttribute("lang", locale.getLanguage());
-//
-//        messageKey.ifPresent(key -> {
-//            String message = messages.getMessage(key, null, locale);
-//            model.addAttribute("message", message);
-//        });
-//
-//        // Add the PasswordDto to the model
-//        model.addAttribute("passwordDto", new PasswordDto());
-//
-//        return "password/updatePassword";
-//    }
 
 
     @PostMapping("/savePassword")
@@ -222,53 +175,6 @@ public class PasswordController {
             return "password/updatePassword"; // Return the same page
         }
     }
-//    @PostMapping("/savePassword")
-//    public String savePassword(final Locale locale, @Valid PasswordDto passwordDto, HttpSession session) {
-//        String result = securityUserService.validatePasswordResetToken(passwordDto.getToken());
-//
-//        if (result != null) {
-//            // Add error message to session
-//            session.setAttribute("errorMessage", messages.getMessage("auth.message." + result, null, locale));
-//            return "redirect:/password/updatePassword";
-//        }
-//
-//        Optional<User> user = userService.getUserByPasswordResetToken(passwordDto.getToken());
-//        if (user.isPresent()) {
-//            userService.changeUserPassword(user.get(), passwordDto.getNewPassword());
-//
-//            // Delete the password reset token since the password change was successful
-//            deletePasswordResetToken(passwordDto.getToken());
-//
-//            // Add success message to session
-//            session.setAttribute("successMessage", messages.getMessage("message.resetPasswordSuc", null, locale));
-//
-//            // Redirect to the login page upon successful password change
-//            return "redirect:/showLoginPage";
-//        } else {
-//            // Add error message to session
-//            session.setAttribute("errorMessage", messages.getMessage("auth.message.invalid", null, locale));
-//            return "redirect:/password/updatePassword";
-//        }
-//    }
-//    @PostMapping("/savePassword")
-//    public String savePassword(final Locale locale, @Valid PasswordDto passwordDto, Model model) {
-//        System.out.println("1. Getting the token: " + passwordDto.getToken());
-//        String result = securityUserService.validatePasswordResetToken(passwordDto.getToken());
-//
-//        if (result != null) {
-//            model.addAttribute("message", messages.getMessage("auth.message." + result, null, locale));
-//            return "password/updatePassword";
-//        }
-//
-//        Optional<User> user = userService.getUserByPasswordResetToken(passwordDto.getToken());
-//        if (user.isPresent()) {
-//            userService.changeUserPassword(user.get(), passwordDto.getNewPassword());
-//            model.addAttribute("message", messages.getMessage("message.resetPasswordSuc", null, locale));
-//        } else {
-//            model.addAttribute("message", messages.getMessage("auth.message.invalid", null, locale));
-//        }
-//        return "password/updatePassword";
-//    }
 
 
     // ============== NON-API ============
