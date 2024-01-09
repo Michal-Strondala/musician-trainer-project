@@ -42,6 +42,8 @@ public class SecurityConfig {
                                 .requestMatchers("/pieces/**").hasRole("USER")
                                 .requestMatchers("/myplan/**").hasRole("USER")
                                 .requestMatchers("/sendEmail/**").permitAll()
+                                .requestMatchers("/dist/**").permitAll()
+                                .requestMatchers("/assets/**").permitAll()
                                 .anyRequest().authenticated()
                 // musím přehodit všechny metody z usercontroller do asi jiného controlleru a pak přidat sem další povolení
                 )

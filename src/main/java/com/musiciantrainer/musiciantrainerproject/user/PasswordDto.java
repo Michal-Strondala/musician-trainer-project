@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@PasswordMatches
+@PasswordMatches(field = "newPassword", fieldMatch = "confirmPassword", message = "Passwords do not match!")
 @NoArgsConstructor
 public class PasswordDto {
     private String oldPassword;
@@ -26,6 +26,7 @@ public class PasswordDto {
     @ValidPassword
     private String newPassword;
 
+    @ValidPassword
     private String confirmPassword;
 
     public PasswordDto(String token) {

@@ -10,16 +10,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@PasswordMatches(field = "password", fieldMatch = "matchingPassword", message = "Passwords do not match!")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@PasswordMatches
 public class WebUser {
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String name;
+
+    @ValidEmail
+    @NotNull
+    @Size(min = 1, message = "{Size.userDto.email}")
+    private String email;
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
@@ -28,10 +33,7 @@ public class WebUser {
 
     @NotNull
     @Size(min = 1)
+    @ValidPassword
     private String matchingPassword;
 
-    @ValidEmail
-    @NotNull
-    @Size(min = 1, message = "{Size.userDto.email}")
-    private String email;
 }

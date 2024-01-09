@@ -2,19 +2,13 @@ package com.musiciantrainer.musiciantrainerproject.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.passay.AlphabeticalSequenceRule;
-import org.passay.DigitCharacterRule;
-import org.passay.LengthRule;
-import org.passay.NumericalSequenceRule;
-import org.passay.PasswordData;
-import org.passay.PasswordValidator;
-import org.passay.QwertySequenceRule;
-import org.passay.RuleResult;
-import org.passay.SpecialCharacterRule;
-import org.passay.UppercaseCharacterRule;
-import org.passay.WhitespaceRule;
+import lombok.SneakyThrows;
+import org.passay.*;
 
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
     @Override
@@ -22,24 +16,57 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
     }
 
+    @SneakyThrows
     @Override
-    public boolean isValid(final String password, final ConstraintValidatorContext context) {
-        // @formatter:off
-        final PasswordValidator validator = new PasswordValidator(Arrays.asList(
+    public boolean isValid(String password, ConstraintValidatorContext context) {
+
+        //customizing validation messages
+        Properties props = new Properties();
+        InputStream inputStream = getClass()
+                .getClassLoader().getResourceAsStream("passay.properties");
+        props.load(inputStream);
+        MessageResolver resolver = new PropertiesMessageResolver(props);
+
+        PasswordValidator validator = new PasswordValidator(resolver, Arrays.asList(
+
+                // length between 8 and 30 characters
                 new LengthRule(8, 30),
-                new UppercaseCharacterRule(1),
-                new DigitCharacterRule(1),
-                new SpecialCharacterRule(1),
-                new NumericalSequenceRule(4,false),
-                new AlphabeticalSequenceRule(4,false),
-                new QwertySequenceRule(4,false),
-                new WhitespaceRule()));
-        final RuleResult result = validator.validate(new PasswordData(password));
+
+                // at least one upper-case character
+                new CharacterRule(EnglishCharacterData.UpperCase, 1),
+
+                // at least one lower-case character
+                new CharacterRule(EnglishCharacterData.LowerCase, 1),
+
+                // at least one digit character
+                new CharacterRule(EnglishCharacterData.Digit, 1),
+
+                // at least one symbol (special character)
+                new CharacterRule(EnglishCharacterData.Special, 1),
+
+                // no whitespace
+                new WhitespaceRule(),
+
+                // rejects passwords that contain a sequence of >= 5 characters alphabetical  (e.g. abcdef)
+                new IllegalSequenceRule(EnglishSequenceData.Alphabetical, 5, false),
+
+                // rejects passwords that contain a sequence of >= 5 characters numerical   (e.g. 12345)
+                new IllegalSequenceRule(EnglishSequenceData.Numerical, 5, false)
+
+       ));
+
+        RuleResult result = validator.validate(new PasswordData(password));
+
         if (result.isValid()) {
             return true;
         }
-        context.disableDefaultConstraintViolation();
-        context.buildConstraintViolationWithTemplate(String.join(",", validator.getMessages(result))).addConstraintViolation();
+
+        List<String> messages = validator.getMessages(result);
+        String messageTemplate = String.join(",\n", messages);
+        context.buildConstraintViolationWithTemplate(messageTemplate)
+                .addConstraintViolation()
+                .disableDefaultConstraintViolation();
         return false;
     }
+
 }

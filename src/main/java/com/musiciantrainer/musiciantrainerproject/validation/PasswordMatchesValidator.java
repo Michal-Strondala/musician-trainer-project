@@ -1,26 +1,48 @@
 package com.musiciantrainer.musiciantrainerproject.validation;
 
-import com.musiciantrainer.musiciantrainerproject.user.PasswordDto;
-import com.musiciantrainer.musiciantrainerproject.user.WebUser;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
-    @Override
-    public void initialize(final PasswordMatches constraintAnnotation) {
-        //
+
+    private String field;
+    private String fieldMatch;
+    private String message;
+
+    public void initialize(PasswordMatches constraintAnnotation) {
+        this.field = constraintAnnotation.field();
+        this.fieldMatch = constraintAnnotation.fieldMatch();
+        this.message = constraintAnnotation.message();
     }
 
-    @Override
-    public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
-        if (obj instanceof PasswordDto passwordDto) {
-            return passwordDto.getNewPassword().equals(passwordDto.getConfirmPassword());
+    public boolean isValid(Object value,
+                           ConstraintValidatorContext context) {
+
+        Object fieldValue = new BeanWrapperImpl(value)
+                .getPropertyValue(field);
+        Object fieldMatchValue = new BeanWrapperImpl(value)
+                .getPropertyValue(fieldMatch);
+
+        boolean isValid = false;
+        if (fieldValue != null) {
+            isValid = fieldValue.equals(fieldMatchValue);
         }
-        return false;
+
+        if (!isValid) {
+            context.disableDefaultConstraintViolation();
+            context
+                    .buildConstraintViolationWithTemplate(message)
+                    .addPropertyNode(field)
+                    .addConstraintViolation();
+            context
+                    .buildConstraintViolationWithTemplate(message)
+                    .addPropertyNode(fieldMatch)
+                    .addConstraintViolation();
+        }
+
+        return isValid;
+
     }
-//    @Override
-//    public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
-//        final WebUser theUser = (WebUser) obj;
-//        return theUser.getPassword().equals(theUser.getMatchingPassword());
-//    }
+
 }
