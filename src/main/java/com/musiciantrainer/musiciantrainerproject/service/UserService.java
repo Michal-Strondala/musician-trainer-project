@@ -26,4 +26,6 @@ public interface UserService extends UserDetailsService {
     Optional<User> getUserByPasswordResetToken(String token);
 
     void changeUserPassword(User theUser, String password);
+
+    boolean checkIfUserIsNotNull(Long id);
 }

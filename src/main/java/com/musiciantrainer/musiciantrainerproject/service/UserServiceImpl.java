@@ -162,4 +162,12 @@ public class UserServiceImpl implements UserService{
         return authorities;
     }
 
+    public boolean checkIfUserIsNotNull(Long id){
+        Optional<User> theUser = userDao.findById(id);
+        if (theUser.isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
 }

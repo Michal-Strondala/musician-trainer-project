@@ -12,7 +12,8 @@ public interface PieceService  {
     void editPiece(Piece editedPiece, User theUser); // Aktualizace skladby
     List<Piece> getPiecesByUserOrderedByPriorityAndDaysPassed(User theUser);
     Piece getPieceById(Long theId);
-
     String getPiecesDtoAsJsonString(User theUser);
+    boolean checkIfPieceIsNotNull(Long id);
+
 
 }

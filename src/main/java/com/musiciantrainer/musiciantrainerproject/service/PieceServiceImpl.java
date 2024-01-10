@@ -100,4 +100,13 @@ public class PieceServiceImpl implements PieceService{
             throw new RuntimeException("Error converting pieces to JSON", e);
         }
     }
+
+    @Override
+    public boolean checkIfPieceIsNotNull(Long id) {
+        Optional<Piece> thePiece = pieceDao.findById(id);
+        if (thePiece.isPresent()) {
+            return true;
+        }
+        return false;
+    }
 }
