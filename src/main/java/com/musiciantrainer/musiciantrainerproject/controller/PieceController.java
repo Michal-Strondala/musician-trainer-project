@@ -84,6 +84,12 @@ public class PieceController {
         // Get the currently authenticated user's email (username in your case)
         String userEmail = authentication.getName();
 
+        // Get the user from the service based on the email
+        User theUser = userService.findUserByEmail(userEmail);
+
+        // Set user in the model
+        theModel.addAttribute("user", theUser);
+
         // get the piece from the service
         Piece thePiece = pieceService.getPieceById(theId);
 

@@ -45,7 +45,7 @@ public class UserController {
 
     @GetMapping("/showFormForEdit")
     public String showFormForEdit(
-            Model theModel, Principal principal, HttpSession session) {
+            Model theModel, Principal principal) {
         // Get the currently authenticated user's email (username in your case)
         String email = principal.getName();
 
@@ -103,13 +103,14 @@ public class UserController {
 
         // Update the principal object with the updated user details
         UserDetails updatedPrincipal = userService.loadUserByUsername(existingUser.getEmail());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(updatedPrincipal, existingUser.getPassword(), updatedPrincipal.getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(updatedPrincipal,
+                existingUser.getPassword(), updatedPrincipal.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // place user in the web http session for later use
         session.setAttribute("user", theWebUser);
 
-        // saving successful registration message into the model for redirecting
+        // saving successful edit message into the model for redirecting
         redirectAttributes.addFlashAttribute("successMessage", "You have successfully edited your profile!");
 
         return "redirect:/?success";

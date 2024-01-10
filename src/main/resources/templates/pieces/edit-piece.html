@@ -99,7 +99,7 @@
                                 <!-- text-->
                                 <ul class="navbar-nav"> <!-- Add a ul wrapper -->
                                     <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
-                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
                                         <form id="logout-form1" th:action="@{/logout}" method="POST" style="display: none;"></form>
                                     </li>
                                 </ul>
@@ -125,12 +125,19 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="user-pro"> <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><img src="/assets/images/users/1.jpg" alt="user-img" class="img-circle"><span class="hide-menu">Mark Jeckson</span></a>
+                        <li class="user-pro">
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <span class="hide-menu">
+                                    <div th:if="${user}">
+                                        <p th:text="${user.name}"></p>
+                                    </div>
+                                </span>
+                            </a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
                                 <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
                                 <li sec:authorize="isAuthenticated()">
-                                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
                                         <i class="fa fa-power-off"></i> Logout</a>
                                     <form id="logout-form2" th:action="@{/logout}" method="POST" style="display: none;"></form>
                                 </li>

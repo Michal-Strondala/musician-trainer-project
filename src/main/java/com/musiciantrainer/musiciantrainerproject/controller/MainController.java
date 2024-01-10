@@ -54,22 +54,42 @@ public class MainController {
         this.planPieceService = planPieceService;
         this.emailService = emailService;
     }
-
     @GetMapping("/")
     public String showHome(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userEmail = authentication.getName(); // Get the email from principal
+            User theUser = userService.findUserByEmail(userEmail);
 
-        String userEmail = authentication.getName(); // Get the email from principal
+            if (theUser != null) {
+                List<Piece> pieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
+                HomePageViewModel theHomePageViewModel = new HomePageViewModel(pieces);
 
-        User theUser = userService.findUserByEmail(userEmail);
+                model.addAttribute("homePageViewModel", theHomePageViewModel);
+                model.addAttribute("user", theUser); // Přidejte uživatele do modelu
 
-        List<Piece> pieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
+                return "home"; // This is a Thymeleaf template name
+            }
+        }
 
-        HomePageViewModel theHomePageViewModel = new HomePageViewModel(pieces);
-
-        model.addAttribute("homePageViewModel", theHomePageViewModel);
-
-        return "home"; // This is a Thymeleaf template name
+        // Uživatel není přihlášen nebo se něco pokazilo
+        return "redirect:/showLoginPage";
     }
+
+//    @GetMapping("/")
+//    public String showHome(Model model, Authentication authentication) {
+//
+//        String userEmail = authentication.getName(); // Get the email from principal
+//
+//        User theUser = userService.findUserByEmail(userEmail);
+//
+//        List<Piece> pieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
+//
+//        HomePageViewModel theHomePageViewModel = new HomePageViewModel(pieces);
+//
+//        model.addAttribute("homePageViewModel", theHomePageViewModel);
+//
+//        return "home"; // This is a Thymeleaf template name
+//    }
 
     // Figure out the dropdown menu - this is done
     // Then I have to figure out how to take the generated plan which is in JSON and deserealize it to custom schedule table.
