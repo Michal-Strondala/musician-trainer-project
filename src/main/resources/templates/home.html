@@ -177,6 +177,87 @@
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-12">
+                        <!-- ---------------------
+                            start My Pieces Dashboard Stack Table
+                        ---------------- -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">My Pieces Dashboard</h4>
+                                <div class="table-responsive">
+                                    <table class="tablesaw no-wrap table-bordered table-hover table" data-tablesaw-mode="stack">
+                                        <thead>
+                                        <!-- start row -->
+                                        <tr>
+                                            <th scope="col" data-tablesaw-priority="persist" class="border">Name
+                                            </th>
+                                            <th scope="col" data-tablesaw-sortable-default-col data-tablesaw-priority="1"
+                                                class="border">Composer</th>
+                                            <th scope="col" data-tablesaw-priority="4" class="border">Priority</th>
+                                            <th scope="col" data-tablesaw-priority="3" class="border">Last training</th>
+                                            <th scope="col" data-tablesaw-priority="2" class="border">
+                                                Number of days since the last training</th>
+                                            <th scope="col" data-tablesaw-priority="2" class="border">
+                                                <abbr title="Number of times trained">Trained</abbr></th>
+                                            <th scope="col" data-tablesaw-priority="persist" class="border">Add record</th>
+                                            <th scope="col" data-tablesaw-priority="persist" class="border">Edit</th>
+                                            <th scope="col" data-tablesaw-priority="persist" class="border">Delete</th>
+                                        </tr> <!-- end row -->
+                                        </thead>
+                                        <tbody>
+                                        <!-- start row -->
+                                        <tr th:each="tempPiece : ${homePageViewModel.pieces}">
+                                            <td class="title" th:text="${tempPiece.name}"></td>
+                                            <td th:text="${tempPiece.composer}"></td>
+                                            <td th:text="${tempPiece.priorityAsString}"></td>
+                                            <!-- Last training date column / Format date as dd.MM.yyyy -->
+                                            <td th:text="${tempPiece.formattedLastTrainingDate}"></td>
+                                            <!-- Number of days since the last training column -->
+                                            <td th:text="${tempPiece.getNumberOfDaysPassed}"></td>
+                                            <!-- Number of times trained -->
+                                            <td th:text="${tempPiece.getNumberOfTimesTrained}"></td>
+                                            <!-- Add record button inside the table -->
+                                            <td>
+                                                <a th:if="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
+                                                <a th:unless="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
+                                            </td>
+                                            <!-- Add edit button link -->
+                                            <td>
+                                                <a th:href="@{/pieces/showFormForEdit(pieceId=${tempPiece.id})}"
+                                                   class="btn btn-info btn-sm">
+                                                    Edit
+                                                </a>
+                                            </td>
+                                            <!-- Add delete button link -->
+                                            <td>
+                                                <a th:href="@{/pieces/deletePiece(pieceId=${tempPiece.id})}"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="if (!(confirm('Are you sure you want to delete this piece?'))) return false"> <!-- This is Javascript prompt -->
+                                                  Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <!-- end row -->
+                                        </tbody>
+                                    </table>
+                                    <div th:if="${#lists.isEmpty(homePageViewModel.pieces)}">
+                                        <p>No pieces added yet.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---------------------
+                            end My Pieces Dashboard Stack Table
+                        ---------------- -->
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
