@@ -29,280 +29,285 @@
     <![endif]-->
 </head>
 <body class="skin-blue fixed-layout">
-<!-- ============================================================== -->
-<!-- Preloader - style you can find in spinners.css -->
-<!-- ============================================================== -->
-<div class="preloader">
-    <div class="loader">
-        <div class="loader__figure"></div>
-        <p class="loader__label">Musician Trainer</p>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Musician Trainer</p>
+        </div>
     </div>
-</div>
-<!-- ============================================================== -->
-<!-- Main wrapper - style you can find in pages.scss -->
-<!-- ============================================================== -->
-<div id="main-wrapper">
     <!-- ============================================================== -->
-    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <header class="topbar">
-        <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-            <!-- ============================================================== -->
-            <!-- Logo -->
-            <!-- ============================================================== -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#" th:href="@{/}">
-                    <!-- Logo icon --><b>
-                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                    <!-- Dark Logo icon -->
-                    <img src="/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                    <!-- Light Logo icon -->
-                    <img src="/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                </b>
-                    <!--End Logo icon -->
-                    <!-- Logo text --><span>
-                         <!-- dark Logo text -->
-                         <img src="/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                    <!-- Light Logo text -->
-                         <img src="/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Logo -->
-            <!-- ============================================================== -->
-            <div class="navbar-collapse">
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
                 <!-- ============================================================== -->
-                <!-- toggle and nav items -->
+                <!-- Logo -->
                 <!-- ============================================================== -->
-                <ul class="navbar-nav me-auto">
-                    <!-- This is  -->
-                    <li class="nav-item"> <a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                    <li class="nav-item"> <a class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a> </li>
-                </ul>
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" th:href="@{/}">
+                        <!-- Logo icon --><b>
+                        <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                        <!-- Dark Logo icon -->
+                        <img src="/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                        <!-- Light Logo icon -->
+                        <img src="/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                    </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text --><span>
+                             <!-- dark Logo text -->
+                             <img src="/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                        <!-- Light Logo text -->
+                             <img src="/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+                </div>
                 <!-- ============================================================== -->
-                <!-- User profile and search -->
+                <!-- End Logo -->
                 <!-- ============================================================== -->
-                <ul class="navbar-nav my-lg-0">
+                <div class="navbar-collapse">
                     <!-- ============================================================== -->
-                    <!-- User Profile -->
+                    <!-- toggle and nav items -->
                     <!-- ============================================================== -->
-                    <li class="nav-item dropdown u-pro">
-                        <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class=""> <span class="hidden-md-down">Mark &nbsp;<i class="fa fa-angle-down"></i></span> </a>
-                        <div class="dropdown-menu dropdown-menu-end animated flipInY">
-                            <!-- text-->
-                            <a href="#" th:href="@{/}" class="dropdown-item"><i class="ti-user"></i> My Dashboard</a>
-                            <!-- text-->
-                            <div class="dropdown-divider"></div>
-                            <!-- text-->
-                            <a href="#" th:href="@{/user/showFormForEdit}" class="dropdown-item"><i class="ti-settings"></i> Edit Profile</a>
-                            <!-- text-->
-                            <div class="dropdown-divider"></div>
-                            <!-- text-->
-                            <ul class="navbar-nav"> <!-- Add a ul wrapper -->
-                                <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
-                                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-                                    <form id="logout-form1" th:action="@{/logout}" method="POST" style="display: none;"></form>
+                    <ul class="navbar-nav me-auto">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item"> <a class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a> </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <!-- ============================================================== -->
+                        <!-- User Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown u-pro">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-bs-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <img src="/assets/images/users/1.jpg" alt="user" class="">
+                                <span class="hidden-md-down">
+                                    <span th:text="${user.name}" th:if="${user}"></span>
+                                    <i class="fa fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end animated flipInY">
+                                <!-- text-->
+                                <a href="#" th:href="@{/}" class="dropdown-item"><i class="ti-user"></i> My Dashboard</a>
+                                <!-- text-->
+                                <div class="dropdown-divider"></div>
+                                <!-- text-->
+                                <a href="#" th:href="@{/user/showFormForEdit}" class="dropdown-item"><i class="ti-settings"></i> Edit Profile</a>
+                                <!-- text-->
+                                <div class="dropdown-divider"></div>
+                                <!-- text-->
+                                <ul class="navbar-nav"> <!-- Add a ul wrapper -->
+                                    <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                                        <form id="logout-form1" th:action="@{/logout}" method="POST" style="display: none;"></form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- End User Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item right-side-toggle"> <a class="nav-link  waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="user-pro">
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                    <span class="hide-menu">
+                        <div th:if="${user}">
+                            <p th:text="${user.name}"></p>
+                        </div>
+                    </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
+                                <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
+                                <li sec:authorize="isAuthenticated()">
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
+                                        <i class="fa fa-power-off"></i> Logout</a>
+                                    <form id="logout-form2" th:action="@{/logout}" method="POST" style="display: none;"></form>
                                 </li>
                             </ul>
-                        </div>
-                    </li>
-                    <!-- ============================================================== -->
-                    <!-- End User Profile -->
-                    <!-- ============================================================== -->
-                    <li class="nav-item right-side-toggle"> <a class="nav-link  waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a></li>
-                </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
             </div>
-        </nav>
-    </header>
-    <!-- ============================================================== -->
-    <!-- End Topbar header -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Left Sidebar - style you can find in sidebar.scss  -->
-    <!-- ============================================================== -->
-    <aside class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div class="scroll-sidebar">
-            <!-- Sidebar navigation-->
-            <nav class="sidebar-nav">
-                <ul id="sidebarnav">
-                    <li class="user-pro">
-                        <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                <span class="hide-menu">
-                    <div th:if="${user}">
-                        <p th:text="${user.name}"></p>
-                    </div>
-                </span>
-                        </a>
-                        <ul aria-expanded="false" class="collapse">
-                            <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
-                            <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
-                            <li sec:authorize="isAuthenticated()">
-                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
-                                    <i class="fa fa-power-off"></i> Logout</a>
-                                <form id="logout-form2" th:action="@{/logout}" method="POST" style="display: none;"></form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-            <!-- End Sidebar navigation -->
-        </div>
-        <!-- End Sidebar scroll-->
-    </aside>
-    <!-- ============================================================== -->
-    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Page wrapper  -->
-    <!-- ============================================================== -->
-    <div class="page-wrapper">
+            <!-- End Sidebar scroll-->
+        </aside>
         <!-- ============================================================== -->
-        <!-- Container fluid  -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
             <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
+            <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div class="row page-titles">
-                <div class="col-md-5 align-self-center">
-                    <h4 class="text-themecolor">My Dashboard</h4>
-                </div>
-                <div class="col-md-7 align-self-center text-end">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <ol class="breadcrumb justify-content-end">
-                            <li class="breadcrumb-item"><a href="#" th:href="@{/}">Home > </a></li>
-                        </ol>
-                        <a role="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"
-                           th:href="@{/pieces/showAddPieceForm}">
-                            <i class="fa fa-plus-circle"></i>
-                            Create New Piece
-                        </a>
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">My Dashboard</h4>
                     </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Start Page Content -->
-            <!-- ============================================================== -->
-            <div class="row">
-                <div class="col-12">
-                    <!-- ---------------------
-                        start Add Piece Form
-                    ---------------- -->
-                    <!-- Check for error flash attribute and display error message -->
-                    <div th:if="${error}">
-                        <div class="alert alert-danger" role="alert">
-                            <span th:text="${error}"></span>
+                    <div class="col-md-7 align-self-center text-end">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb justify-content-end">
+                                <li class="breadcrumb-item"><a href="#" th:href="@{/}">Home > </a></li>
+                            </ol>
+                            <a role="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"
+                               th:href="@{/pieces/showAddPieceForm}">
+                                <i class="fa fa-plus-circle"></i>
+                                Create New Piece
+                            </a>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card card-body">
-                                <h4 class="card-title">Add Piece Form</h4>
-                                <form class="form-horizontal mt-4" th:action="@{/pieces/processAddPieceForm}"
-                                      method="post" th:object="${piece}">
-                                    <div class="form-group">
-                                        <label class="form-label" for="name">Piece Name</label>
-                                        <input type="text" id="name" class="form-control" th:field="*{name}" required autofocus="autofocus">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="composer">Composer</label>
-                                        <input type="text" id="composer" class="form-control" th:field="*{composer}" required autofocus="autofocus">
-                                    </div>
-                                    <div class="form-group row pt-3">
-                                        <h5 class="card-title">Select priority:</h5>
-                                        <div class="col-sm-4">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input"
-                                                           th:field="*{priority}" th:value="0">none
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input"
-                                                           th:field="*{priority}" th:value="1">low
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input"
-                                                           th:field="*{priority}" th:value="2">medium
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input"
-                                                           th:field="*{priority}" th:value="3">high
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-success me-2 text-white">Submit</button>
-                                    <span>No new piece?
-                                        <a href="/" th:href="@{/}">Go back home</a>
-                                    </span>
-                                </form>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-12">
+                        <!-- ---------------------
+                            start Add Piece Form
+                        ---------------- -->
+                        <!-- Check for error flash attribute and display error message -->
+                        <div th:if="${error}">
+                            <div class="alert alert-danger" role="alert">
+                                <span th:text="${error}"></span>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card card-body">
+                                    <h4 class="card-title">Add Piece Form</h4>
+                                    <form class="form-horizontal mt-4" th:action="@{/pieces/processAddPieceForm}"
+                                          method="post" th:object="${piece}">
+                                        <div class="form-group">
+                                            <label class="form-label" for="name">Piece Name</label>
+                                            <input type="text" id="name" class="form-control" th:field="*{name}" required autofocus="autofocus">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="composer">Composer</label>
+                                            <input type="text" id="composer" class="form-control" th:field="*{composer}" required autofocus="autofocus">
+                                        </div>
+                                        <div class="form-group row pt-3">
+                                            <h5 class="card-title">Select priority:</h5>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input"
+                                                               th:field="*{priority}" th:value="0">none
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input"
+                                                               th:field="*{priority}" th:value="1">low
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input"
+                                                               th:field="*{priority}" th:value="2">medium
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" class="form-check-input"
+                                                               th:field="*{priority}" th:value="3">high
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success me-2 text-white">Submit</button>
+                                        <span>No new piece?
+                                            <a href="/" th:href="@{/}">Go back home</a>
+                                        </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ---------------------
+                            end Add Piece Form
+                        ---------------- -->
                     </div>
-                    <!-- ---------------------
-                        end Add Piece Form
-                    ---------------- -->
                 </div>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
             </div>
             <!-- ============================================================== -->
-            <!-- End PAge Content -->
+            <!-- End Container fluid  -->
             <!-- ============================================================== -->
         </div>
         <!-- ============================================================== -->
-        <!-- End Container fluid  -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer class="footer">
+            © 2024 Musician Trainer by Michal Střondala
+        </footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
         <!-- ============================================================== -->
     </div>
     <!-- ============================================================== -->
-    <!-- End Page wrapper  -->
+    <!-- End Wrapper -->
     <!-- ============================================================== -->
     <!-- ============================================================== -->
-    <!-- footer -->
+    <!-- All Jquery -->
     <!-- ============================================================== -->
-    <footer class="footer">
-        © 2024 Musician Trainer by Michal Střondala
-    </footer>
+    <script src="/assets/node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/dist/js/custom.min.js"></script>
     <!-- ============================================================== -->
-    <!-- End footer -->
+    <!-- This page plugins -->
     <!-- ============================================================== -->
-</div>
-<!-- ============================================================== -->
-<!-- End Wrapper -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="/assets/node_modules/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap tether Core JavaScript -->
-<script src="/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<!-- slimscrollbar scrollbar JavaScript -->
-<script src="/dist/js/perfect-scrollbar.jquery.min.js"></script>
-<!--Wave Effects -->
-<script src="/dist/js/waves.js"></script>
-<!--Menu sidebar -->
-<script src="/dist/js/sidebarmenu.js"></script>
-<!--Custom JavaScript -->
-<script src="/dist/js/custom.min.js"></script>
-<!-- ============================================================== -->
-<!-- This page plugins -->
-<!-- ============================================================== -->
-<!--morris JavaScript -->
-<script src="/assets/node_modules/raphael/raphael-min.js"></script>
-<script src="/assets/node_modules/morrisjs/morris.min.js"></script>
-<script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
-<!-- Popup message jquery -->
-<script src="/assets/node_modules/toast-master/js/jquery.toast.js"></script>
-<!-- Chart JS -->
-<script src="/dist/js/dashboard1.js"></script>
-<script src="/assets/node_modules/toast-master/js/jquery.toast.js"></script>
+    <!--morris JavaScript -->
+    <script src="/assets/node_modules/raphael/raphael-min.js"></script>
+    <script src="/assets/node_modules/morrisjs/morris.min.js"></script>
+    <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!-- Chart JS -->
+    <script src="/dist/js/dashboard1.js"></script>
+
 </body>
 
 </html>

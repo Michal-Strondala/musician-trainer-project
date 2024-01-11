@@ -197,6 +197,7 @@ public class MainController {
 
         // Add the plan to the model
         model.addAttribute("myPlanViewModel", myPlanViewModel);
+        model.addAttribute("user", theUser);
 
         if (service != null) {
             service.shutdownExecutor();
