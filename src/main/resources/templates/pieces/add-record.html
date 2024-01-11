@@ -1,116 +1,347 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!--<head>-->
+<!--  <meta charset="utf-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--  <title>Musician Trainer Add Record</title>-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
+<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">-->
+<!--  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>-->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+<!--</head>-->
 
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
   <title>Musician Trainer Add Record</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+  <link href="/assets/node_modules/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+  <!-- Page plugins css -->
+  <link href="/assets/node_modules/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+  <!-- Color picker plugins css -->
+  <link href="/assets/node_modules/jquery-asColorPicker-master/dist/css/asColorPicker.css" rel="stylesheet">
+  <!-- Date picker plugins css -->
+  <link href="/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+  <!-- Daterange picker plugins css -->
+  <link href="/assets/node_modules/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+  <link href="/assets/node_modules/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/dist/css/style.min.css" rel="stylesheet">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
-<body>
-<h2>Musician Trainer</h2>
 
-<!-- navigation bar ( header) -->
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#" th:href="@{/user/showFormForEdit}">Edit profile</a>
-        </li>
-        <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
-          <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">Logout</a>
-          <form id="logout-form" th:action="@{/logout}" method="POST" style="display: none;"></form>
-        </li>
-      </ul>
+<body class="skin-blue fixed-layout">
+  <!-- ============================================================== -->
+  <!-- Preloader - style you can find in spinners.css -->
+  <!-- ============================================================== -->
+  <div class="preloader">
+    <div class="loader">
+      <div class="loader__figure"></div>
+      <p class="loader__label">Musician Trainer</p>
     </div>
   </div>
-</nav>
-<hr>
-
-<br>
-<br>
-<!-- HTML add record form -->
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <h1>
-        Add New Record
-      </h1>
-      <form th:action="@{/pieces/processAddRecordForm}" method="post" th:object="${piece}">
-
-        <!-- Select piece dropdown -->
-        <div class="form-group">
-          <label for="pieceId">Select Piece:</label>
-          <select class="form-control" id="pieceId" name="pieceId">
-            <option th:each="piece : ${pieces}" th:value="${piece.id}" th:text="${piece.name}"
-                    th:selected="${selectedPieceId != null && piece.id == selectedPieceId}"></option>
-          </select>
+  <!-- ============================================================== -->
+  <!-- Main wrapper - style you can find in pages.scss -->
+  <!-- ============================================================== -->
+  <div id="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <header class="topbar">
+      <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <!-- ============================================================== -->
+        <!-- Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" th:href="@{/}">
+            <!-- Logo icon --><b>
+            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+            <!-- Dark Logo icon -->
+            <img src="/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+            <!-- Light Logo icon -->
+            <img src="/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+          </b>
+            <!--End Logo icon -->
+            <!-- Logo text --><span>
+                           <!-- dark Logo text -->
+                           <img src="/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+            <!-- Light Logo text -->
+                           <img src="/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
         </div>
-        <!-- Select date and time -->
-        <div class="form-group">
-          <label for="date">Date:</label>
-          <div class="input-group date" id="datepickerRecord">
-            <input type="text" class="form-control" id="date" name="date" th:value="${#dates.format(#dates.createNow(), 'dd-MM-yyyy')}">
-            <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-        </span>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-collapse">
+          <!-- ============================================================== -->
+          <!-- toggle and nav items -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav me-auto">
+            <!-- This is  -->
+            <li class="nav-item"> <a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+            <li class="nav-item"> <a class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a> </li>
+          </ul>
+          <!-- ============================================================== -->
+          <!-- User profile and search -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav my-lg-0">
+            <!-- ============================================================== -->
+            <!-- User Profile -->
+            <!-- ============================================================== -->
+            <li class="nav-item dropdown u-pro">
+              <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class=""> <span class="hidden-md-down">Mark &nbsp;<i class="fa fa-angle-down"></i></span> </a>
+              <div class="dropdown-menu dropdown-menu-end animated flipInY">
+                <!-- text-->
+                <a href="#" th:href="@{/}" class="dropdown-item"><i class="ti-user"></i> My Dashboard</a>
+                <!-- text-->
+                <div class="dropdown-divider"></div>
+                <!-- text-->
+                <a href="#" th:href="@{/user/showFormForEdit}" class="dropdown-item"><i class="ti-settings"></i> Edit Profile</a>
+                <!-- text-->
+                <div class="dropdown-divider"></div>
+                <!-- text-->
+                <ul class="navbar-nav"> <!-- Add a ul wrapper -->
+                  <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                    <form id="logout-form1" th:action="@{/logout}" method="POST" style="display: none;"></form>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- ============================================================== -->
+            <!-- End User Profile -->
+            <!-- ============================================================== -->
+            <li class="nav-item right-side-toggle"> <a class="nav-link  waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+          <ul id="sidebarnav">
+            <li class="user-pro">
+              <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                  <span class="hide-menu">
+                      <div th:if="${user}">
+                          <p th:text="${user.name}"></p>
+                      </div>
+                  </span>
+              </a>
+              <ul aria-expanded="false" class="collapse">
+                <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
+                <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Add Record</a></li>
+                <li sec:authorize="isAuthenticated()">
+                  <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
+                    <i class="fa fa-power-off"></i> Logout</a>
+                  <form id="logout-form2" th:action="@{/logout}" method="POST" style="display: none;"></form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+      <!-- ============================================================== -->
+      <!-- Container fluid  -->
+      <!-- ============================================================== -->
+      <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="row page-titles">
+          <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">My Dashboard</h4>
+          </div>
+          <div class="col-md-7 align-self-center text-end">
+            <div class="d-flex justify-content-end align-items-center">
+              <ol class="breadcrumb justify-content-end">
+                <li class="breadcrumb-item"><a href="#" th:href="@{/}">Home > </a></li>
+              </ol>
+              <a role="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"
+                 th:href="@{/pieces/showAddPieceForm}">
+                <i class="fa fa-plus-circle"></i>
+                Create New Piece
+              </a>
+            </div>
           </div>
         </div>
-        <!-- Add a note -->
-        <div class="form-group">
-          <label for="note">Note:</label>
-          <textarea class="form-control" id="note" name="note" rows="3"></textarea>
-        </div>
-        <!-- Add button -->
-        <div class="form-group" style="margin-top: 10px;">
-          <button type="submit" class="btn btn-success btn-lg">Add</button>
-          <span>No new record?
-                            <a href="/" th:href="@{/}">Go back home</a>
-                        </span>
-        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+          <div class="col-12">
+            <!-- ---------------------
+                start Add Record Form
+            ---------------- -->
+            <!-- Check for error flash attribute and display error message -->
+            <div th:if="${error}">
+              <div class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card card-body">
+                  <h4 class="card-title">Add New Record</h4>
+                  <form class="form-horizontal mt-4" th:action="@{/pieces/processAddRecordForm}" method="post" th:object="${piece}">
 
-      </form>
+                    <!-- Select piece dropdown -->
+                    <div class="form-group">
+                      <label class="form-label" for="pieceId">Select Piece:</label>
+                      <select class="form-select col-12" id="pieceId" name="pieceId">
+                        <option th:each="piece : ${pieces}" th:value="${piece.id}" th:text="${piece.name}"
+                                th:selected="${selectedPieceId != null && piece.id == selectedPieceId}"></option>
+                      </select>
+                    </div>
+
+                    <!-- Select date and time -->
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="datepicker1">Date</label>
+                        <input type="text" class="form-control" id="datepicker1" name="date">
+                      </div>
+                    </div>
+
+                    <!-- Add a note -->
+                    <div class="form-group">
+                      <label class="form-label" for="note">Note:</label>
+                      <textarea class="form-control" rows="5" id="note" name="note"></textarea>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-success me-2 text-white">Submit</button>
+                    <span>No new record?
+                        <a href="/" th:href="@{/}">Go back home</a>
+                    </span>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- ---------------------
+                end Add Record Form
+            ---------------- -->
+          </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Container fluid  -->
+      <!-- ============================================================== -->
     </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer">
+      © 2024 Musician Trainer by Michal Střondala
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
   </div>
-</div>
+  <!-- ============================================================== -->
+  <!-- End Wrapper -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <script src="/assets/node_modules/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- slimscrollbar scrollbar JavaScript -->
+  <script src="/dist/js/perfect-scrollbar.jquery.min.js"></script>
+  <!--Wave Effects -->
+  <script src="/dist/js/waves.js"></script>
+  <!--Menu sidebar -->
+  <script src="/dist/js/sidebarmenu.js"></script>
+  <!--Custom JavaScript -->
+  <script src="/dist/js/custom.min.js"></script>
+  <!-- ============================================================== -->
+  <!-- This page plugins -->
+  <!-- ============================================================== -->
+  <!--morris JavaScript -->
+  <script src="/assets/node_modules/raphael/raphael-min.js"></script>
+  <script src="/assets/node_modules/morrisjs/morris.min.js"></script>
+  <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
+  <!-- Popup message jquery -->
+  <script src="/assets/node_modules/toast-master/js/jquery.toast.js"></script>
+  <!-- Chart JS -->
+  <script src="/dist/js/dashboard1.js"></script>
+  <script src="/assets/node_modules/toast-master/js/jquery.toast.js"></script>
+  <!-- ============================================================== -->
+  <!-- Plugins for this page -->
+  <!-- ============================================================== -->
+  <!-- Plugin JavaScript -->
+  <script src="/assets/node_modules/moment/moment.js"></script>
+  <script src="/assets/node_modules/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+  <!-- Clock Plugin JavaScript -->
+  <script src="/assets/node_modules/clockpicker/dist/jquery-clockpicker.min.js"></script>
+  <!-- Color Picker Plugin JavaScript -->
+  <script src="/assets/node_modules/jquery-asColor/dist/jquery-asColor.js"></script>
+  <script src="/assets/node_modules/jquery-asGradient/dist/jquery-asGradient.js"></script>
+  <script src="/assets/node_modules/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+  <!-- Date Picker Plugin JavaScript -->
+  <script src="/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <!-- Date range Plugin JavaScript -->
+  <script src="/assets/node_modules/timepicker/bootstrap-timepicker.min.js"></script>
+  <script src="/assets/node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+  <script>
+    $(document).ready(function() {
+      var date = new Date();
+      var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-<script th:inline="javascript">
-  function formatDate(date) {
-        return moment(date).format("DD-MM-YYYY");
-    }
-
-      $(function () {
-        $('#datepickerRecord').datetimepicker({
-            format: 'DD-MM-YYYY',
-            showClear: true,
-            icons: {
-                date: 'glyphicon glyphicon-calendar',
-                up: 'glyphicon glyphicon-chevron-up',
-                down: 'glyphicon glyphicon-chevron-down',
-                previous: 'glyphicon glyphicon-chevron-left',
-                next: 'glyphicon glyphicon-chevron-right',
-                today: 'glyphicon glyphicon-screenshot',
-                clear: 'glyphicon glyphicon-trash',
-                close: 'glyphicon glyphicon-remove'
-            }
-        });
+    $('#datepicker1').datepicker({
+      format: "dd-mm-yyyy",
+      todayHighlight: true,
+      endDate: end,
+      autoclose: true,
+      todayBtn: "linked"
     });
-</script>
-</script>
 
+    $('#datepicker1').datepicker('setDate', today);
+    });
+  </script>
 </body>
+
 </html>
