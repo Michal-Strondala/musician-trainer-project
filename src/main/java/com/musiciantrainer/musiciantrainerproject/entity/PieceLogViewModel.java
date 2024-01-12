@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+
 @AllArgsConstructor
 @Getter
 @Setter
-public class HomePageViewModel {
+public class PieceLogViewModel {
 
-    private List<Piece> pieces;
-
-
+    private List<PieceLog> pieceLogs;
 }

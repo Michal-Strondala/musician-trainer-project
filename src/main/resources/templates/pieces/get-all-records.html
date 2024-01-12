@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
+  <title>Musician Trainer All Records</title>
+  <!-- This page CSS -->
+  <!-- chartist CSS -->
+  <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
+  <!--Toaster Popup message CSS -->
+  <link href="/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/dist/css/style.min.css" rel="stylesheet">
+  <!-- Dashboard 1 Page CSS -->
+  <link href="/dist/css/pages/dashboard1.css" rel="stylesheet">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="skin-blue fixed-layout">
+  <!-- ============================================================== -->
+  <!-- Preloader - style you can find in spinners.css -->
+  <!-- ============================================================== -->
+  <div class="preloader">
+    <div class="loader">
+      <div class="loader__figure"></div>
+      <p class="loader__label">Musician Trainer</p>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- Main wrapper - style you can find in pages.scss -->
+  <!-- ============================================================== -->
+  <div id="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <header class="topbar">
+      <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <!-- ============================================================== -->
+        <!-- Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" th:href="@{/}">
+            <!-- Logo icon --><b>
+            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+            <!-- Dark Logo icon -->
+            <img src="/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+            <!-- Light Logo icon -->
+            <img src="/assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+          </b>
+            <!--End Logo icon -->
+            <!-- Logo text --><span>
+                           <!-- dark Logo text -->
+                           <img src="/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+            <!-- Light Logo text -->
+                           <img src="/assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-collapse">
+          <!-- ============================================================== -->
+          <!-- toggle and nav items -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav me-auto">
+            <!-- This is  -->
+            <li class="nav-item"> <a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+            <li class="nav-item"> <a class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a> </li>
+          </ul>
+          <!-- ============================================================== -->
+          <!-- User profile and search -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav my-lg-0">
+            <!-- ============================================================== -->
+            <!-- User Profile -->
+            <!-- ============================================================== -->
+            <li class="nav-item dropdown u-pro">
+              <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-bs-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false">
+                <img src="/assets/images/users/1.jpg" alt="user" class="">
+                <span class="hidden-md-down">
+                                      <span th:text="${user.name}" th:if="${user}"></span>
+                                      <i class="fa fa-angle-down"></i>
+                                  </span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end animated flipInY">
+                <!-- text-->
+                <a href="#" th:href="@{/}" class="dropdown-item"><i class="ti-user"></i> My Dashboard</a>
+                <!-- text-->
+                <div class="dropdown-divider"></div>
+                <!-- text-->
+                <a href="#" th:href="@{/user/showFormForEdit}" class="dropdown-item"><i class="ti-settings"></i> Edit Profile</a>
+                <!-- text-->
+                <div class="dropdown-divider"></div>
+                <!-- text-->
+                <ul class="navbar-nav"> <!-- Add a ul wrapper -->
+                  <li sec:authorize="isAuthenticated()"> <!-- sec: is a Thymeleaf Security feature -->
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form1').submit();" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                    <form id="logout-form1" th:action="@{/logout}" method="POST" style="display: none;"></form>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <!-- ============================================================== -->
+            <!-- End User Profile -->
+            <!-- ============================================================== -->
+            <li class="nav-item right-side-toggle"> <a class="nav-link  waves-effect waves-light" href="javascript:void(0)"><i class="ti-settings"></i></a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+          <ul id="sidebarnav">
+            <li class="user-pro">
+              <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                  <span class="hide-menu">
+                                      <div th:if="${user}">
+                                          <p th:text="${user.name}"></p>
+                                      </div>
+                                  </span>
+              </a>
+              <ul aria-expanded="false" class="collapse">
+                <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
+                <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
+                <li sec:authorize="isAuthenticated()">
+                  <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
+                    <i class="fa fa-power-off"></i> Logout</a>
+                  <form id="logout-form2" th:action="@{/logout}" method="POST" style="display: none;"></form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+      <!-- ============================================================== -->
+      <!-- Container fluid  -->
+      <!-- ============================================================== -->
+      <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="row page-titles">
+          <div class="col-md-5 align-self-center">
+            <h4 class="text-themecolor">All My Records</h4>
+          </div>
+          <div class="col-md-7 align-self-center text-end">
+            <div class="d-flex justify-content-end align-items-center">
+              <ol class="breadcrumb justify-content-end">
+                <li class="breadcrumb-item"><a href="#" th:href="@{/}">Home > </a></li>
+              </ol>
+              <a role="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"
+                 th:href="@{/pieces/showAddPieceForm}">
+                <i class="fa fa-plus-circle"></i>
+                Create New Piece
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+          <div class="col-12">
+            <!-- ---------------------
+                start My Pieces Dashboard Stack Table
+            ---------------- -->
+            <div class="card">
+              <div class="card-body">
+                <div class="row pb-2">
+                  <div class="col-md-auto">
+                    <!-- My Pieces Dashboard -->
+                    <h4 class="card-title">My Records Dashboard</h4>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="tablesaw no-wrap table-bordered table-hover table" data-tablesaw-mode="stack">
+                    <thead>
+                    <!-- start row -->
+                    <tr>
+                      <th scope="col" data-tablesaw-priority="persist" class="border">Piece Name</th>
+                      <th scope="col" data-tablesaw-priority="persist" class="border">Record Date</th>
+                      <th scope="col" data-tablesaw-priority="1" class="border">Note</th>
+                    </tr> <!-- end row -->
+                    </thead>
+                    <tbody>
+                    <!-- start row -->
+                    <tr th:each="tempPieceLog : ${pieceLogViewModel.pieceLogs}">
+                      <td class="title" th:text="${tempPieceLog.piece.name}"></td>
+                      <td th:text="${tempPieceLog.date}"></td>
+                      <td th:text="${tempPieceLog.note}"></td>
+                    </tr>
+                    <!-- end row -->
+                    </tbody>
+                  </table>
+                  <div th:if="${#lists.isEmpty(pieceLogViewModel.pieceLogs)}">
+                    <p>No records added yet.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ---------------------
+                end My Pieces Dashboard Stack Table
+            ---------------- -->
+          </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End PAge Content -->
+        <!-- ============================================================== -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Container fluid  -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer">
+      © 2024 Musician Trainer by Michal Střondala
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Wrapper -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <script src="/assets/node_modules/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="/assets/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- slimscrollbar scrollbar JavaScript -->
+  <script src="/dist/js/perfect-scrollbar.jquery.min.js"></script>
+  <!--Wave Effects -->
+  <script src="/dist/js/waves.js"></script>
+  <!--Menu sidebar -->
+  <script src="/dist/js/sidebarmenu.js"></script>
+  <!--Custom JavaScript -->
+  <script src="/dist/js/custom.min.js"></script>
+  <!-- ============================================================== -->
+  <!-- This page plugins -->
+  <!-- ============================================================== -->
+  <!--morris JavaScript -->
+  <script src="/assets/node_modules/raphael/raphael-min.js"></script>
+  <script src="/assets/node_modules/morrisjs/morris.min.js"></script>
+  <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
+  <!-- Chart JS -->
+  <script src="/dist/js/dashboard1.js"></script>
+
+</body>
+
+</html>
