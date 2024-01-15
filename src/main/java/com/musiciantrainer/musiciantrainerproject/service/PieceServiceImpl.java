@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musiciantrainer.musiciantrainerproject.dao.PieceDao;
 import com.musiciantrainer.musiciantrainerproject.dto.PieceDto;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
+import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +67,17 @@ public class PieceServiceImpl implements PieceService{
                 .thenComparing(Piece::getNumberOfDaysPassed, Comparator.reverseOrder())
                 .thenComparing(Piece::getNumberOfTimesTrained));
         return pieces;
+    }
+
+    @Override
+    public List<PieceLog> getPieceLogsByPieceIdOrderedByDate(Long pieceId) {
+        Piece piece = getPieceById(pieceId);
+        if (piece != null) {
+            List<PieceLog> pieceLogs = piece.getPieceLogs();
+            pieceLogs.sort(Comparator.comparing(PieceLog::getDate, Comparator.reverseOrder()));
+            return pieceLogs;
+        }
+        return Collections.emptyList();
     }
 
     @Override

@@ -135,11 +135,11 @@
           <ul id="sidebarnav">
             <li class="user-pro">
               <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                                  <span class="hide-menu">
-                                      <div th:if="${user}">
-                                          <p th:text="${user.name}"></p>
-                                      </div>
-                                  </span>
+                <span class="hide-menu">
+                    <div th:if="${user}">
+                        <p th:text="${user.name}"></p>
+                    </div>
+                </span>
               </a>
               <ul aria-expanded="false" class="collapse">
                 <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
@@ -212,22 +212,22 @@
                     <thead>
                     <!-- start row -->
                     <tr>
-                      <th scope="col" data-tablesaw-priority="persist" class="border">Piece Name</th>
                       <th scope="col" data-tablesaw-priority="persist" class="border">Record Date</th>
                       <th scope="col" data-tablesaw-priority="1" class="border">Note</th>
                     </tr> <!-- end row -->
                     </thead>
                     <tbody>
                     <!-- start row -->
-                    <tr th:each="tempPieceLog : ${pieceLogViewModel.pieceLogs}">
-                      <td class="title" th:text="${tempPieceLog.piece.name}"></td>
-                      <td th:text="${tempPieceLog.date}"></td>
-                      <td th:text="${tempPieceLog.note}"></td>
+                    <tr th:each="tempPieceLog : ${pieceLogs}">
+                      <!-- Check if tempPiece is not null before accessing its properties -->
+                      <td th:if="${tempPieceLog != null}" th:text="${tempPieceLog.date}"></td>
+                      <td th:if="${tempPieceLog != null}" th:text="${tempPieceLog.note}"></td>
+                      <!-- Add more columns as needed -->
                     </tr>
                     <!-- end row -->
                     </tbody>
                   </table>
-                  <div th:if="${#lists.isEmpty(pieceLogViewModel.pieceLogs)}">
+                  <div th:if="${#lists.isEmpty(pieceLogs)}">
                     <p>No records added yet.</p>
                   </div>
                 </div>

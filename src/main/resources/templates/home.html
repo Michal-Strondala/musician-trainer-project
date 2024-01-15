@@ -258,8 +258,13 @@
                                             <td>
                                                 <a th:if="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
                                                 <a th:unless="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
-                                            </td>
-                                            <!-- Add edit button link -->
+
+                                                <a th:if="${pieceId != null}" th:href="@{/pieces/getAllRecords(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View All Records</a>
+                                                <a th:unless="${pieceId != null}" th:href="@{/pieces/getAllRecords(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View All Records</a>
+
+                                                <!--<a th:href="@{/pieces/getAllRecords(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View All Records</a>-->
+                                           </td>
+                                           <!-- Add edit button link -->
                                             <td>
                                                 <a th:href="@{/pieces/showFormForEdit(pieceId=${tempPiece.id})}"
                                                    class="btn btn-info btn-sm">

@@ -1,5 +1,6 @@
 package com.musiciantrainer.musiciantrainerproject.controller;
 
+import com.musiciantrainer.musiciantrainerproject.entity.HomePageViewModel;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
@@ -217,6 +218,42 @@ public class PieceController {
         redirectAttributes.addFlashAttribute("success", true);
 
         return "redirect:/?recordSuccess"; // When the record is added successfully, it will show a success message
+    }
+
+    @GetMapping("/getAllRecords")
+    public String getAllRecords(@RequestParam(name = "pieceId", required = false) Long pieceId,
+                                    Model theModel, Principal principal) {
+        // Get the currently authenticated user's email (username in your case)
+        String email = principal.getName();
+
+        // Get the user from the service based on the email
+        User theUser = userService.findUserByEmail(email);
+
+        // Set user in the model to prepopulate the form
+        theModel.addAttribute("user", theUser);
+
+        // Get the pieces from the service based on the user
+        List<Piece> thePieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
+
+        // Add pieces to the model for the form
+        theModel.addAttribute("pieces", thePieces);
+
+        // Get the pieces from the service based on the user
+        List<PieceLog> thePieceLogs = pieceService.getPieceLogsByPieceIdOrderedByDate(pieceId);
+
+        // Add pieceLogs to the model for the form
+        theModel.addAttribute("pieceLogs", thePieceLogs);
+
+        // Add an empty WebUser object to the model for the form
+        theModel.addAttribute("webUser", new WebUser());
+
+        if (pieceId != null) {
+            // Pre-select a specific piece
+            theModel.addAttribute("pieceId", pieceId);
+        }
+
+        // Send over to our form
+        return "pieces/get-all-records";
     }
 
 }
