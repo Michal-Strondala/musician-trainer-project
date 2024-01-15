@@ -31,6 +31,15 @@ public class DateUtil {
         }
     }
 
+    public static String createFormattedRecordDate(LocalDate theDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        if (theDate != null) {
+            return theDate.format(formatter);
+        } else {
+            return "No record date yet";
+        }
+    }
+
     public static long calculateNumberOfDaysPassed(List<PieceLog> pieceLogs) {
         LocalDate today = LocalDate.now();
         LocalDate lastTrainingDate = calculateLastTrainingDate(pieceLogs);

@@ -10,10 +10,7 @@ import com.musiciantrainer.musiciantrainerproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,10 +67,33 @@ public class PieceServiceImpl implements PieceService{
     }
 
     @Override
+    public List<Piece> getPiecesByUser(User theUser) {
+
+        return pieceDao.findByUser(theUser);
+    }
+
+    @Override
     public List<PieceLog> getPieceLogsByPieceIdOrderedByDate(Long pieceId) {
         Piece piece = getPieceById(pieceId);
+
         if (piece != null) {
             List<PieceLog> pieceLogs = piece.getPieceLogs();
+            pieceLogs.sort(Comparator.comparing(PieceLog::getDate, Comparator.reverseOrder()));
+            return pieceLogs;
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<PieceLog> getPieceLogsByUserOrderedByDate(User theUser) {
+        List<Piece> pieceList = getPiecesByUser(theUser);
+        List<PieceLog> pieceLogs = new ArrayList<>();
+
+        if (!pieceList.isEmpty()) {
+            for (Piece thePiece : pieceList) {
+                pieceLogs.addAll(thePiece.getPieceLogs());
+            }
+
             pieceLogs.sort(Comparator.comparing(PieceLog::getDate, Comparator.reverseOrder()));
             return pieceLogs;
         }
@@ -96,6 +116,7 @@ public class PieceServiceImpl implements PieceService{
 
         return thePiece;
     }
+
 
     @Override
     public String getPiecesDtoAsJsonString(User theUser) {

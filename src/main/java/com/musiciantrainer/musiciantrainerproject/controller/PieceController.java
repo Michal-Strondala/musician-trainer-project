@@ -1,9 +1,6 @@
 package com.musiciantrainer.musiciantrainerproject.controller;
 
-import com.musiciantrainer.musiciantrainerproject.entity.HomePageViewModel;
-import com.musiciantrainer.musiciantrainerproject.entity.Piece;
-import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
-import com.musiciantrainer.musiciantrainerproject.entity.User;
+import com.musiciantrainer.musiciantrainerproject.entity.*;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
 import com.musiciantrainer.musiciantrainerproject.user.WebUser;
@@ -220,8 +217,8 @@ public class PieceController {
         return "redirect:/?recordSuccess"; // When the record is added successfully, it will show a success message
     }
 
-    @GetMapping("/getAllRecords")
-    public String getAllRecords(@RequestParam(name = "pieceId", required = false) Long pieceId,
+    @GetMapping("/getRecordsByPiece")
+    public String getRecordsByPiece(@RequestParam(name = "pieceId", required = false) Long pieceId,
                                     Model theModel, Principal principal) {
         // Get the currently authenticated user's email (username in your case)
         String email = principal.getName();
@@ -253,7 +250,30 @@ public class PieceController {
         }
 
         // Send over to our form
-        return "pieces/get-all-records";
+        return "pieces/get-records-by-piece";
+    }
+
+    @GetMapping("/getAllRecords")
+    public String getAllRecords(Model theModel, Principal principal) {
+        // Get the currently authenticated user's email (username in your case)
+        String email = principal.getName();
+
+        // Get the user from the service based on the email
+        User theUser = userService.findUserByEmail(email);
+
+        // Set user in the model to prepopulate the form
+        theModel.addAttribute("user", theUser);
+
+
+        List<PieceLog> pieceLogs = pieceService.getPieceLogsByUserOrderedByDate(theUser);
+        PieceLogViewModel thePieceLogViewModel = new PieceLogViewModel(pieceLogs);
+
+        theModel.addAttribute("pieceLogViewModel", thePieceLogViewModel);
+
+        return "pieces/get-all-records"; // This is a Thymeleaf template name
+
+
+
     }
 
 }

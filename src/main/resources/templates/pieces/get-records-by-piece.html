@@ -11,7 +11,7 @@
   <meta name="author" content="">
   <!-- Favicon icon -->
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
-  <title>Musician Trainer All Records</title>
+  <title>Musician Trainer Records By Piece</title>
   <!-- This page CSS -->
   <!-- chartist CSS -->
   <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -203,7 +203,7 @@
               <div class="card-body">
                 <div class="row pb-2">
                   <div class="col-md-auto">
-                    <!-- My Records Dashboard -->
+                    <!-- My Pieces Dashboard -->
                     <h4 class="card-title">My Records Dashboard</h4>
                   </div>
                 </div>
@@ -212,30 +212,29 @@
                     <thead>
                     <!-- start row -->
                     <tr>
-                      <th scope="col" data-tablesaw-priority="persist" class="border">Piece Name
-                      </th>
-                      <th scope="col" data-tablesaw-priority="persist" class="border col-sm-1">Date</th>
-                      <th scope="col" data-tablesaw-priority="persist" class="border">Note</th>
+                      <th scope="col" data-tablesaw-priority="persist" class="border col-sm-1">Record Date</th>
+                      <th scope="col" data-tablesaw-priority="1" class="border">Note</th>
                     </tr> <!-- end row -->
                     </thead>
                     <tbody>
                     <!-- start row -->
-                    <tr th:each="tempPieceLog : ${pieceLogViewModel.pieceLogs}">
-                      <td class="title" th:text="${tempPieceLog.piece.name}"></td>
-                      <td th:text="${tempPieceLog.getFormattedRecordDate}"></td>
-                      <td th:text="${tempPieceLog.note}"></td>
+                    <tr th:each="tempPieceLog : ${pieceLogs}">
+                      <!-- Check if tempPiece is not null before accessing its properties -->
+                      <td th:if="${tempPieceLog != null}" th:text="${tempPieceLog.getFormattedRecordDate}"></td>
+                      <td th:if="${tempPieceLog != null}" th:text="${tempPieceLog.note}"></td>
+                      <!-- Add more columns as needed -->
                     </tr>
                     <!-- end row -->
                     </tbody>
                   </table>
-                  <div th:if="${#lists.isEmpty(pieceLogViewModel.pieceLogs)}">
+                  <div th:if="${#lists.isEmpty(pieceLogs)}">
                     <p>No records added yet.</p>
                   </div>
                 </div>
               </div>
             </div>
             <!-- ---------------------
-                end My Records Dashboard Stack Table
+                end My Pieces Dashboard Stack Table
             ---------------- -->
           </div>
         </div>

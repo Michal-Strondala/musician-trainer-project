@@ -12,4 +12,5 @@ import java.util.List;
 public class PieceLogViewModel {
 
     private List<PieceLog> pieceLogs;
+
 }

@@ -13,7 +13,11 @@ public interface PieceService  {
     void editPiece(Piece editedPiece, User theUser); // Aktualizace skladby
     List<Piece> getPiecesByUserOrderedByPriorityAndDaysPassed(User theUser);
 
+    List<Piece> getPiecesByUser(User theUser);
+
     List<PieceLog> getPieceLogsByPieceIdOrderedByDate(Long pieceId);
+
+    List<PieceLog> getPieceLogsByUserOrderedByDate(User theUser);
 
     Piece getPieceById(Long theId);
     String getPiecesDtoAsJsonString(User theUser);

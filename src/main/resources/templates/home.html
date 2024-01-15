@@ -201,10 +201,10 @@
                         ---------------- -->
                         <div class="card">
                             <div class="card-body">
-                                <div class="row pb-2">
+                                <div class="row pb-2 align-items-center">
                                     <div class="col-md-auto">
                                         <!-- My Pieces Dashboard -->
-                                        <h4 class="card-title">My Pieces Dashboard</h4>
+                                        <h4 class="card-title pb-0">My Pieces Dashboard</h4>
                                     </div>
                                     <div class="col-md-auto">
                                         <!-- Button Dropdown -->
@@ -221,6 +221,11 @@
                                             </div>
                                         </form>
                                     </div>
+                                    <div class="col-md-auto">
+                                        <a th:href="@{/pieces/getAllRecords}" class="btn btn-success">
+                                            View All Records
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="tablesaw no-wrap table-bordered table-hover table" data-tablesaw-mode="stack">
@@ -232,10 +237,10 @@
                                             <th scope="col" data-tablesaw-sortable-default-col data-tablesaw-priority="1"
                                                 class="border">Composer</th>
                                             <th scope="col" data-tablesaw-priority="4" class="border">Priority</th>
-                                            <th scope="col" data-tablesaw-priority="3" class="border">Last training</th>
+                                            <th scope="col" data-tablesaw-priority="3" class="border col-sm-1">Last training</th>
                                             <th scope="col" data-tablesaw-priority="2" class="border">
                                                 Number of days since the last training</th>
-                                            <th scope="col" data-tablesaw-priority="2" class="border">
+                                            <th scope="col" data-tablesaw-priority="2" class="border col-sm-1">
                                                 <abbr title="Number of times trained">Trained</abbr></th>
                                             <th scope="col" data-tablesaw-priority="persist" class="border">Add record</th>
                                             <th scope="col" data-tablesaw-priority="persist" class="border">Edit</th>
@@ -259,10 +264,8 @@
                                                 <a th:if="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
                                                 <a th:unless="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id})}" class="btn btn-primary btn-sm">Add</a>
 
-                                                <a th:if="${pieceId != null}" th:href="@{/pieces/getAllRecords(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View All Records</a>
-                                                <a th:unless="${pieceId != null}" th:href="@{/pieces/getAllRecords(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View All Records</a>
-
-                                                <!--<a th:href="@{/pieces/getAllRecords(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View All Records</a>-->
+                                                <a th:if="${pieceId != null}" th:href="@{/pieces/getRecordsByPiece(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View Records</a>
+                                                <a th:unless="${pieceId != null}" th:href="@{/pieces/getRecordsByPiece(pieceId=${tempPiece.id})}" class="btn btn-success btn-sm">View Records</a>
                                            </td>
                                            <!-- Add edit button link -->
                                             <td>

@@ -1,5 +1,6 @@
 package com.musiciantrainer.musiciantrainerproject.entity;
 
+import com.musiciantrainer.musiciantrainerproject.utilities.DateUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,4 +40,9 @@ public class PieceLog {
         this.date = date;
         this.note = note;
     }
+
+    public String getFormattedRecordDate() {
+        return DateUtil.createFormattedRecordDate(this.date);
+    }
+
 }
