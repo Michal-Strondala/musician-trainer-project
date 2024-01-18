@@ -35,4 +35,13 @@ public class PlanPiece {
         this.minutes = minutes;
         this.isDone = isDone;
     }
+
+    public void setPiece(Piece piece) {
+        if (this.piece != piece) {
+            this.piece = piece;
+            if (piece != null) {
+                piece.getPlanPieces().add(this);
+            }
+        }
+    }
 }

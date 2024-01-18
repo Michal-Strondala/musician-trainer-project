@@ -8,13 +8,13 @@
 --
 -- Default passwords here are: fun123
 --
-INSERT IGNORE INTO User (email, password) VALUES ('john@john.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi');
-INSERT IGNORE INTO User (email, password) VALUES ('mary@mary.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi');
+INSERT IGNORE INTO user (email, password) VALUES ('john@john.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi');
+INSERT IGNORE INTO user (email, password) VALUES ('mary@mary.com','$2a$10$t90CmbfCiJ.Fxm5ckIFiDepXrVp/Q9Onvp4sU9Aro6xnEP1WAD7fi');
 --
 -- Dumping initial data for table `role`
 --
-INSERT IGNORE INTO Role (role_name) VALUES ('ROLE_USER');
-INSERT IGNORE INTO Role (role_name) VALUES ('ROLE_ADMIN');
+INSERT IGNORE INTO role (role_name) VALUES ('ROLE_USER');
+INSERT IGNORE INTO role (role_name) VALUES ('ROLE_ADMIN');
 --
 -- Dumping initial data for table `users_roles`
 --

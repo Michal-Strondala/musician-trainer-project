@@ -81,11 +81,13 @@ public class Piece {
 
     // Convenience method to add PlanPiece
     public void addPlanPiece(PlanPiece planPiece) {
-        if (planPieces == null) {
-            planPieces = new ArrayList<>();
+        if (planPiece != null) {
+            if (planPieces == null) {
+                planPieces = new ArrayList<>();
+            }
+            planPieces.add(planPiece);
+            planPiece.setPiece(this);
         }
-        planPieces.add(planPiece);
-        planPiece.setPiece(this);
     }
 
     // utility methods

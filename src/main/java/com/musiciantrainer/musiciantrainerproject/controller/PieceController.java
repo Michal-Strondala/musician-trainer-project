@@ -112,25 +112,34 @@ public class PieceController {
         User theUser = userService.findUserByEmail(authentication.getName());
 
         try {
-            // save the piece
-            pieceService.editPiece(thePiece, theUser);
+            // Fetch the existing piece from the database
+            Piece existingPiece = pieceService.getPieceById(thePiece.getId());
+
+            // Check if the existing piece exists and belongs to the authenticated user
+            if (existingPiece == null || !existingPiece.getUser().equals(theUser)) {
+                // Handle the error appropriately
+                return "redirect:/error";
+            }
+
+            // Update the existing piece with the modified values
+            existingPiece.setName(thePiece.getName());
+            existingPiece.setComposer(thePiece.getComposer());
+            existingPiece.setPriority(thePiece.getPriority());
+
+            // Edit the piece
+            pieceService.editPiece(existingPiece, theUser);
 
             // Add a success message to be displayed on the redirected page
             redirectAttributes.addFlashAttribute("successEdit", true);
 
         } catch (DataIntegrityViolationException exception) {
-
             // Handle unique constraint violation (piece name already exists)
             redirectAttributes.addFlashAttribute("error", "Piece with the same name already exists.");
-
-            // Add the piece ID to the flash attributes to identify which piece was being edited
             redirectAttributes.addFlashAttribute("pieceId", thePiece.getId());
-
-            return "redirect:/pieces/showFormForEdit?pieceId=" + thePiece.getId(); // Redirect to showFormForEdit form
+            return "redirect:/pieces/showFormForEdit?pieceId=" + thePiece.getId();
         }
 
-
-        // use the redirect to prevent duplicate submissions
+        // Use the redirect to prevent duplicate submissions
         return "redirect:/";
     }
 
