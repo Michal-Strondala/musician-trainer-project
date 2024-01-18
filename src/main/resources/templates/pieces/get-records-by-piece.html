@@ -27,6 +27,12 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        #note {
+            white-space: pre-line;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 
 <body class="skin-blue fixed-layout">
@@ -239,7 +245,9 @@
                                         <!-- Check if tempPiece is not null before accessing its properties -->
                                         <td th:if="${tempPieceLog != null}"
                                             th:text="${tempPieceLog.getFormattedRecordDate}"></td>
-                                        <td th:if="${tempPieceLog != null}" th:text="${tempPieceLog.note}"></td>
+                                        <td>
+                                            <div th:if="${tempPieceLog != null}" th:utext="${tempPieceLog.note}" id="note"></div>
+                                        </td>
                                         <!-- Add more columns as needed -->
                                     </tr>
                                     <!-- end row -->
