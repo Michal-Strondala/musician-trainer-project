@@ -3,6 +3,7 @@ package com.musiciantrainer.musiciantrainerproject.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.musiciantrainer.musiciantrainerproject.dao.PieceDao;
+import com.musiciantrainer.musiciantrainerproject.dao.PieceLogDao;
 import com.musiciantrainer.musiciantrainerproject.dto.PieceDto;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
@@ -18,12 +19,14 @@ public class PieceServiceImpl implements PieceService{
 
     private PieceConversionService pieceConversionService;
     private PieceDao pieceDao;
+    private PieceLogDao pieceLogDao;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public PieceServiceImpl(PieceConversionService pieceConversionService, PieceDao pieceDao, ObjectMapper objectMapper) {
+    public PieceServiceImpl(PieceConversionService pieceConversionService, PieceDao pieceDao, PieceLogDao pieceLogDao, ObjectMapper objectMapper) {
         this.pieceConversionService = pieceConversionService;
         this.pieceDao = pieceDao;
+        this.pieceLogDao = pieceLogDao;
         this.objectMapper = objectMapper;
     }
 
@@ -143,5 +146,20 @@ public class PieceServiceImpl implements PieceService{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public PieceLog getPieceLogById(Long pieceLogId) {
+        return pieceLogDao.findById(pieceLogId).orElse(null);
+    }
+
+    @Override
+    public void editPieceLog(PieceLog editedPieceLog) {
+        pieceLogDao.save(editedPieceLog);
+    }
+
+    @Override
+    public void deletePieceLog(Long pieceLogId) {
+        pieceLogDao.deleteById(pieceLogId);
     }
 }

@@ -11,7 +11,7 @@
   <meta name="author" content="">
   <!-- Favicon icon -->
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
-  <title>Musician Trainer All Records</title>
+  <title>Musician Trainer Edit Record</title>
   <!-- This page CSS -->
   <!-- chartist CSS -->
   <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -32,9 +32,8 @@
             white-space: pre-line;
             word-wrap: break-word;
         }
-    </style>
+  </style>
 </head>
-
 <body class="skin-blue fixed-layout">
   <!-- ============================================================== -->
   <!-- Preloader - style you can find in spinners.css -->
@@ -68,10 +67,10 @@
           </b>
             <!--End Logo icon -->
             <!-- Logo text --><span>
-                         <!-- dark Logo text -->
-                         <img src="/assets/images/musiciantrainer-logo-text.png" alt="homepage" class="dark-logo" />
+                           <!-- dark Logo text -->
+                           <img src="/assets/images/musiciantrainer-logo-text.png" alt="homepage" class="dark-logo" />
             <!-- Light Logo text -->
-                         <img src="/assets/images/musiciantrainer-logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+                           <img src="/assets/images/musiciantrainer-logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
@@ -141,11 +140,11 @@
           <ul id="sidebarnav">
             <li class="user-pro">
               <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                <span class="hide-menu">
-                    <div th:if="${user}">
-                        <p th:text="${user.name}"></p>
-                    </div>
-                </span>
+                                  <span class="hide-menu">
+                                      <div th:if="${user}">
+                                          <p th:text="${user.name}"></p>
+                                      </div>
+                                  </span>
               </a>
               <ul aria-expanded="false" class="collapse">
                 <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
@@ -179,7 +178,7 @@
         <!-- ============================================================== -->
         <div class="row page-titles">
           <div class="col-md-5 align-self-center">
-            <h4 class="text-themecolor">All My Records</h4>
+            <h4 class="text-themecolor">My Dashboard</h4>
           </div>
           <div class="col-md-7 align-self-center text-end">
             <div class="d-flex justify-content-end align-items-center">
@@ -203,55 +202,60 @@
         <div class="row">
           <div class="col-12">
             <!-- ---------------------
-                start My Pieces Dashboard Stack Table
+                start Edit Record Form
             ---------------- -->
-            <div class="card">
-              <div class="card-body">
-                <div class="row pb-2">
-                  <div class="col-md-auto">
-                    <!-- My Records Dashboard -->
-                    <h4 class="card-title">My Records Dashboard</h4>
-                  </div>
-                </div>
-                <div class="table-responsive">
-                  <table class="tablesaw no-wrap table-bordered table-hover table" data-tablesaw-mode="stack">
-                    <thead>
-                    <!-- start row -->
-                    <tr>
-                      <th scope="col" data-tablesaw-priority="persist" class="border">Piece Name
-                      </th>
-                      <th scope="col" data-tablesaw-priority="persist" class="border col-sm-1">Date</th>
-                      <th scope="col" data-tablesaw-priority="persist" class="border">Note</th>
-                      <th scope="col" data-tablesaw-priority="persist" class="border">Edit Record</th>
-                    </tr> <!-- end row -->
-                    </thead>
-                    <tbody>
-                    <!-- start row -->
-                    <tr th:each="tempPieceLog : ${pieceLogViewModel.pieceLogs}">
-                      <td class="title" th:text="${tempPieceLog.piece.name}"></td>
-                      <td th:text="${tempPieceLog.getFormattedRecordDate}"></td>
-                      <td>
-                        <div th:utext="${tempPieceLog.note}" id="note"></div>
-                      </td>
-                      <!-- Add edit button link -->
-                      <td>
-                        <a th:href="@{/pieces/showEditRecordForm(pieceLogId=${tempPieceLog.id},source='all')}"
-                           class="btn btn-info btn-sm">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                    <!-- end row -->
-                    </tbody>
-                  </table>
-                  <div th:if="${#lists.isEmpty(pieceLogViewModel.pieceLogs)}">
-                    <p>No records added yet.</p>
-                  </div>
+            <!-- Check for error flash attribute and display error message -->
+            <div th:if="${error}">
+              <div class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="card card-body">
+                  <h4 class="card-title">Edit Record Form</h4>
+                  <form class="form-horizontal mt-4" th:action="@{/pieces/processEditRecordForm}"
+                        th:object="${pieceLog}" method="POST">
+                    <!-- Add hidden form field to handle the edit -->
+                    <!-- This binds to the model attribute and tells your app which piece to edit -->
+                    <input type="hidden" th:field="*{id}" />
+
+                    <!-- Select piece dropdown -->
+                    <div class="form-group">
+                      <label class="form-label" for="pieceId">Select Piece:</label>
+                      <select class="form-select col-12" id="pieceId" name="pieceId">
+                        <option th:each="piece : ${pieces}" th:value="${piece.id}" th:text="${piece.name}"
+                                th:selected="${selectedPieceId != null && piece.id == selectedPieceId}"></option>
+                      </select>
+                    </div>
+
+                    <!-- Select date and time -->
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="datepicker1">Date</label>
+                        <input type="text" class="form-control" id="datepicker1" name="date" th:value="${pieceLog.date}">
+                      </div>
+                    </div>
+
+                    <!-- Edit a note -->
+                    <div class="form-group">
+                      <label class="form-label" for="note">Note:</label>
+                      <textarea class="form-control" rows="5" id="note" name="note" th:text="${pieceLog.note}"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success me-2 text-white">Submit</button>
+                    <!-- Check the source and display the appropriate link -->
+                    <span>No changes?
+                        <a th:if="${source == 'all'}" th:href="@{/pieces/getAllRecords}">Go back to All Records</a>
+                        <a th:if="${source == 'single' and pieceId != null}" th:href="@{/pieces/getRecordsByPiece(pieceId=${pieceId})}">
+                          Go back to Records</a>
+                    </span>
+                  </form>
                 </div>
               </div>
             </div>
             <!-- ---------------------
-                end My Records Dashboard Stack Table
+                end Edit Record Form
             ---------------- -->
           </div>
         </div>
@@ -302,7 +306,39 @@
   <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
   <!-- Chart JS -->
   <script src="/dist/js/dashboard1.js"></script>
+  <!-- ============================================================== -->
+  <!-- Plugins for this page -->
+  <!-- ============================================================== -->
+  <!-- Plugin JavaScript -->
+  <script src="/assets/node_modules/moment/moment.js"></script>
+  <script src="/assets/node_modules/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+  <!-- Clock Plugin JavaScript -->
+  <script src="/assets/node_modules/clockpicker/dist/jquery-clockpicker.min.js"></script>
+  <!-- Color Picker Plugin JavaScript -->
+  <script src="/assets/node_modules/jquery-asColor/dist/jquery-asColor.js"></script>
+  <script src="/assets/node_modules/jquery-asGradient/dist/jquery-asGradient.js"></script>
+  <script src="/assets/node_modules/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+  <!-- Date Picker Plugin JavaScript -->
+  <script src="/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <!-- Date range Plugin JavaScript -->
+  <script src="/assets/node_modules/timepicker/bootstrap-timepicker.min.js"></script>
+  <script src="/assets/node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+  <script>
+    $(document).ready(function() {
+      var date = new Date();
+      var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
+      $('#datepicker1').datepicker({
+        format: "dd-mm-yyyy",
+        todayHighlight: true,
+        endDate: end,
+        autoclose: true,
+        todayBtn: "linked"
+      });
+
+
+    });
+  </script>
 </body>
-
 </html>

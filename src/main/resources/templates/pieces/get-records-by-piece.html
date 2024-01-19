@@ -193,7 +193,7 @@
             <!-- ============================================================== -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h4 class="text-themecolor">All My Records</h4>
+                    <h4 class="text-themecolor">My Records</h4>
                 </div>
                 <div class="col-md-7 align-self-center text-end">
                     <div class="d-flex justify-content-end align-items-center">
@@ -237,6 +237,7 @@
                                             Date
                                         </th>
                                         <th scope="col" data-tablesaw-priority="1" class="border">Note</th>
+                                        <th scope="col" data-tablesaw-priority="persist" class="border col-sm-1">Edit Record</th>
                                     </tr> <!-- end row -->
                                     </thead>
                                     <tbody>
@@ -248,7 +249,13 @@
                                         <td>
                                             <div th:if="${tempPieceLog != null}" th:utext="${tempPieceLog.note}" id="note"></div>
                                         </td>
-                                        <!-- Add more columns as needed -->
+                                        <!-- Add edit button link -->
+                                        <td>
+                                            <a th:href="@{/pieces/showEditRecordForm(pieceLogId=${tempPieceLog.id},source='single',pieceId=${pieceId})}"
+                                               class="btn btn-info btn-sm">
+                                                Edit
+                                            </a>
+                                        </td>
                                     </tr>
                                     <!-- end row -->
                                     </tbody>

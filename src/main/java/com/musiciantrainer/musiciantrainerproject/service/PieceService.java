@@ -24,4 +24,9 @@ public interface PieceService  {
     boolean checkIfPieceIsNotNull(Long id);
 
 
+    PieceLog getPieceLogById(Long pieceLogId);
+
+    void editPieceLog(PieceLog editedPieceLog);
+
+    void deletePieceLog(Long pieceLogId);
 }

@@ -280,9 +280,79 @@ public class PieceController {
         theModel.addAttribute("pieceLogViewModel", thePieceLogViewModel);
 
         return "pieces/get-all-records"; // This is a Thymeleaf template name
+    }
 
+    @GetMapping("/showEditRecordForm")
+    public String showEditRecordForm(@RequestParam("pieceLogId") Long pieceLogId,
+                                     @RequestParam("source") String source,
+                                     @RequestParam(value = "pieceId", required = false) Long pieceId,
+                                     Model theModel, Principal principal) {
+        String email = principal.getName();
+        User theUser = userService.findUserByEmail(email);
+        theModel.addAttribute("user", theUser);
 
+        PieceLog thePieceLog = pieceService.getPieceLogById(pieceLogId);
 
+        // Add pieces to the model for the dropdown
+        List<Piece> pieces = pieceService.getPiecesByUser(theUser);
+        theModel.addAttribute("pieces", pieces);
+
+        // Set the selectedPieceId for the dropdown
+        if (thePieceLog != null && thePieceLog.getPiece() != null) {
+            theModel.addAttribute("selectedPieceId", thePieceLog.getPiece().getId());
+        }
+
+        theModel.addAttribute("pieceLog", thePieceLog);
+        theModel.addAttribute("source", source);
+        if (pieceId != null) {
+            theModel.addAttribute("pieceId", pieceId);
+        }
+
+        return "pieces/edit-record";
+    }
+
+    @PostMapping("/processEditRecordForm")
+    public String processEditRecordForm(@ModelAttribute("pieceLog") PieceLog editedPieceLog,
+                                        @RequestParam("pieceId") Long pieceId,
+                                        RedirectAttributes redirectAttributes) {
+        try {
+            // Fetch the PieceLog from the database and update its fields
+            PieceLog existingPieceLog = pieceService.getPieceLogById(editedPieceLog.getId());
+            if (existingPieceLog != null) {
+                Piece piece = pieceService.getPieceById(pieceId);
+                existingPieceLog.setPiece(piece);
+                existingPieceLog.setDate(editedPieceLog.getDate());
+                existingPieceLog.setNote(editedPieceLog.getNote());
+
+                // Save the updated PieceLog
+                pieceService.editPieceLog(existingPieceLog);
+                redirectAttributes.addFlashAttribute("successEditRecord", true);
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Record not found.");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to edit the record.");
+        }
+        return "redirect:/?recordSuccess";
+    }
+
+    @GetMapping("/deleteRecord")
+    public String deleteRecord(@RequestParam("pieceLogId") Long pieceLogId,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            // Delete the PieceLog based on the pieceLogId
+            pieceService.deletePieceLog(pieceLogId);
+
+            // Add a success message to be displayed on the redirected page
+            redirectAttributes.addFlashAttribute("successDeleteRecord", true);
+        } catch (Exception e) {
+            // Handle exceptions, e.g., if the record does not exist
+
+            // Add an error message to be displayed on the redirected page
+            redirectAttributes.addFlashAttribute("error", "Failed to delete the record.");
+        }
+
+        return "redirect:/?recordSuccess"; // Redirect to the appropriate page
     }
 
 }
