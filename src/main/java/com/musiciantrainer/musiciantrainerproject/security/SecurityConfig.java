@@ -61,7 +61,13 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")
-                );
+                )
+                .rememberMe(rememberMeConfigurer -> {
+                    rememberMeConfigurer
+                            .tokenValiditySeconds(172800) // 2 days
+                            .key("uniqueAndSecret"); // Replace with a unique key
+                })
+                ;
 
         return http.build();
     }
