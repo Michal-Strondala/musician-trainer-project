@@ -113,7 +113,7 @@ public class UserController {
         // saving successful edit message into the model for redirecting
         redirectAttributes.addFlashAttribute("successMessage", "You have successfully edited your profile!");
 
-        return "redirect:/?success";
+        return "redirect:/home?success";
     }
 
     @PostMapping("/save")
@@ -123,7 +123,7 @@ public class UserController {
         userService.save(theWebUser);
 
         // use the redirect to prevent duplicate submissions
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     // update user
@@ -131,6 +131,6 @@ public class UserController {
     public String updateUser(@ModelAttribute("user") User theUser) {
         // Update user details in the database
         userService.updateUser(theUser);
-        return "redirect:/"; // Redirect to the home page or any other appropriate page
+        return "redirect:/home"; // Redirect to the home page or any other appropriate page
     }
 }

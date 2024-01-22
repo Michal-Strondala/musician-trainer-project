@@ -73,7 +73,7 @@ public class PieceController {
             return "redirect:/pieces/showAddPieceForm"; // Redirect to showAddPieceForm form
         }
 
-        return "redirect:/"; // When piece is added successfully, it will show a success message
+        return "redirect:/home"; // When piece is added successfully, it will show a success message
     }
 
     @GetMapping("/showFormForEdit")
@@ -140,7 +140,7 @@ public class PieceController {
         }
 
         // Use the redirect to prevent duplicate submissions
-        return "redirect:/";
+        return "redirect:/home";
     }
 
 
@@ -159,7 +159,7 @@ public class PieceController {
         }
 
         // redirect to home page
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     // Record part
@@ -223,7 +223,7 @@ public class PieceController {
         // Add a success message to be displayed on the redirected page
         redirectAttributes.addFlashAttribute("success", true);
 
-        return "redirect:/?recordSuccess"; // When the record is added successfully, it will show a success message
+        return "redirect:/home?recordSuccess"; // When the record is added successfully, it will show a success message
     }
 
     @GetMapping("/getRecordsByPiece")
@@ -333,7 +333,7 @@ public class PieceController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to edit the record.");
         }
-        return "redirect:/?recordSuccess";
+        return "redirect:/home?recordSuccess";
     }
 
     @GetMapping("/deleteRecord")
@@ -352,7 +352,7 @@ public class PieceController {
             redirectAttributes.addFlashAttribute("error", "Failed to delete the record.");
         }
 
-        return "redirect:/?recordSuccess"; // Redirect to the appropriate page
+        return "redirect:/home?recordSuccess"; // Redirect to the appropriate page
     }
 
 }

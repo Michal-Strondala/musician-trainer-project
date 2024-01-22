@@ -1,6 +1,5 @@
 package com.musiciantrainer.musiciantrainerproject.controller;
 
-import com.musiciantrainer.musiciantrainerproject.user.WebUser;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

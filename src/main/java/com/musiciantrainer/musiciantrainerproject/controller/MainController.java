@@ -54,7 +54,29 @@ public class MainController {
         this.planPieceService = planPieceService;
         this.emailService = emailService;
     }
+
     @GetMapping("/")
+    public String showIndex(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userEmail = authentication.getName(); // Get the email from principal
+            User theUser = userService.findUserByEmail(userEmail);
+
+            if (theUser != null) {
+                List<Piece> pieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
+                HomePageViewModel theHomePageViewModel = new HomePageViewModel(pieces);
+
+                model.addAttribute("homePageViewModel", theHomePageViewModel);
+                model.addAttribute("user", theUser); // Přidejte uživatele do modelu
+
+                return "redirect:/home"; // This is a Thymeleaf template name
+            }
+        }
+
+        // Uživatel není přihlášen nebo se něco pokazilo
+        return "index";
+    }
+
+    @GetMapping("/home")
     public String showHome(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             String userEmail = authentication.getName(); // Get the email from principal
@@ -72,7 +94,7 @@ public class MainController {
         }
 
         // Uživatel není přihlášen nebo se něco pokazilo
-        return "redirect:/showLoginPage";
+        return "redirect:/";
     }
 
 //    @GetMapping("/")
@@ -254,7 +276,7 @@ public class MainController {
         // Send the email
         emailService.sendNewMail(to, subject, body);
 
-        return "redirect:/"; // Redirect back to the home page after sending the email
+        return "redirect:/home"; // Redirect back to the home page after sending the email
     }
 
     @NotNull

@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
-    <title>Musician Trainer Add Piece</title>
+    <title>Music Trainer Add Piece</title>
     <!-- This page CSS -->
     <!-- chartist CSS -->
     <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -35,7 +35,7 @@
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
-            <p class="loader__label">Musician Trainer</p>
+            <p class="loader__label">Music Trainer</p>
         </div>
     </div>
     <!-- ============================================================== -->
@@ -51,7 +51,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#" th:href="@{/}">
+                    <a class="navbar-brand" href="#" th:href="@{/home}">
                         <!-- Logo icon --><b>
                         <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                         <!-- Dark Logo icon -->
@@ -96,7 +96,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-end animated flipInY">
                                 <!-- text-->
-                                <a href="#" th:href="@{/}" class="dropdown-item"><i class="ti-user"></i> My Dashboard</a>
+                                <a href="#" th:href="@{/home}" class="dropdown-item"><i class="ti-user"></i> My Dashboard</a>
                                 <!-- text-->
                                 <div class="dropdown-divider"></div>
                                 <!-- text-->
@@ -141,7 +141,7 @@
                     </span>
                             </a>
                             <ul aria-expanded="false" class="collapse">
-                                <li><a href="#" th:href="@{/}"><i class="ti-user"></i> My Dashboard</a></li>
+                                <li><a href="#" th:href="@{/home}"><i class="ti-user"></i> My Dashboard</a></li>
                                 <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
                                 <li sec:authorize="isAuthenticated()">
                                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
@@ -177,7 +177,7 @@
                     <div class="col-md-7 align-self-center text-end">
                         <div class="d-flex justify-content-end align-items-center">
                             <ol class="breadcrumb justify-content-end">
-                                <li class="breadcrumb-item"><a href="#" th:href="@{/}">Home > </a></li>
+                                <li class="breadcrumb-item"><a href="#" th:href="@{/home}">Home > </a></li>
                             </ol>
                             <a role="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"
                                th:href="@{/pieces/showAddPieceForm}">
@@ -249,7 +249,7 @@
                                         </div>
                                         <button type="submit" class="btn btn-success me-2 text-white">Submit</button>
                                         <span>No new piece?
-                                            <a href="/" th:href="@{/}">Go back home</a>
+                                            <a href="/" th:href="@{/home}">Go back home</a>
                                         </span>
                                     </form>
                                 </div>
@@ -275,7 +275,7 @@
         <!-- footer -->
         <!-- ============================================================== -->
         <footer class="footer">
-            © 2024 Musician Trainer by Michal Střondala
+            © 2024 Music Trainer by Michal Střondala & Pavel Szabo
         </footer>
         <!-- ============================================================== -->
         <!-- End footer -->

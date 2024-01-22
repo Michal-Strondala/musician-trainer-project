@@ -33,7 +33,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/").hasRole("USER")
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/home").hasRole("USER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/password/**").permitAll()
@@ -44,6 +45,7 @@ public class SecurityConfig {
                                 .requestMatchers("/sendEmail/**").permitAll()
                                 .requestMatchers("/dist/**").permitAll()
                                 .requestMatchers("/assets/**").permitAll()
+                                .requestMatchers("/landing_page/**").permitAll()
                                 .anyRequest().authenticated()
                 // musím přehodit všechny metody z usercontroller do asi jiného controlleru a pak přidat sem další povolení
                 )
