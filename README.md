@@ -1,7 +1,7 @@
 # musician-trainer-project
 IN PROGRESS == Personal project ==
 
-**The Musician Trainer project is a web application (in the future perhaps even mobile app) designed to assist musicians in their practice routines and musical piece management.**
+**The Music Trainer project is a web application (in the future perhaps even mobile app) designed to assist musicians in their practice routines and musical piece management.**
 
 **The project incorporates various technologies to provide a comprehensive platform for users to organize, track, and enhance their musical training experience.**
 
