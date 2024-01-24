@@ -33,7 +33,7 @@ public class Piece {
 
     @Min(value = 0, message = "The minimal priority is 0.")
     @Max(value = 3, message = "The maximal priority is 3.")
-    private Short priority;
+    private Short priority = 0; // Default value set to 0;
 
     @OneToMany(mappedBy = "piece",
             fetch = FetchType.LAZY,
