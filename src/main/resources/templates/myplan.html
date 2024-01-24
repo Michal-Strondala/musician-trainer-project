@@ -181,7 +181,7 @@
                                 <li class="breadcrumb-item"><a href="#" th:href="@{/home}">Home > </a></li>
                             </ol>
                             <a role="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"
-                               th:href="@{/pieces/showAddPieceForm}">
+                               th:href="@{/pieces/showAddPieceForm}" target="_blank" rel="noopener noreferrer">
                                 <i class="fa fa-plus-circle"></i>
                                 Create New Piece
                             </a>
@@ -245,10 +245,10 @@
                                                 <td>
                                                     <a th:if="${selectedPieceId != null}"
                                                        th:href="@{/pieces/showAddRecordForm(pieceId=${planPiece.piece.id})}"
-                                                       class="btn btn-primary btn-sm">Add</a>
+                                                       class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Add</a>
                                                     <a th:unless="${selectedPieceId != null}"
                                                        th:href="@{/pieces/showAddRecordForm(pieceId=${planPiece.piece.id})}"
-                                                       class="btn btn-primary btn-sm">Add</a>
+                                                       class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Add</a>
                                                 </td>
                                             </tr>
                                         <!-- end row -->

@@ -193,7 +193,7 @@
             <!-- ============================================================== -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h4 class="text-themecolor">My Records</h4>
+                    <h4 class="text-themecolor" th:text="${piece.name}"></h4>
                 </div>
                 <div class="col-md-7 align-self-center text-end">
                     <div class="d-flex justify-content-end align-items-center">
@@ -201,7 +201,7 @@
                             <li class="breadcrumb-item"><a href="#" th:href="@{/home}">Home > </a></li>
                         </ol>
                         <a role="button" class="btn btn-info d-none d-lg-block m-l-15 text-white"
-                           th:href="@{/pieces/showAddPieceForm}">
+                           th:href="@{/pieces/showAddPieceForm}" target="_blank" rel="noopener noreferrer">
                             <i class="fa fa-plus-circle"></i>
                             Create New Piece
                         </a>
@@ -252,7 +252,7 @@
                                         <!-- Add edit button link -->
                                         <td>
                                             <a th:href="@{/pieces/showEditRecordForm(pieceLogId=${tempPieceLog.id},source='single',pieceId=${pieceId})}"
-                                               class="btn btn-info btn-sm">
+                                               class="btn btn-info btn-sm" target="_blank" rel="noopener noreferrer">
                                                 Edit
                                             </a>
                                         </td>

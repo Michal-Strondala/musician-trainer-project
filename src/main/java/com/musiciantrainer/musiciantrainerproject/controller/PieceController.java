@@ -244,6 +244,12 @@ public class PieceController {
         // Add pieces to the model for the form
         theModel.addAttribute("pieces", thePieces);
 
+        // Get the piece from the service based on the id
+        Piece thePiece = pieceService.getPieceById(pieceId);
+
+        // Add piece to the model for the form
+        theModel.addAttribute("piece", thePiece);
+
         // Get the pieces from the service based on the user
         List<PieceLog> thePieceLogs = pieceService.getPieceLogsByPieceIdOrderedByDate(pieceId);
 
