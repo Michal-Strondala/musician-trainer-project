@@ -32,6 +32,9 @@
             white-space: pre-line;
             word-wrap: break-word;
         }
+        .dropdown-menu {
+            z-index: 10000!important;
+        }
   </style>
 </head>
 <body class="skin-blue fixed-layout">
@@ -217,8 +220,10 @@
                   <form class="form-horizontal mt-4" th:action="@{/pieces/processEditRecordForm}"
                         th:object="${pieceLog}" method="POST">
                     <!-- Add hidden form field to handle the edit -->
-                    <!-- This binds to the model attribute and tells your app which piece to edit -->
-                    <input type="hidden" th:field="*{id}" />
+                    <!-- Hidden field for pieceLogId -->
+                    <input type="hidden" name="pieceLogId" th:value="${pieceLog.id}" />
+                    <!-- Hidden field for source -->
+                    <input type="hidden" name="source" th:value="${source}" />
 
                     <!-- Select piece dropdown -->
                     <div class="form-group">
@@ -233,7 +238,8 @@
                     <div class="form-group">
                       <div class="form-group">
                         <label for="datepicker1">Date</label>
-                        <input type="text" class="form-control" id="datepicker1" name="date" th:value="${pieceLog.date}">
+                        <input type="text" class="form-control" id="datepicker1" name="date"
+                               th:value="${pieceLog != null ? #temporals.format(pieceLog.date, 'dd.MM.yyyy') : ''}">
                       </div>
                     </div>
 
@@ -330,15 +336,16 @@
       var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
       $('#datepicker1').datepicker({
-        format: "dd-mm-yyyy",
+        format: "dd.mm.yyyy",
         todayHighlight: true,
-        endDate: end,
         autoclose: true,
+        endDate: end,
         todayBtn: "linked"
       });
 
 
     });
   </script>
+  <!--        endDate: end,-->
 </body>
 </html>

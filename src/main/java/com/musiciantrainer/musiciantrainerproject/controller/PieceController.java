@@ -208,7 +208,7 @@ public class PieceController {
         Piece selectedPiece = pieceService.getPieceById(pieceId);
 
         // Parse the date-time string into LocalDateTime (you might need to adjust the date-time format)
-        LocalDate parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        LocalDate parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
         // Create a new PieceLog object with the selected piece, parsed date-time, and note
         PieceLog pieceLog = new PieceLog(parsedDate, note);
@@ -318,17 +318,23 @@ public class PieceController {
     }
 
     @PostMapping("/processEditRecordForm")
-    public String processEditRecordForm(@ModelAttribute("pieceLog") PieceLog editedPieceLog,
+    public String processEditRecordForm(@RequestParam("pieceLogId") Long pieceLogId, // get pieceLogId separately
                                         @RequestParam("pieceId") Long pieceId,
+                                        @RequestParam("date") String dateString,
+                                        @RequestParam("note") String note, // get note separately
+                                        @RequestParam("source") String source,
                                         RedirectAttributes redirectAttributes) {
         try {
-            // Fetch the PieceLog from the database and update its fields
-            PieceLog existingPieceLog = pieceService.getPieceLogById(editedPieceLog.getId());
+            // Parse the date string into LocalDate
+            LocalDate parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+            // Fetch the PieceLog from the database using pieceLogId
+            PieceLog existingPieceLog = pieceService.getPieceLogById(pieceLogId);
             if (existingPieceLog != null) {
                 Piece piece = pieceService.getPieceById(pieceId);
                 existingPieceLog.setPiece(piece);
-                existingPieceLog.setDate(editedPieceLog.getDate());
-                existingPieceLog.setNote(editedPieceLog.getNote());
+                existingPieceLog.setDate(parsedDate); // Set the parsed date
+                existingPieceLog.setNote(note); // Set the note
 
                 // Save the updated PieceLog
                 pieceService.editPieceLog(existingPieceLog);
@@ -337,10 +343,47 @@ public class PieceController {
                 redirectAttributes.addFlashAttribute("error", "Record not found.");
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to edit the record.");
+            redirectAttributes.addFlashAttribute("error", "Failed to edit the record. Error: " + e.getMessage());
         }
-        return "redirect:/home?recordSuccess";
+
+        // Redirect based on the source
+        if ("all".equals(source)) {
+            return "redirect:/pieces/getAllRecords";
+        } else if ("single".equals(source) && pieceId != null) {
+            return "redirect:/pieces/getRecordsByPiece?pieceId=" + pieceId;
+        } else {
+            return "redirect:/home?recordSuccess";
+        }
     }
+
+//    @PostMapping("/processEditRecordForm")
+//    public String processEditRecordForm(@ModelAttribute("pieceLog") PieceLog editedPieceLog,
+//                                        @RequestParam("pieceId") Long pieceId,
+//                                        @RequestParam("date") String dateString,
+//                                        RedirectAttributes redirectAttributes) {
+//        try {
+//            // Parse the date string into LocalDate
+//            LocalDate parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+//
+//            // Fetch the PieceLog from the database and update its fields
+//            PieceLog existingPieceLog = pieceService.getPieceLogById(editedPieceLog.getId());
+//            if (existingPieceLog != null) {
+//                Piece piece = pieceService.getPieceById(pieceId);
+//                existingPieceLog.setPiece(piece);
+//                existingPieceLog.setDate(parsedDate); // Set the parsed date
+//                existingPieceLog.setNote(editedPieceLog.getNote());
+//
+//                // Save the updated PieceLog
+//                pieceService.editPieceLog(existingPieceLog);
+//                redirectAttributes.addFlashAttribute("successEditRecord", true);
+//            } else {
+//                redirectAttributes.addFlashAttribute("error", "Record not found.");
+//            }
+//        } catch (Exception e) {
+//            redirectAttributes.addFlashAttribute("error", "Failed to edit the record.");
+//        }
+//        return "redirect:/home?recordSuccess";
+//    }
 
     @GetMapping("/deleteRecord")
     public String deleteRecord(@RequestParam("pieceLogId") Long pieceLogId,

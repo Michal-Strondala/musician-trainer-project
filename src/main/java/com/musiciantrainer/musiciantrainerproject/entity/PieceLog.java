@@ -25,7 +25,6 @@ public class PieceLog {
     private Long id;
 
     @Column(name = "date")
-    @Temporal(TemporalType.DATE)
     private LocalDate date;
 
     private String note;

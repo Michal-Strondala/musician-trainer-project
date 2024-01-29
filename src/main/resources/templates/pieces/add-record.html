@@ -49,6 +49,9 @@
             white-space: pre-line;
             word-wrap: break-word;
         }
+        .dropdown-menu {
+            z-index: 10000!important;
+        }
     </style>
 </head>
 
@@ -342,7 +345,7 @@
       var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
     $('#datepicker1').datepicker({
-      format: "dd-mm-yyyy",
+      format: "dd.mm.yyyy",
       todayHighlight: true,
       endDate: end,
       autoclose: true,
