@@ -113,6 +113,10 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="d-flex no-block align-items-center">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me">
+                                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                                    </div>
                                     <div class="ms-auto">
                                         <a th:href="@{/password/forgetPasswordPage}" class="text-muted"
                                            th:utext="#{message.forgetPassword}"><i class="fas fa-lock m-r-5"></i>forgot</a>
