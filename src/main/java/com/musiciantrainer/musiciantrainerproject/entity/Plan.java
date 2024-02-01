@@ -1,5 +1,6 @@
 package com.musiciantrainer.musiciantrainerproject.entity;
 
+import com.musiciantrainer.musiciantrainerproject.utilities.TrainingTimeUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,4 +52,11 @@ public class Plan {
         planPieces.add(planPiece);
         planPiece.setPlan(this);
     }
+
+    public String getMinutesAsHours(Integer trainingTotalMinutes) {
+        String stringMinutes = Integer.toString(trainingTotalMinutes);
+        return TrainingTimeUtil.convertMinutesToHours(stringMinutes);
+    }
+
+
 }

@@ -5,7 +5,7 @@ import com.musiciantrainer.musiciantrainerproject.entity.User;
 import com.musiciantrainer.musiciantrainerproject.security.SecurityUserService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
 import com.musiciantrainer.musiciantrainerproject.service.email.EmailService;
-import com.musiciantrainer.musiciantrainerproject.user.PasswordDto;
+import com.musiciantrainer.musiciantrainerproject.dto.PasswordDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

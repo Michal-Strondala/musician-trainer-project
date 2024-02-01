@@ -3,7 +3,7 @@
 //import com.musiciantrainer.musiciantrainerproject.dao.UserDao;
 //import com.musiciantrainer.musiciantrainerproject.entity.User;
 //import com.musiciantrainer.musiciantrainerproject.service.UserService;
-//import com.musiciantrainer.musiciantrainerproject.user.WebUser;
+//import com.musiciantrainer.musiciantrainerproject.dto.WebUser;
 //import org.junit.jupiter.api.AfterEach;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

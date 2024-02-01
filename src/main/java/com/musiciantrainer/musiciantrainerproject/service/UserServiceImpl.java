@@ -6,7 +6,7 @@ import com.musiciantrainer.musiciantrainerproject.dao.UserDao;
 import com.musiciantrainer.musiciantrainerproject.entity.PasswordResetToken;
 import com.musiciantrainer.musiciantrainerproject.entity.Role;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
-import com.musiciantrainer.musiciantrainerproject.user.WebUser;
+import com.musiciantrainer.musiciantrainerproject.dto.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.musiciantrainer.musiciantrainerproject.user;
+package com.musiciantrainer.musiciantrainerproject.dto;
 
 import com.musiciantrainer.musiciantrainerproject.validation.PasswordMatches;
 import com.musiciantrainer.musiciantrainerproject.validation.ValidEmail;

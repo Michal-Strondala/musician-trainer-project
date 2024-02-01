@@ -1,10 +1,14 @@
 package com.musiciantrainer.musiciantrainerproject.entity;
 
+import com.musiciantrainer.musiciantrainerproject.utilities.DateUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Setter
 @Getter
@@ -27,13 +31,11 @@ public class PlanPiece {
 
     private Integer minutes;
 
-    private boolean isDone;
 
-    public PlanPiece(Plan plan, Piece piece, Integer minutes, boolean isDone) {
+    public PlanPiece(Plan plan, Piece piece, Integer minutes) {
         this.plan = plan;
         this.piece = piece;
         this.minutes = minutes;
-        this.isDone = isDone;
     }
 
     public void setPiece(Piece piece) {
@@ -44,4 +46,9 @@ public class PlanPiece {
             }
         }
     }
+
+    public boolean isPieceRecordedToday() {
+        return DateUtil.isRecordedToday(this.piece.getPieceLogs());
+    }
+
 }

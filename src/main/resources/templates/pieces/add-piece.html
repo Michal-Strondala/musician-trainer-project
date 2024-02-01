@@ -27,6 +27,12 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .disabled-link {
+            pointer-events: none;
+            color: grey;
+        }
+  </style>
 </head>
 <body class="skin-blue fixed-layout">
     <!-- ============================================================== -->
@@ -132,6 +138,12 @@
                 <ul id="sidebarnav">
                     <li><a href="#" th:href="@{/home}"><i class="ti-user"></i> My Dashboard</a></li>
                     <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
+                    <li th:if="${hasPlansForToday}">
+                        <a th:href="@{/createdPlans}"><i class="ti-list"></i> Created Plans Today</a>
+                    </li>
+                    <li th:unless="${hasPlansForToday}">
+                        <a href="#" class="disabled-link"><i class="ti-list"></i> Created Plans Today</a>
+                    </li>
                     <li sec:authorize="isAuthenticated()">
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
                             <i class="fa fa-power-off"></i> Logout</a>

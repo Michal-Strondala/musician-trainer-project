@@ -2,6 +2,9 @@ package com.musiciantrainer.musiciantrainerproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.musiciantrainer.musiciantrainerproject.dto.CreatedPlansViewModel;
+import com.musiciantrainer.musiciantrainerproject.dto.HomePageViewModel;
+import com.musiciantrainer.musiciantrainerproject.dto.MyPlanViewModel;
 import com.musiciantrainer.musiciantrainerproject.entity.*;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
 import com.musiciantrainer.musiciantrainerproject.service.PlanPieceService;
@@ -22,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -96,22 +100,6 @@ public class MainController {
         // Uživatel není přihlášen nebo se něco pokazilo
         return "redirect:/";
     }
-
-//    @GetMapping("/")
-//    public String showHome(Model model, Authentication authentication) {
-//
-//        String userEmail = authentication.getName(); // Get the email from principal
-//
-//        User theUser = userService.findUserByEmail(userEmail);
-//
-//        List<Piece> pieces = pieceService.getPiecesByUserOrderedByPriorityAndDaysPassed(theUser);
-//
-//        HomePageViewModel theHomePageViewModel = new HomePageViewModel(pieces);
-//
-//        model.addAttribute("homePageViewModel", theHomePageViewModel);
-//
-//        return "home"; // This is a Thymeleaf template name
-//    }
 
     // Figure out the dropdown menu - this is done
     // Then I have to figure out how to take the generated plan which is in JSON and deserealize it to custom schedule table.
@@ -233,6 +221,49 @@ public class MainController {
         return planService.getPlanByTotalMinutesAndDate(Integer.parseInt(convertedTime), LocalDate.now()) != null;
     }
 
+    @GetMapping("/createdPlans")
+    public String showCreatedPlans(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userEmail = authentication.getName(); // Get the email from principal
+            User theUser = userService.findUserByEmail(userEmail);
+
+            if (theUser != null) {
+                List<Plan> createdPlans = planService.getPlansByUserOrderedByTotalMinutes(theUser);
+                CreatedPlansViewModel theCreatedPlansViewModel = new CreatedPlansViewModel(createdPlans);
+
+                model.addAttribute("createdPlansViewModel", theCreatedPlansViewModel);
+                model.addAttribute("user", theUser); // Přidejte uživatele do modelu
+
+                return "created-plans"; // This is a Thymeleaf template name
+            }
+        }
+
+        // Uživatel není přihlášen nebo se něco pokazilo
+        return "redirect:/";
+
+    }
+
+    @GetMapping("/deletePlan")
+    public String deletePlan(@RequestParam("planId") Long planId,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            // Delete the Plan based on the planId
+            planService.deletePlan(planId);
+
+            // Add a success message to be displayed on the redirected page
+            redirectAttributes.addFlashAttribute("successDeletePlan", true);
+        } catch (Exception e) {
+            // Handle exceptions, e.g., if the plan does not exist
+
+            // Add an error message to be displayed on the redirected page
+            redirectAttributes.addFlashAttribute("error", "Failed to delete the plan.");
+        }
+
+        return "redirect:/createdPlans?recordSuccess"; // Redirect to the appropriate page
+    }
+
+
+
 
     @GetMapping("/piecesToJson")
     public String piecesToJson(Model model, Authentication authentication) {
@@ -259,6 +290,15 @@ public class MainController {
         return Arrays.asList("0.5 hour", "1 hour", "1.5 hours", "2 hours", "2.5 hours", "3 hours",
                 "3.5 hours", "4 hours", "4.5 hours", "5 hours", "5.5 hours", "6 hours");
     }
+
+    @ModelAttribute("hasPlansForToday")
+    public boolean hasPlansForToday(Authentication authentication) {
+        String userEmail = authentication.getName();
+        User theUser = userService.findUserByEmail(userEmail);
+
+        return !planService.getPlansByUserAndDate(theUser).isEmpty();
+    }
+
     public String getHoursAsMinutes(String trainingTime) {
         return TrainingTimeUtil.convertHoursToMinutes(trainingTime);
     }
@@ -287,7 +327,6 @@ public class MainController {
             // Create a new PlanPiece for each PlanItem
             PlanPiece planPiece = new PlanPiece();
             planPiece.setMinutes(planItem.getTime());
-            planPiece.setDone(false); // Set isDone to false initially, adjust if needed
 
             // Retrieve the Piece based on the PlanItem's ID
             Piece existingPiece = pieceService.getPieceById(planItem.getId()); // Implement this method in PieceService

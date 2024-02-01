@@ -7,10 +7,12 @@ import com.musiciantrainer.musiciantrainerproject.dao.PieceLogDao;
 import com.musiciantrainer.musiciantrainerproject.dto.PieceDto;
 import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
+import com.musiciantrainer.musiciantrainerproject.entity.PlanPiece;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -162,4 +164,6 @@ public class PieceServiceImpl implements PieceService{
     public void deletePieceLog(Long pieceLogId) {
         pieceLogDao.deleteById(pieceLogId);
     }
+
+
 }

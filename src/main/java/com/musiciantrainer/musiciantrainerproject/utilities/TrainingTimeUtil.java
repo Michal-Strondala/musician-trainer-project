@@ -32,4 +32,35 @@ public class TrainingTimeUtil {
                 return "unknown";
         }
     }
+
+    public static String convertMinutesToHours(String trainingTimeInMinutes) {
+        switch (trainingTimeInMinutes) {
+            case "30":
+                return "0.5 hour";
+            case "60":
+                return "1 hour";
+            case "90":
+                return "1.5 hours";
+            case "120":
+                return "2 hours";
+            case "150":
+                return "2.5 hours";
+            case "180":
+                return "3 hours";
+            case "210":
+                return "3.5 hours";
+            case "240":
+                return "4 hours";
+            case "270":
+                return "4.5 hours";
+            case "300":
+                return "5 hours";
+            case "330":
+                return "5.5 hours";
+            case "360":
+                return "6 hours";
+            default:
+                return "unknown";
+        }
+    }
 }

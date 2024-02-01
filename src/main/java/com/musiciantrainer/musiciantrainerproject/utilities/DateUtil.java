@@ -56,4 +56,9 @@ public class DateUtil {
             return "Not recorded yet";
         }
     }
+
+    public static boolean isRecordedToday(List<PieceLog> pieceLogs) {
+        return pieceLogs.stream().anyMatch(pieceLog -> pieceLog.getDate().equals(LocalDate.now()));
+    }
+
 }

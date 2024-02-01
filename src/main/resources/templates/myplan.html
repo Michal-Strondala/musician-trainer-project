@@ -27,6 +27,12 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .disabled-link {
+            pointer-events: none;
+            color: grey;
+        }
+    </style>
 </head>
 
 <body class="skin-blue fixed-layout">
@@ -133,6 +139,12 @@
                 <ul id="sidebarnav">
                     <li><a href="#" th:href="@{/home}"><i class="ti-user"></i> My Dashboard</a></li>
                     <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
+                    <li th:if="${hasPlansForToday}">
+                        <a th:href="@{/createdPlans}"><i class="ti-list"></i> Created Plans Today</a>
+                    </li>
+                    <li th:unless="${hasPlansForToday}">
+                        <a href="#" class="disabled-link"><i class="ti-list"></i> Created Plans Today</a>
+                    </li>
                     <li sec:authorize="isAuthenticated()">
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
                             <i class="fa fa-power-off"></i> Logout</a>
@@ -182,13 +194,13 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- ---------------------
-                            start My Pieces Dashboard Stack Table
+                            start My Plan Dashboard Stack Table
                         ---------------- -->
                         <div class="card">
                             <div class="card-body">
                                 <div class="row pb-2">
                                     <div class="col-md-auto">
-                                        <!-- My Pieces Dashboard -->
+                                        <!-- My Plan Dashboard -->
                                         <h4 class="card-title">My Plan</h4>
                                     </div>
                                     <div class="col-md-auto">
@@ -215,6 +227,7 @@
                                                 <th scope="col" data-tablesaw-priority="persist" class="border">Piece Name</th>
                                                 <th scope="col" data-tablesaw-sortable-default-col data-tablesaw-priority="persist"
                                                     class="border">Time</th>
+                                                <th scope="col" data-tablesaw-priority="persist" class="border">Recorded today?</th>
                                                 <th scope="col" data-tablesaw-priority="persist" class="border">Add record</th>
                                             </tr>
                                         <!-- end row -->
@@ -226,13 +239,13 @@
                                                 <!-- Access piece information from the plan piece -->
                                                 <td class="title" th:text="${planPiece.piece.name}"></td>
                                                 <td th:text="${planPiece.minutes}"></td>
+                                                <td>
+                                                    <div th:if="${planPiece.isPieceRecordedToday}" class="label label-table label-success">Done</div>
+                                                    <div th:unless="${planPiece.isPieceRecordedToday}" class="label label-table label-danger">No record today</div>
+                                                </td>
                                                 <!-- Add record button inside the table -->
                                                 <td>
-                                                    <a th:if="${selectedPieceId != null}"
-                                                       th:href="@{/pieces/showAddRecordForm(pieceId=${planPiece.piece.id})}"
-                                                       class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Add</a>
-                                                    <a th:unless="${selectedPieceId != null}"
-                                                       th:href="@{/pieces/showAddRecordForm(pieceId=${planPiece.piece.id})}"
+                                                    <a th:href="@{/pieces/showAddRecordForm(pieceId=${planPiece.piece.id}, source='myplan', trainingTime=${planPiece.plan.getMinutesAsHours(planPiece.plan.totalMinutes)})}"
                                                        class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Add</a>
                                                 </td>
                                             </tr>

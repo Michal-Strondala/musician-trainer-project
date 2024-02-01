@@ -1,7 +1,7 @@
 package com.musiciantrainer.musiciantrainerproject.controller;
 
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
-import com.musiciantrainer.musiciantrainerproject.user.WebUser;
+import com.musiciantrainer.musiciantrainerproject.dto.WebUser;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

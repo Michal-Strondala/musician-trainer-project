@@ -1,9 +1,11 @@
 package com.musiciantrainer.musiciantrainerproject.controller;
 
+import com.musiciantrainer.musiciantrainerproject.dto.PieceLogViewModel;
 import com.musiciantrainer.musiciantrainerproject.entity.*;
 import com.musiciantrainer.musiciantrainerproject.service.PieceService;
+import com.musiciantrainer.musiciantrainerproject.service.PlanPieceService;
 import com.musiciantrainer.musiciantrainerproject.service.UserService;
-import com.musiciantrainer.musiciantrainerproject.user.WebUser;
+import com.musiciantrainer.musiciantrainerproject.dto.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
@@ -25,12 +27,14 @@ public class PieceController {
     private UserService userService;
 
     private PieceService pieceService;
+    private PlanPieceService planPieceService;
 
     // constructor injection
     @Autowired
-    public PieceController(UserService userService, PieceService pieceService) {
+    public PieceController(UserService userService, PieceService pieceService, PlanPieceService planPieceService) {
         this.userService = userService;
         this.pieceService = pieceService;
+        this.planPieceService = planPieceService;
     }
 
     @GetMapping("/showAddPieceForm")
@@ -165,6 +169,8 @@ public class PieceController {
     // Record part
     @GetMapping("/showAddRecordForm")
     public String showAddRecordForm(@RequestParam(name = "pieceId", required = false) Long pieceId,
+                                    @RequestParam("source") String source,
+                                    @RequestParam(name = "trainingTime", required = false) String trainingTime,
                                     Model theModel, Principal principal) {
 
         // Get the currently authenticated user's email (username in your case)
@@ -190,6 +196,12 @@ public class PieceController {
             theModel.addAttribute("selectedPieceId", pieceId);
         }
 
+        theModel.addAttribute("source", source);
+        // Add trainingTime to the model if it's not null
+        if (trainingTime != null) {
+            theModel.addAttribute("trainingTime", trainingTime);
+        }
+
         // Send over to our form
         return "pieces/add-record";
     }
@@ -198,6 +210,8 @@ public class PieceController {
     public String processAddRecordForm(@RequestParam("pieceId") Long pieceId,
                                        @RequestParam("date") String dateString,
                                        @RequestParam("note") String note,
+                                       @RequestParam("source") String source,
+                                       @RequestParam(name = "trainingTime", required = false) String trainingTime,
                                        Authentication authentication,
                                        RedirectAttributes redirectAttributes) {
 
@@ -223,7 +237,16 @@ public class PieceController {
         // Add a success message to be displayed on the redirected page
         redirectAttributes.addFlashAttribute("success", true);
 
-        return "redirect:/home?recordSuccess"; // When the record is added successfully, it will show a success message
+        // Redirect based on the source
+        if ("home".equals(source)) {
+            return "redirect:/home?recordSuccess";
+        } else if ("myplan".equals(source) && trainingTime != null) {
+            return "redirect:/myPlan?trainingTime=" + trainingTime;
+        } else {
+            return "redirect:/home?recordSuccess";
+        }
+
+        //return "redirect:/home?recordSuccess"; // When the record is added successfully, it will show a success message
     }
 
     @GetMapping("/getRecordsByPiece")
@@ -355,35 +378,6 @@ public class PieceController {
             return "redirect:/home?recordSuccess";
         }
     }
-
-//    @PostMapping("/processEditRecordForm")
-//    public String processEditRecordForm(@ModelAttribute("pieceLog") PieceLog editedPieceLog,
-//                                        @RequestParam("pieceId") Long pieceId,
-//                                        @RequestParam("date") String dateString,
-//                                        RedirectAttributes redirectAttributes) {
-//        try {
-//            // Parse the date string into LocalDate
-//            LocalDate parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//
-//            // Fetch the PieceLog from the database and update its fields
-//            PieceLog existingPieceLog = pieceService.getPieceLogById(editedPieceLog.getId());
-//            if (existingPieceLog != null) {
-//                Piece piece = pieceService.getPieceById(pieceId);
-//                existingPieceLog.setPiece(piece);
-//                existingPieceLog.setDate(parsedDate); // Set the parsed date
-//                existingPieceLog.setNote(editedPieceLog.getNote());
-//
-//                // Save the updated PieceLog
-//                pieceService.editPieceLog(existingPieceLog);
-//                redirectAttributes.addFlashAttribute("successEditRecord", true);
-//            } else {
-//                redirectAttributes.addFlashAttribute("error", "Record not found.");
-//            }
-//        } catch (Exception e) {
-//            redirectAttributes.addFlashAttribute("error", "Failed to edit the record.");
-//        }
-//        return "redirect:/home?recordSuccess";
-//    }
 
     @GetMapping("/deleteRecord")
     public String deleteRecord(@RequestParam("pieceLogId") Long pieceLogId,

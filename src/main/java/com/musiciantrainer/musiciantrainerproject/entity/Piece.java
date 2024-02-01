@@ -95,7 +95,6 @@ public class Piece {
         return PriorityUtil.convertPriorityToString(this.priority);
     }
 
-
     public LocalDate getLastTrainingDate() {
         return DateUtil.calculateLastTrainingDate(this.pieceLogs);
     }
@@ -111,5 +110,6 @@ public class Piece {
     public String getNumberOfTimesTrained() {
         return DateUtil.calculateNumberOfTimesTrained(this.pieceLogs);
     }
+
 
 }
