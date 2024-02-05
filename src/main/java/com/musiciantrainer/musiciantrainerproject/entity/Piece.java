@@ -35,6 +35,8 @@ public class Piece {
     @Max(value = 3, message = "The maximal priority is 3.")
     private Short priority = 0; // Default value set to 0;
 
+    private Integer time = 30; // Default value set to 30;
+
     @OneToMany(mappedBy = "piece",
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE,
@@ -56,10 +58,11 @@ public class Piece {
 
 
 
-    public Piece(String name, String composer, Short priority) {
+    public Piece(String name, String composer, Short priority, Integer time) {
         this.name = name;
         this.composer = composer;
         this.priority = priority;
+        this.time = time;
     }
 
     public Piece(String name) {

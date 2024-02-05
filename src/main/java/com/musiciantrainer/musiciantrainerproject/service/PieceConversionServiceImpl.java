@@ -14,6 +14,7 @@ public class PieceConversionServiceImpl implements PieceConversionService{
         pieceDto.setName(thePiece.getName());
         pieceDto.setComposer(thePiece.getComposer());
         pieceDto.setPriority(thePiece.getPriority());
+        pieceDto.setTime(thePiece.getTime());
         pieceDto.setFormattedLastTrainingDate(thePiece.getFormattedLastTrainingDate());
         pieceDto.setNumberOfDaysPassed(thePiece.getNumberOfDaysPassed());
         pieceDto.setNumberOfTimesTrained(thePiece.getNumberOfTimesTrained());

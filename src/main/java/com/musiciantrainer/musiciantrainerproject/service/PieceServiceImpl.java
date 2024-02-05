@@ -40,7 +40,7 @@ public class PieceServiceImpl implements PieceService{
     @Override
     public Piece addPiece(Piece thePiece, User theUser) {
 
-        Piece piece = new Piece(thePiece.getName(), thePiece.getComposer(), thePiece.getPriority());
+        Piece piece = new Piece(thePiece.getName(), thePiece.getComposer(), thePiece.getPriority(), thePiece.getTime());
 
         piece.setUser(theUser);
 

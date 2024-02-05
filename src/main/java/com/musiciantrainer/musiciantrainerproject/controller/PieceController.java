@@ -129,6 +129,7 @@ public class PieceController {
             existingPiece.setName(thePiece.getName());
             existingPiece.setComposer(thePiece.getComposer());
             existingPiece.setPriority(thePiece.getPriority());
+            existingPiece.setTime(thePiece.getTime());
 
             // Edit the piece
             pieceService.editPiece(existingPiece, theUser);

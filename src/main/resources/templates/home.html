@@ -240,6 +240,8 @@
                                                 Number of days since the last training</th>
                                             <th scope="col" data-tablesaw-priority="2" class="border col-sm-1">
                                                 <abbr title="Number of times trained">Trained</abbr></th>
+                                            <th scope="col" data-tablesaw-priority="2" class="border">
+                                                Minimal training time</th>
                                             <th scope="col" data-tablesaw-priority="persist" class="border">Add record</th>
                                             <th scope="col" data-tablesaw-priority="persist" class="border">Edit</th>
                                             <th scope="col" data-tablesaw-priority="persist" class="border">Delete</th>
@@ -257,6 +259,8 @@
                                             <td th:text="${tempPiece.getNumberOfDaysPassed}"></td>
                                             <!-- Number of times trained -->
                                             <td th:text="${tempPiece.getNumberOfTimesTrained}"></td>
+                                            <!-- Minimal piece time -->
+                                            <td th:text="${tempPiece.time}"></td>
                                             <!-- Add record button inside the table -->
                                             <td>
                                                 <a th:if="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id}, source='home')}"

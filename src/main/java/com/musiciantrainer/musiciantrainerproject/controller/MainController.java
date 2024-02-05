@@ -134,11 +134,10 @@ public class MainController {
                     "You will have priority in the list. \n" +
                     "The bigger the value of priority, the bigger the priority, and a low value is a low priority. \n" +
                     "A 0 priority is a piece without priority.\n" +
-                    "Important is also \"formattedLastTrainingDate\", it is the date when I practiced the exercise the last time. \n" +
+                    "Important is also \"formattedLastTrainingDate\", it is the date when the user practiced the exercise the last time. \n" +
                     "You can find the attribute \"numberOfDaysPassed\" which displays the number of days since the last training date. \n" +
-                    "You can find there \"numberOfTimesTrained\" which shows the number of times I trained that piece.\n" +
-                    "The goal is to not lose the memory of pieces. Each train session has to have at least 30 minutes (1 pomodoro). \n" +
-                    "One hour is 2 pomodoros. \n" +
+                    "You can find there \"numberOfTimesTrained\" which shows the number of times the user trained that piece.\n" +
+                    "The goal is to not lose the memory of pieces. Each train session has to have 30 minutes (1 pomodoro) as default time unless the particular piece's time is set differently, in the JSON should be \"time\", for example 20 or 15 minutes. In that case you do not have to set training time for particular piece for 30 minutes. \n" +
                     "\n" +
                     "Write in proper English.\n" +
                     "\n" +
@@ -151,7 +150,7 @@ public class MainController {
                     "\"id\": 1" +
                     "}," +
                     " {" +
-                    "\"time\": 30," +
+                    "\"time\": 20," +
                     "\"id\": 2" +
                     "}] " +
                     "}" +
