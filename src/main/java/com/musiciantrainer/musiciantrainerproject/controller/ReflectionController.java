@@ -114,7 +114,7 @@ public class ReflectionController {
                     "\n" +
                     "The motivational reflection should also contain what you think the user should do better and try to positively motivate the user. Convey it in a polite way.\n" +
                     "\n" +
-                    "The output must be a String text. Write it in a meaningful way, in paragraphs.\n");
+                    "The output must be a String text. I want the result in Czech language, in a meaningful way, in structured HTML with titles, paragraphs, strong element and a few emojis. Also use some ideas which could help the user with his/her progress.\n");
             messages.add(systemMessage);
 
             //user prompt
@@ -215,35 +215,6 @@ public class ReflectionController {
         return "redirect:/reflection/createdReflections";
 
     }
-
-//    @GetMapping("/showReflection")
-//    public String showReflection(Model model, Authentication authentication,
-//                                 @RequestParam("dateFrom") String fromDate,
-//                                 @RequestParam("dateTo") String toDate) {
-//
-//        // Date range
-//        LocalDate dateFrom = LocalDate.parse(fromDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//        LocalDate dateTo = LocalDate.parse(toDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            String userEmail = authentication.getName(); // Get the email from principal
-//            User theUser = userService.findUserByEmail(userEmail);
-//
-//            if (theUser != null) {
-//                Reflection theReflection = reflectionService.getReflectionByUserAndDateFromAndDateTo(theUser, dateFrom, dateTo);
-//                ReflectionViewModel theReflectionViewModel = new ReflectionViewModel(theReflection);
-//
-//                model.addAttribute("reflectionViewModel", theReflectionViewModel);
-//                model.addAttribute("user", theUser); // Add user to the model
-//
-//                return "reflection"; // This is a Thymeleaf template name
-//            }
-//        }
-//
-//        // The user is not logged in or something else went wrong
-//        return "redirect:/reflection/createdReflections";
-//
-//    }
 
     @GetMapping("/deleteReflection")
     public String deleteReflection(@RequestParam("reflectionId") Long reflectionId,
