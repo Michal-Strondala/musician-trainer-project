@@ -96,7 +96,7 @@ public class ReflectionController {
         } else {
 
             // zalozeni objektu openai
-            service = new OpenAiService(apiKey, Duration.ofSeconds(90));
+            service = new OpenAiService(apiKey, Duration.ofSeconds(180));
 
             // system prompt
             List<ChatMessage> messages = new ArrayList<>();
@@ -114,7 +114,7 @@ public class ReflectionController {
                     "\n" +
                     "The motivational reflection should also contain what you think the user should do better and try to positively motivate the user. Convey it in a polite way.\n" +
                     "\n" +
-                    "The output must be a String text. I want the result in Czech language, in a meaningful way, in structured HTML with titles, paragraphs, strong element and a few emojis. Also use some ideas which could help the user with his/her progress.\n");
+                    "The output must be a String text. I want the result in Czech language, in a meaningful way, in structured HTML with titles, paragraphs, strong element and a few emojis. Also use some ideas which could help the user with his/her progress. And do not write HTML words like tag or html or header etc.\n");
             messages.add(systemMessage);
 
             //user prompt
@@ -129,7 +129,7 @@ public class ReflectionController {
                     .model(aiModel)
                     .messages(messages)
                     .n(1)
-                    .maxTokens(256)
+                    .maxTokens(2000)
                     .build();
 
             ChatMessage responseMessage = service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage();
