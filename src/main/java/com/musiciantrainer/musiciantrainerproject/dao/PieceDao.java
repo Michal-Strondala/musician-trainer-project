@@ -5,11 +5,13 @@ import com.musiciantrainer.musiciantrainerproject.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface PieceDao extends JpaRepository<Piece, Long> {
     List<Piece> findByUser(User theUser);
     Piece findByName(String name);
+
 
 }

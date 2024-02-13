@@ -76,7 +76,7 @@ public class MainController {
             }
         }
 
-        // Uživatel není přihlášen nebo se něco pokazilo
+        // User is not logged in or something went wrong
         return "index";
     }
 
@@ -97,13 +97,10 @@ public class MainController {
             }
         }
 
-        // Uživatel není přihlášen nebo se něco pokazilo
+        // User is not logged in or something went wrong
         return "redirect:/";
     }
 
-    // Figure out the dropdown menu - this is done
-    // Then I have to figure out how to take the generated plan which is in JSON and deserealize it to custom schedule table.
-    // Adjust HTML page - like navbar and so on and buttons and so on.
     @GetMapping("/myPlan")
     public String showMyPlan(@RequestParam("trainingTime") String trainingTime, Model model, Authentication authentication) {
 
@@ -113,7 +110,7 @@ public class MainController {
         // převedení času z hodin na minuty
         String convertedTime = getHoursAsMinutes(trainingTime);
 
-        Plan savedPlan = null;
+        Plan savedPlan;
         OpenAiService service = null;
 
         // kontrola, jestli daný plán již nebyl dnes vygenerovaný na daný počet minut
@@ -194,11 +191,11 @@ public class MainController {
             newPlan.setPlanPieces(planPieces);
 
             // 3. Save the Plan to the database
-            savedPlan = planService.addPlan(newPlan); // Implement this method in PlanService
+            savedPlan = planService.addPlan(newPlan);
 
             // 4. Save the PlanPieces to the database
             for (PlanPiece planPiece : planPieces) {
-                planPieceService.addPlanPiece(planPiece); // Implement this method in PlanPieceService
+                planPieceService.addPlanPiece(planPiece);
             }
         }
 
@@ -269,7 +266,7 @@ public class MainController {
         String userEmail = authentication.getName();
         User theUser = userService.findUserByEmail(userEmail);
 
-        String piecesJson = pieceService.getPiecesDtoAsJsonString(theUser);
+        String piecesJson = pieceService.getPiecesDtoAndPieceLogsAsJsonString(theUser);
 
         model.addAttribute("piecesJson", piecesJson);
 
@@ -328,7 +325,7 @@ public class MainController {
             planPiece.setMinutes(planItem.getTime());
 
             // Retrieve the Piece based on the PlanItem's ID
-            Piece existingPiece = pieceService.getPieceById(planItem.getId()); // Implement this method in PieceService
+            Piece existingPiece = pieceService.getPieceById(planItem.getId());
 
             // Set the Plan, Piece, and add PlanPiece to the list
             planPiece.setPlan(newPlan);
@@ -341,9 +338,11 @@ public class MainController {
     @NotNull
     private static Plan createPlanInstance(String convertedTime, User theUser) {
         Plan newPlan = new Plan();
+
         newPlan.setDate(LocalDate.now()); // Set the date to the current date
         newPlan.setTotalMinutes(Integer.parseInt(convertedTime));
         newPlan.setUser(theUser);
+
         return newPlan;
     }
 

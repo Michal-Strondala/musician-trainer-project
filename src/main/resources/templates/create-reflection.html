@@ -11,22 +11,40 @@
   <meta name="author" content="">
   <!-- Favicon icon -->
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
-  <title>Music Trainer Edit Record</title>
-  <!-- This page CSS -->
-  <!-- chartist CSS -->
-  <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
-  <!--Toaster Popup message CSS -->
-  <link href="/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+  <title>Musician Trainer Create Reflection</title>
+  <link href="/assets/node_modules/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+  <!-- Page plugins css -->
+  <link href="/assets/node_modules/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+  <!-- Color picker plugins css -->
+  <link href="/assets/node_modules/jquery-asColorPicker-master/dist/css/asColorPicker.css" rel="stylesheet">
+  <!-- Date picker plugins css -->
+  <link href="/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+  <!-- Daterange picker plugins css -->
+  <link href="/assets/node_modules/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+  <link href="/assets/node_modules/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
   <!-- Custom CSS -->
   <link href="/dist/css/style.min.css" rel="stylesheet">
-  <!-- Dashboard 1 Page CSS -->
-  <link href="/dist/css/pages/dashboard1.css" rel="stylesheet">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
   <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <!-- Include Bootstrap CSS (if not already included) -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <!-- Include Bootstrap Datepicker CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+  <!-- Include jQuery (necessary for Bootstrap's JavaScript plugins and Datepicker) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Include Bootstrap JS (if not already included) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Include Bootstrap Datepicker JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
   <style>
         #note {
             white-space: pre-line;
@@ -39,8 +57,9 @@
             pointer-events: none;
             color: grey;
         }
-  </style>
+    </style>
 </head>
+
 <body class="skin-blue fixed-layout">
   <!-- ============================================================== -->
   <!-- Preloader - style you can find in spinners.css -->
@@ -48,7 +67,7 @@
   <div class="preloader">
     <div class="loader">
       <div class="loader__figure"></div>
-      <p class="loader__label">Music Trainer</p>
+      <p class="loader__label">Musician Trainer</p>
     </div>
   </div>
   <!-- ============================================================== -->
@@ -103,9 +122,9 @@
                  aria-haspopup="true" aria-expanded="false">
                 <img src="/assets/images/users/1.jpg" alt="user" class="">
                 <span class="hidden-md-down">
-                                      <span th:text="${user.name}" th:if="${user}"></span>
-                                      <i class="fa fa-angle-down"></i>
-                                  </span>
+                      <span th:text="${user.name}" th:if="${user}"></span>
+                      <i class="fa fa-angle-down"></i>
+                  </span>
               </a>
               <div class="dropdown-menu dropdown-menu-end animated flipInY">
                 <!-- text-->
@@ -199,7 +218,7 @@
         <div class="row">
           <div class="col-12">
             <!-- ---------------------
-                start Edit Record Form
+                start Create Reflection Form
             ---------------- -->
             <!-- Check for error flash attribute and display error message -->
             <div th:if="${error}">
@@ -210,52 +229,37 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="card card-body">
-                  <h4 class="card-title">Edit Record Form</h4>
-                  <form class="form-horizontal mt-4" th:action="@{/pieces/processEditRecordForm}"
-                        th:object="${pieceLog}" method="POST">
-                    <!-- Add hidden form field to handle the edit -->
-                    <!-- Hidden field for pieceLogId -->
-                    <input type="hidden" name="pieceLogId" th:value="${pieceLog.id}" />
-                    <!-- Hidden field for source -->
-                    <input type="hidden" name="source" th:value="${source}" />
-
-                    <!-- Select piece dropdown -->
-                    <div class="form-group">
-                      <label class="form-label" for="pieceId">Select Piece:</label>
-                      <select class="form-select col-12" id="pieceId" name="pieceId">
-                        <option th:each="piece : ${pieces}" th:value="${piece.id}" th:text="${piece.name}"
-                                th:selected="${selectedPieceId != null && piece.id == selectedPieceId}"></option>
-                      </select>
-                    </div>
+                  <h4 class="card-title">Create Reflection</h4>
+                  <form class="form-horizontal mt-4" th:action="@{/reflection/processReflectionForm}" method="post" th:object="${reflection}">
 
                     <!-- Select date and time -->
+<!--                    <div class="form-group">-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="datepicker">Date</label>-->
+<!--                        <input type="text" class="form-control" id="datepicker" name="date">-->
+<!--                      </div>-->
+<!--                    </div>-->
+
                     <div class="form-group">
-                      <div class="form-group">
-                        <label for="datepicker1">Date</label>
-                        <input type="text" class="form-control" id="datepicker1" name="date"
-                               th:value="${pieceLog != null ? #temporals.format(pieceLog.date, 'dd.MM.yyyy') : ''}">
+                      <div class="input-daterange input-group" id="date-range">
+                        <label for="datepicker1">Date from:</label>
+                        <input type="text" class="form-control" name="dateFrom" id="datepicker1" />
+
+                        <span class="input-group-text bg-info b-0 text-white">to</span>
+                        <input type="text" class="form-control" name="dateTo" id="datepicker2" />
                       </div>
                     </div>
 
-                    <!-- Edit a note -->
-                    <div class="form-group">
-                      <label class="form-label" for="note">Note:</label>
-                      <textarea class="form-control" rows="5" id="note" name="note" th:text="${pieceLog.note}"></textarea>
-                    </div>
-
                     <button type="submit" class="btn btn-success me-2 text-white">Submit</button>
-                    <!-- Check the source and display the appropriate link -->
-                    <span>No changes?
-                        <a th:if="${source == 'all'}" th:href="@{/pieces/getAllRecords}">Go back to All Records</a>
-                        <a th:if="${source == 'single' and pieceId != null}" th:href="@{/pieces/getRecordsByPiece(pieceId=${pieceId})}">
-                          Go back to Records</a>
+                    <span>
+                      <a th:href="@{/reflection/createdReflections}">Go back to Reflections List</a>
                     </span>
                   </form>
                 </div>
               </div>
             </div>
             <!-- ---------------------
-                end Edit Record Form
+                end Create Reflection Form
             ---------------- -->
           </div>
         </div>
@@ -325,21 +329,16 @@
   <script src="/assets/node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
   <script>
     $(document).ready(function() {
-      var date = new Date();
-      var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-      $('#datepicker1').datepicker({
-        format: "dd.mm.yyyy",
-        todayHighlight: true,
-        autoclose: true,
-        endDate: end,
-        todayBtn: "linked"
-      });
-
-
+        // Initialize the datepicker
+        $('.input-daterange input').each(function() {
+            $(this).datepicker({
+                format: "dd.mm.yyyy",
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
     });
   </script>
-  <!--        endDate: end,-->
 </body>
+
 </html>

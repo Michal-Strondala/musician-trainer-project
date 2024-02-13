@@ -13,6 +13,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "role", uniqueConstraints = @UniqueConstraint(columnNames = "role_name"))
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

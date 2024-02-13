@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
-    <title>Music Trainer Pieces and Records as JSON</title>
+    <title>Music Trainer My Plan</title>
     <!-- This page CSS -->
     <!-- chartist CSS -->
     <link href="/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
@@ -28,15 +28,11 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        #note {
-            white-space: pre-line;
-            word-wrap: break-word;
-        }
         .disabled-link {
             pointer-events: none;
             color: grey;
         }
-  </style>
+    </style>
 </head>
 
 <body class="skin-blue fixed-layout">
@@ -101,9 +97,9 @@
                                aria-haspopup="true" aria-expanded="false">
                                 <img src="/assets/images/users/1.jpg" alt="user" class="">
                                 <span class="hidden-md-down">
-                                          <span th:text="${user.name}" th:if="${user}"></span>
-                                          <i class="fa fa-angle-down"></i>
-                                      </span>
+                                        <span th:text="${user.name}" th:if="${user}"></span>
+                                        <i class="fa fa-angle-down"></i>
+                                    </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end animated flipInY">
                                 <!-- text-->
@@ -147,6 +143,7 @@
                         <a th:href="@{/createdPlans}"><i class="ti-list"></i> Plans</a>
                     </li>
                     <li><a href="#" th:href="@{/reflection/createdReflections}"><i class="ti-settings"></i> Reflection List</a></li>
+                    <li><a href="#" th:href="@{/piecesToJson}" ><i class="ti-settings"></i> Pieces to JSON</a></li>
                     <li sec:authorize="isAuthenticated()">
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
                             <i class="fa fa-power-off"></i> Logout</a>
@@ -172,7 +169,7 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">All My Records</h4>
+                        <h4 class="text-themecolor">My Dashboard</h4>
                     </div>
                     <div class="col-md-7 align-self-center text-end">
                         <div class="d-flex justify-content-end align-items-center">
@@ -196,21 +193,38 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- ---------------------
-                            start Pieces and Records as JSON
+                            start Reflection
                         ---------------- -->
                         <div class="card">
                             <div class="card-body">
                                 <div class="row pb-2">
                                     <div class="col-md-auto">
-                                        <!-- Pieces and Records as JSON -->
-                                        <h4 class="card-title">Pieces and Records as JSON</h4>
+                                        <!-- Reflection -->
+                                        <h4 class="card-title">
+                                            Reflection for
+                                            <span th:text="${reflectionViewModel.savedReflection.dateFrom}"></span>
+                                            to
+                                            <span th:text="${reflectionViewModel.savedReflection.dateTo}"></span>
+                                        </h4>
                                     </div>
                                 </div>
-                                <pre th:utext="${piecesJson}"></pre>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title" id="1">Reflection Text</h4>
+                                                <p th:text="${reflectionViewModel.savedReflection.reflectionText}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a th:href="@{/reflection/createdReflections}">Go Back to Reflections List</a>
+                                </div>
                             </div>
                         </div>
                         <!-- ---------------------
-                            end Pieces and Records as JSON
+                            end Reflection
                         ---------------- -->
                     </div>
                 </div>
@@ -261,24 +275,6 @@
     <script src="/assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
     <!-- Chart JS -->
     <script src="/dist/js/dashboard1.js"></script>
-
 </body>
 
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <title>Pieces JSON</title>-->
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"-->
-<!--          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    <h1>Pieces JSON</h1>-->
-<!--    <pre th:utext="${piecesJson}"></pre>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

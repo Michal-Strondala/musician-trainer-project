@@ -6,4 +6,6 @@ import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 public interface PieceConversionService {
 
     PieceDto convertToDto(Piece thePiece);
+
+    PieceDto convertToDtoIncludingPieceLogs(Piece thePiece);
 }

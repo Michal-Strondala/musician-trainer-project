@@ -114,5 +114,7 @@ public class Piece {
         return DateUtil.calculateNumberOfTimesTrained(this.pieceLogs);
     }
 
-
+    public List<PieceLog> getPieceLogs() {
+        return pieceLogs;
+    }
 }

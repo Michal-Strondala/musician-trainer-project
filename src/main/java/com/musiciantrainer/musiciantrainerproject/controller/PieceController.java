@@ -222,10 +222,10 @@ public class PieceController {
         // Get the selected piece based on pieceId
         Piece selectedPiece = pieceService.getPieceById(pieceId);
 
-        // Parse the date-time string into LocalDateTime (you might need to adjust the date-time format)
+        // Parse the date string into LocalDate
         LocalDate parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
-        // Create a new PieceLog object with the selected piece, parsed date-time, and note
+        // Create a new PieceLog object with the selected piece, parsed date, and note
         PieceLog pieceLog = new PieceLog(parsedDate, note);
         pieceLog.setPiece(selectedPiece);
 

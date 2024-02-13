@@ -139,11 +139,10 @@
           <li><a href="#" th:href="@{/home}"><i class="ti-user"></i> My Dashboard</a></li>
           <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
           <li th:if="${hasPlansForToday}">
-            <a th:href="@{/createdPlans}"><i class="ti-list"></i> Created Plans Today</a>
+            <a th:href="@{/createdPlans}"><i class="ti-list"></i> Plans</a>
           </li>
-          <li th:unless="${hasPlansForToday}">
-            <a href="#" class="disabled-link"><i class="ti-list"></i> Created Plans Today</a>
-          </li>
+          <li><a href="#" th:href="@{/reflection/createdReflections}"><i class="ti-settings"></i> Reflection List</a></li>
+          <li><a href="#" th:href="@{/piecesToJson}"><i class="ti-settings"></i> Pieces to JSON</a></li>
           <li sec:authorize="isAuthenticated()">
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
               <i class="fa fa-power-off"></i> Logout</a>

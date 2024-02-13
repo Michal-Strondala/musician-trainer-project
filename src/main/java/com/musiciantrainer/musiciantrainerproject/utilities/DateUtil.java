@@ -5,6 +5,7 @@ import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -60,5 +61,23 @@ public class DateUtil {
     public static boolean isRecordedToday(List<PieceLog> pieceLogs) {
         return pieceLogs.stream().anyMatch(pieceLog -> pieceLog.getDate().equals(LocalDate.now()));
     }
+
+//    public static String createFormattedDateFrom(LocalDate theDateFrom) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//        if (theDateFrom != null) {
+//            return theDateFrom.format(formatter);
+//        } else {
+//            return "No records from this date";
+//        }
+//    }
+//
+//    public static String createFormattedDateTo(LocalDate theDateTo) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//        if (theDateTo != null) {
+//            return theDateTo.format(formatter);
+//        } else {
+//            return "No records to this date";
+//        }
+//    }
 
 }

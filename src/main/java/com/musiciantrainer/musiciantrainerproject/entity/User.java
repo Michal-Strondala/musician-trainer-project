@@ -57,6 +57,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Plan> plans;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Reflection> reflections;
+
     private boolean enabled;
 
 

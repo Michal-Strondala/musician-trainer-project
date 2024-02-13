@@ -4,6 +4,7 @@ import com.musiciantrainer.musiciantrainerproject.entity.Piece;
 import com.musiciantrainer.musiciantrainerproject.entity.PieceLog;
 import com.musiciantrainer.musiciantrainerproject.entity.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface PieceService  {
@@ -21,6 +22,11 @@ public interface PieceService  {
 
     Piece getPieceById(Long theId);
     String getPiecesDtoAsJsonString(User theUser);
+
+    String getPiecesDtoAndPieceLogsAsJsonStringInDateRange(User theUser, LocalDate dateFrom, LocalDate dateTo);
+
+    String getPiecesDtoAndPieceLogsAsJsonString(User theUser);
+
     boolean checkIfPieceIsNotNull(Long id);
 
 

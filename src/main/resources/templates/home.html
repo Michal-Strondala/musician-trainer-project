@@ -140,11 +140,10 @@
                     <li><a href="#" th:href="@{/home}"><i class="ti-user"></i> My Dashboard</a></li>
                     <li><a href="#" th:href="@{/user/showFormForEdit}"><i class="ti-settings"></i> Edit Profile</a></li>
                     <li th:if="${hasPlansForToday}">
-                        <a th:href="@{/createdPlans}"><i class="ti-list"></i> Created Plans Today</a>
+                        <a th:href="@{/createdPlans}"><i class="ti-list"></i> Plans</a>
                     </li>
-                    <li th:unless="${hasPlansForToday}">
-                        <a href="#" class="disabled-link"><i class="ti-list"></i> Created Plans Today</a>
-                    </li>
+                    <li><a href="#" th:href="@{/reflection/createdReflections}"><i class="ti-settings"></i> Reflection List</a></li>
+                    <li><a href="#" th:href="@{/piecesToJson}"><i class="ti-settings"></i> Pieces to JSON</a></li>
                     <li sec:authorize="isAuthenticated()">
                         <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form2').submit();">
                             <i class="fa fa-power-off"></i> Logout</a>
@@ -264,9 +263,9 @@
                                             <!-- Add record button inside the table -->
                                             <td>
                                                 <a th:if="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id}, source='home')}"
-                                                   class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Add</a>
+                                                   class="btn btn-primary btn-sm">Add</a>
                                                 <a th:unless="${selectedPieceId != null}" th:href="@{/pieces/showAddRecordForm(pieceId=${tempPiece.id}, source='home')}"
-                                                   class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">Add</a>
+                                                   class="btn btn-primary btn-sm">Add</a>
 
                                                 <a th:if="${pieceId != null}" th:href="@{/pieces/getRecordsByPiece(pieceId=${tempPiece.id})}"
                                                    class="btn btn-success btn-sm" target="_blank" rel="noopener noreferrer">View Records</a>
@@ -276,7 +275,7 @@
                                            <!-- Add edit button link -->
                                             <td>
                                                 <a th:href="@{/pieces/showFormForEdit(pieceId=${tempPiece.id})}"
-                                                   class="btn btn-info btn-sm" target="_blank" rel="noopener noreferrer">
+                                                   class="btn btn-info btn-sm">
                                                     Edit
                                                 </a>
                                             </td>
