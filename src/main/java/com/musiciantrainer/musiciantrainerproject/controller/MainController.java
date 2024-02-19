@@ -132,9 +132,9 @@ public class MainController {
                     "The bigger the value of priority, the bigger the priority, and a low value is a low priority. \n" +
                     "A 0 priority is a piece without priority.\n" +
                     "Important is also \"formattedLastTrainingDate\", it is the date when the user practiced the exercise the last time. \n" +
-                    "You can find the attribute \"numberOfDaysPassed\" which displays the number of days since the last training date. \n" +
+                    "You can find the attribute \"numberOfDaysPassed\" which displays the number of days since the last training date. If the training time that user sets is 2 hours and more, include also some of the pieces that have not been trained for a long time even if they have no priority.\n" +
                     "You can find there \"numberOfTimesTrained\" which shows the number of times the user trained that piece.\n" +
-                    "The goal is to not lose the memory of pieces. Each train session has to have 30 minutes (1 pomodoro) as default time unless the particular piece's time is set differently, in the JSON should be \"time\", for example 20 or 15 minutes. In that case you do not have to set training time for particular piece for 30 minutes. \n" +
+                    "The goal is to not lose the memory of pieces. Each train session has to have 30 minutes (1 pomodoro) as a default time unless the particular piece's time is set differently, in the JSON should be \"time\", for example 20 or 15 minutes. In that case you do not have to set training time for particular piece for 30 minutes. \n" +
                     "\n" +
                     "Write in proper English.\n" +
                     "\n" +
