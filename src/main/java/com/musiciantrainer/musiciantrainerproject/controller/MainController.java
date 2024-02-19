@@ -289,10 +289,17 @@ public class MainController {
 
     @ModelAttribute("hasPlansForToday")
     public boolean hasPlansForToday(Authentication authentication) {
-        String userEmail = authentication.getName();
-        User theUser = userService.findUserByEmail(userEmail);
+        if (authentication != null && authentication.isAuthenticated()) {
+            String userEmail = authentication.getName();
+            User theUser = userService.findUserByEmail(userEmail);
 
-        return !planService.getPlansByUserAndDate(theUser).isEmpty();
+            if (theUser != null) {
+                return !planService.getPlansByUserAndDate(theUser).isEmpty();
+            }
+        }
+
+        // Default to false if the user is not authenticated or any issue occurs.
+        return false;
     }
 
     public String getHoursAsMinutes(String trainingTime) {
